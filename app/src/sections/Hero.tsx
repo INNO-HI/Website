@@ -93,28 +93,29 @@ export function Hero() {
           >
             <Sparkles className="w-4 h-4 text-[#448CFF]" aria-hidden="true" />
             <span className="text-sm font-medium text-[#4B4E56]">
-              사람 중심 환경을 위한 AX 인프라
+              Care AX Company
             </span>
           </motion.div>
 
           {/* Main Title */}
           <h1 className="text-kr-display mb-8" style={{ lineHeight: 1.3 }}>
             <span className="hero-title-line block overflow-hidden">
-              <span className="inline-block">현실의 업무를</span>
+              <span className="inline-block">더 깊은 <span className="gradient-text">지능</span>으로
+              </span>
             </span>
             <span className="hero-title-line block overflow-hidden">
-              <span className="inline-block">
-                <span className="gradient-text">지능화</span>하는 인프라
+              <span className="inline-block">가장높은 
+                <span className="gradient-text"> 존중</span>을
               </span>
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="hero-subtitle text-kr-subtitle text-[#777A86] max-w-xl mx-auto mb-12 leading-relaxed">
-            이노하이는 오프라인 업무를 AI로 전환합니다.
+            업무는 줄이고,운영은 더 똑똑하게.
             <br className="hidden sm:block" />
             <span className="text-[#777A86]/70">
-              기술로 사람의 가치를 증명합니다.
+              "<span className="gradient-text">INNO</span>vation for <span className="gradient-text">H</span>uman <span className="gradient-text">I</span>ntegrity"
             </span>
           </p>
 
@@ -139,7 +140,7 @@ export function Hero() {
                 onClick={() => scrollToSection('#solution')}
                 variant="ghost"
                 size="lg"
-                className="rounded-full px-8 py-6 text-base font-medium text-[#777A86] hover:text-[#383838] hover:bg-[#F8F9FD] transition-all min-h-[56px]"
+                className="rounded-full px-8 py-6 text-base font-medium bg-[#F8F9FD] text-[#777A86] hover:text-[#383838] hover:bg-[#ECF1FD] transition-all min-h-[56px]"
                 aria-label="솔루션 둘러보기"
               >
                 솔루션 둘러보기
