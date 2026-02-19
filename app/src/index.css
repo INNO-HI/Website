@@ -1,0 +1,312 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+@import url('https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* INNO-HI Color System - Updated */
+    
+    /* Primary Blue Palette */
+    --blue-primary: 217 100% 64%;      /* #448CFF */
+    --blue-secondary: 217 100% 71%;    /* #68A1FF */
+    --blue-soft: 217 93% 76%;          /* #8AB8FB */
+    --blue-light-bg: 222 67% 96%;      /* #ECF1FD */
+    
+    /* Neutral System */
+    --neutral-900: 0 0% 22%;           /* #383838 - Main Typography */
+    --neutral-700: 228 6% 32%;         /* #4B4E56 - Body Text */
+    --neutral-500: 228 5% 50%;         /* #777A86 - Secondary */
+    --neutral-600: 210 7% 29%;         /* #444B52 - Navigation */
+    
+    /* UI System */
+    --card-bg: 228 43% 98%;            /* #F8F9FD */
+    --border-ui: 216 14% 85%;          /* #D3D8DF */
+    
+    /* Theme Mapping */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 22%;
+    --card: 228 43% 98%;
+    --card-foreground: 0 0% 22%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 22%;
+    --primary: 217 100% 64%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 222 67% 96%;
+    --secondary-foreground: 0 0% 22%;
+    --muted: 222 67% 96%;
+    --muted-foreground: 228 5% 50%;
+    --accent: 222 67% 96%;
+    --accent-foreground: 0 0% 22%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 216 14% 85%;
+    --input: 216 14% 85%;
+    --ring: 217 100% 64%;
+    --radius: 0.625rem;
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 22%;
+    --sidebar-primary: 217 100% 64%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 67% 96%;
+    --sidebar-accent-foreground: 0 0% 22%;
+    --sidebar-border: 216 14% 85%;
+    --sidebar-ring: 217 100% 64%;
+  }
+
+  .dark {
+    /* Dark Mode - Saturation reduced by 10% */
+    --background: 222 42% 6%;
+    --foreground: 210 38% 96%;
+    --card: 222 42% 8%;
+    --card-foreground: 210 38% 96%;
+    --popover: 222 42% 8%;
+    --popover-foreground: 210 38% 96%;
+    --primary: 217 90% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 28% 16%;
+    --secondary-foreground: 210 38% 96%;
+    --muted: 217 28% 16%;
+    --muted-foreground: 215 18% 58%;
+    --accent: 217 28% 16%;
+    --accent-foreground: 210 38% 96%;
+    --destructive: 0 62% 42%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 28% 16%;
+    --input: 217 28% 16%;
+    --ring: 217 90% 58%;
+    
+    /* Sidebar Dark */
+    --sidebar-background: 222 42% 6%;
+    --sidebar-foreground: 210 38% 96%;
+    --sidebar-primary: 217 90% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 28% 16%;
+    --sidebar-accent-foreground: 210 38% 96%;
+    --sidebar-border: 217 28% 16%;
+    --sidebar-ring: 217 90% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'SUIT', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-feature-settings: "tnum";
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+  }
+
+  /* Enhanced Korean Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'SUIT', 'Pretendard', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.35;
+    color: hsl(var(--neutral-900));
+  }
+
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: hsl(210 38% 96%);
+  }
+
+  /* Body text - lighter weight for Korean */
+  p, span, li {
+    font-family: 'SUIT', 'Pretendard', sans-serif;
+    letter-spacing: -0.01em;
+    color: hsl(var(--neutral-700));
+  }
+
+  .dark p, .dark span, .dark li {
+    color: hsl(215 18% 70%);
+  }
+
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    outline: 3px solid hsl(var(--blue-primary));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Skip to content link */
+  .skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 12px 24px;
+    background: hsl(var(--blue-primary));
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 0 0 8px 8px;
+    transition: top 0.2s;
+    text-decoration: none;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+  }
+}
+
+@layer utilities {
+  /* Gradient Text - Using Primary Blue */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--blue-primary)) 0%, hsl(var(--blue-secondary)) 100%);
+  }
+  
+  /* Minimal glow effect */
+  .glow-blue {
+    box-shadow: 0 0 30px -15px hsl(var(--blue-primary) / 0.15);
+  }
+  
+  /* Glass morphism - Reduced */
+  .glass {
+    @apply bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg;
+  }
+  
+  /* Korean Typography Utilities */
+  .text-kr-display {
+    font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.3;
+    color: hsl(var(--neutral-900));
+  }
+
+  .dark .text-kr-display {
+    color: hsl(210 38% 96%);
+  }
+
+  .text-kr-title {
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.4;
+    color: hsl(var(--neutral-900));
+  }
+
+  .dark .text-kr-title {
+    color: hsl(210 38% 96%);
+  }
+
+  .text-kr-subtitle {
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.7;
+    color: hsl(var(--neutral-700));
+  }
+
+  .dark .text-kr-subtitle {
+    color: hsl(215 18% 70%);
+  }
+
+  .text-kr-body {
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.8;
+    color: hsl(var(--neutral-700));
+  }
+
+  .dark .text-kr-body {
+    color: hsl(215 18% 70%);
+  }
+
+  .text-kr-small {
+    font-size: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.7;
+    color: hsl(var(--neutral-500));
+  }
+
+  .dark .text-kr-small {
+    color: hsl(215 18% 58%);
+  }
+
+  /* Flat Card Style - Minimal Shadow */
+  .card-flat {
+    background: hsl(var(--card-bg));
+    border: 1px solid hsl(var(--border-ui));
+    box-shadow: none;
+  }
+
+  .dark .card-flat {
+    background: hsl(222 42% 8%);
+    border-color: hsl(217 28% 16%);
+  }
+
+  .card-flat:hover {
+    border-color: hsl(var(--blue-soft));
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border-ui));
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--neutral-500));
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(217 28% 20%);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(217 28% 30%);
+}
+
+/* Selection */
+::selection {
+  background: hsl(var(--blue-primary) / 0.2);
+  color: inherit;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .card-flat {
+    border-width: 2px;
+  }
+}
