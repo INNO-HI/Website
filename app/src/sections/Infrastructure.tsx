@@ -1,285 +1,219 @@
-import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  Cpu, 
-  Shield, 
-  Server, 
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import {
+  Cpu,
+  Shield,
+  Server,
   Cloud,
-  Lock,
-  Database,
   CheckCircle2,
-  ChevronRight,
-  Zap
+  Zap,
 } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useLanguage } from '@/context/LanguageContext';
 
 const techCategories = [
   {
     id: 'ai',
     icon: Cpu,
-    title: '자체 AI',
-    subtitle: '맞춤형 모델',
-    description: '도메인 특화 데이터셋으로 훈련된 신경망이\n전문 워크플로우에 대해 우수한 정확도를 제공합니다.',
-    features: ['Transformer 아키텍처', '도메인 미세조정', '지속적 학습', '엣지 배포'],
+    titleKo: '자체 AI',
+    titleEn: 'Proprietary AI',
+    subtitleKo: '맞춤형 모델',
+    subtitleEn: 'Custom Models',
+    descriptionKo: '도메인 특화 데이터셋으로 훈련된 신경망이\n전문 워크플로우에서 최고 수준의 정확도를 제공합니다.',
+    descriptionEn: 'Neural networks trained on domain-specific datasets deliver superior accuracy for specialized workflows.',
+    featuresKo: ['Transformer 아키텍처', '도메인 미세조정', '지속적 학습', '엣지 배포'],
+    featuresEn: ['Transformer architecture', 'Domain fine-tuning', 'Continuous learning', 'Edge deployment'],
     specs: [
-      { label: '파라미터', value: '70억+' },
-      { label: '언어', value: '12+' },
-      { label: '지연시간', value: '<100ms' },
+      { labelKo: '파라미터', labelEn: 'Parameters', value: '70억+' },
+      { labelKo: '언어', labelEn: 'Languages', value: '12+' },
+      { labelKo: '지연시간', labelEn: 'Latency', value: '<100ms' },
     ],
+    color: '#448CFF',
+    bgColor: '#EEF4FF',
   },
   {
     id: 'security',
     icon: Shield,
-    title: '엔터프라이즈 보안',
-    subtitle: '심층 방어',
-    description: '휴식·전송·처리 중인 데이터를 보호하는\n다층 보안 아키텍처를 갖추고 있습니다.',
-    features: ['종단간 암호화', '제로 트러스트', 'SOC 2 Type II', 'GDPR 준수'],
+    titleKo: '엔터프라이즈 보안',
+    titleEn: 'Enterprise Security',
+    subtitleKo: '심층 방어',
+    subtitleEn: 'Defense in Depth',
+    descriptionKo: '휴식·전송·처리 중인 데이터를 보호하는\n다층 보안 아키텍처를 갖추고 있습니다.',
+    descriptionEn: 'Multi-layered security architecture protects data at rest, in transit, and in process.',
+    featuresKo: ['종단간 암호화', '제로 트러스트', '접근 감사 로그', '역할 기반 권한'],
+    featuresEn: ['End-to-end encryption', 'Zero trust', 'Access audit logs', 'Role-based access'],
     specs: [
-      { label: '암호화', value: 'AES-256' },
-      { label: '가동률', value: '99.99%' },
-      { label: '규정', value: 'ISO 27001' },
+      { labelKo: '암호화', labelEn: 'Encryption', value: 'AES-256' },
+      { labelKo: '가동률', labelEn: 'Uptime', value: '99.99%' },
+      { labelKo: '인증', labelEn: 'Certified', value: '진행 중' },
     ],
+    color: '#22C55E',
+    bgColor: '#ECFDF5',
   },
   {
     id: 'infrastructure',
     icon: Server,
-    title: '확장 가능한 인프라',
-    subtitle: '클우드 네이티브',
-    description: '일관된 성능으로 스타트업부터\n엔터프라이즈까지 탄력적으로 확장됩니다.',
-    features: ['자동 확장', '다중 리전', '99.99% SLA', '재해 복구'],
+    titleKo: '확장 가능한 인프라',
+    titleEn: 'Scalable Infrastructure',
+    subtitleKo: '클라우드 네이티브',
+    subtitleEn: 'Cloud Native',
+    descriptionKo: '일관된 성능으로 스타트업부터\n엔터프라이즈까지 탄력적으로 확장됩니다.',
+    descriptionEn: 'Scales elastically from startups to enterprises with consistent performance.',
+    featuresKo: ['자동 확장', '다중 리전', '99.99% SLA', '재해 복구'],
+    featuresEn: ['Auto scaling', 'Multi-region', '99.99% SLA', 'Disaster recovery'],
     specs: [
-      { label: '리전', value: '15+' },
-      { label: '처리량', value: '100만+ RPS' },
-      { label: '스토리지', value: 'PB 규모' },
+      { labelKo: '리전', labelEn: 'Regions', value: '15+' },
+      { labelKo: '처리량', labelEn: 'Throughput', value: '100만+ RPS' },
+      { labelKo: '스토리지', labelEn: 'Storage', value: 'PB 규모' },
     ],
+    color: '#F59E0B',
+    bgColor: '#FFFBEB',
   },
   {
     id: 'deployment',
     icon: Cloud,
-    title: '유연한 배포',
-    subtitle: '선택의 자유',
-    description: '온프레미스·클우드·하이브리드—\n귀하의 데이터, 귀하의 규칙입니다.',
-    features: ['온프레미스', '프라이빗 클라우드', '하이브리드', '에어갭'],
+    titleKo: '유연한 배포',
+    titleEn: 'Flexible Deployment',
+    subtitleKo: '선택의 자유',
+    subtitleEn: 'Your Rules',
+    descriptionKo: '온프레미스·클라우드·하이브리드—\n귀하의 데이터, 귀하의 규칙입니다.',
+    descriptionEn: 'On-premises, cloud, or hybrid — your data, your rules.',
+    featuresKo: ['온프레미스', '프라이빗 클라우드', '하이브리드', '에어갭'],
+    featuresEn: ['On-premises', 'Private cloud', 'Hybrid', 'Air-gapped'],
     specs: [
-      { label: '옵션', value: '3+' },
-      { label: '설치', value: '<24시간' },
-      { label: '마이그레이션', value: '무중단' },
+      { labelKo: '옵션', labelEn: 'Options', value: '3+' },
+      { labelKo: '설치', labelEn: 'Setup', value: '<24시간' },
+      { labelKo: '마이그레이션', labelEn: 'Migration', value: '무중단' },
     ],
+    color: '#8B5CF6',
+    bgColor: '#F5F3FF',
   },
 ];
 
+type TechCategory = typeof techCategories[0];
+
+function InfraBlock({ cat, index, lang }: { cat: TechCategory; index: number; lang: 'ko' | 'en' }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const isEven = index % 2 === 0;
+
+  const title = lang === 'ko' ? cat.titleKo : cat.titleEn;
+  const subtitle = lang === 'ko' ? cat.subtitleKo : cat.subtitleEn;
+  const description = lang === 'ko' ? cat.descriptionKo : cat.descriptionEn;
+  const features = lang === 'ko' ? cat.featuresKo : cat.featuresEn;
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 48 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      className={`flex flex-col lg:flex-row ${isEven ? '' : 'lg:flex-row-reverse'} items-center gap-10 lg:gap-20 py-16 lg:py-20 border-b border-[#EAEDF2] last:border-0`}
+    >
+      {/* 아이콘 패널 */}
+      <div className="w-full lg:w-[340px] flex-shrink-0">
+        <div
+          className="rounded-2xl p-8 flex flex-col items-center justify-center gap-6"
+          style={{ background: cat.bgColor }}
+        >
+          <div
+            className="w-20 h-20 rounded-2xl flex items-center justify-center"
+            style={{ background: cat.color }}
+          >
+            <cat.icon className="w-10 h-10 text-white" aria-hidden="true" />
+          </div>
+          <div className="grid grid-cols-3 gap-3 w-full">
+            {cat.specs.map((spec, i) => (
+              <div key={i} className="text-center p-3 rounded-xl bg-white/80">
+                <div className="text-lg font-black text-[#0F1117]">{spec.value}</div>
+                <div className="text-[11px] text-[#777A86] mt-0.5">
+                  {lang === 'ko' ? spec.labelKo : spec.labelEn}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 본문 */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2.5 mb-4">
+          <span
+            className="inline-block px-2.5 py-1 rounded-full text-xs font-bold text-white"
+            style={{ background: cat.color }}
+          >
+            {subtitle}
+          </span>
+        </div>
+        <h3
+          className="font-black text-[#0F1117] mb-4 leading-tight"
+          style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '-0.03em' }}
+        >
+          {title}
+        </h3>
+        <p className="text-[#4B4E56] leading-relaxed whitespace-pre-line mb-7 text-[17px] font-medium">
+          {description}
+        </p>
+        <ul className="space-y-3">
+          {features.map((feature, i) => (
+            <li key={i} className="flex items-center gap-3 text-[15px] text-[#383838] font-medium">
+              <CheckCircle2 className="w-5 h-5 flex-shrink-0" style={{ color: cat.color }} aria-hidden="true" />
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+  );
+}
+
 export function Infrastructure() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState('ai');
-  const activeCategory = techCategories.find((c) => c.id === activeTab) || techCategories[0];
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.infra-title',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
-          },
-        }
-      );
-
-      gsap.fromTo(
-        '.infra-content',
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.infra-content',
-            start: 'top 80%',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  const headerRef = useRef(null);
+  const headerInView = useInView(headerRef, { once: true, margin: '-60px' });
+  const { lang } = useLanguage();
 
   return (
     <section
       id="infrastructure"
-      ref={sectionRef}
       className="relative py-24 lg:py-32 bg-white"
       aria-labelledby="infra-heading"
     >
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-[#ECF1FD] rounded-full blur-3xl -translate-y-1/2 opacity-50" />
-        <div className="absolute top-1/2 right-0 w-[300px] h-[300px] bg-[#ECF1FD] rounded-full blur-3xl -translate-y-1/2 opacity-50" />
-      </div>
-
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="infra-title text-center max-w-xl mx-auto mb-14 lg:mb-18">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#448CFF] mb-4">
-            <Zap className="w-4 h-4" aria-hidden="true" />
-            기술
-          </span>
-          <h2 id="infra-heading" className="text-kr-title mb-5">
-            확장 가능하게 설계,
-            <br />
-            <span className="gradient-text">신뢰할 수 있게 구축</span>
-          </h2>
-          <p className="text-kr-body text-[#4B4E56] leading-relaxed">
-            인프라는 최첨단 AI와 엔터프라이즈급 보안,
-            <br className="hidden sm:block" />
-            배포 유연성을 결합합니다.
-          </p>
-        </div>
-
-        {/* Content */}
-        <div className="infra-content grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-          {/* Tabs */}
-          <div className="lg:col-span-4 space-y-2" role="tablist" aria-label="기술 카테고리">
-            {techCategories.map((category) => (
-              <motion.button
-                key={category.id}
-                onClick={() => setActiveTab(category.id)}
-                className={`w-full text-left p-4 rounded-xl transition-all duration-200 ${
-                  activeTab === category.id
-                    ? 'bg-white border border-[#8AB8FB] shadow-sm'
-                    : 'bg-transparent hover:bg-white/50 border border-transparent'
-                }`}
-                whileHover={{ x: 2 }}
-                role="tab"
-                aria-selected={activeTab === category.id}
-                aria-controls={`tabpanel-${category.id}`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
-                    activeTab === category.id ? 'bg-[#448CFF] text-white' : 'bg-[#F8F9FD] text-[#777A86]'
-                  }`}>
-                    <category.icon className="w-5 h-5" aria-hidden="true" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className={`font-bold text-sm transition-colors ${
-                      activeTab === category.id ? 'text-[#383838]' : 'text-[#4B4E56]'
-                    }`}>{category.title}</h4>
-                    <p className="text-xs text-[#777A86]">{category.subtitle}</p>
-                  </div>
-                  <ChevronRight className={`w-4 h-4 transition-all ${
-                    activeTab === category.id ? 'text-[#448CFF] translate-x-0 opacity-100' : 'text-[#D3D8DF] -translate-x-1 opacity-0'
-                  }`} aria-hidden="true" />
-                </div>
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Content Panel */}
-          <div className="lg:col-span-8">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.2 }}
-                className="h-full"
-                role="tabpanel"
-                id={`tabpanel-${activeTab}`}
-              >
-                <div className="h-full p-5 lg:p-6 rounded-xl bg-white border border-[#D3D8DF]">
-                  <div className="flex items-start gap-4 mb-5">
-                    <div className="w-12 h-12 rounded-lg bg-[#448CFF] flex items-center justify-center">
-                      <activeCategory.icon className="w-6 h-6 text-white" aria-hidden="true" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-[#383838]">{activeCategory.title}</h3>
-                      <p className="text-[#448CFF] text-sm">{activeCategory.subtitle}</p>
-                    </div>
-                  </div>
-
-                  <p className="text-sm text-[#4B4E56] whitespace-pre-line leading-relaxed mb-6">{activeCategory.description}</p>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="text-xs font-bold text-[#383838] uppercase tracking-wider mb-3">주요 기능</h4>
-                      <ul className="space-y-2">
-                        {activeCategory.features.map((feature, index) => (
-                          <li key={index} className="flex items-center gap-2 text-sm text-[#4B4E56]">
-                            <CheckCircle2 className="w-4 h-4 text-[#448CFF] flex-shrink-0" aria-hidden="true" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div>
-                      <h4 className="text-xs font-bold text-[#383838] uppercase tracking-wider mb-3">사양</h4>
-                      <div className="grid grid-cols-3 gap-3">
-                        {activeCategory.specs.map((spec, index) => (
-                          <div key={index} className="text-center p-2.5 rounded-lg bg-[#F8F9FD]">
-                            <div className="text-lg font-bold text-[#383838]">{spec.value}</div>
-                            <div className="text-[10px] text-[#777A86]">{spec.label}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 pt-5 border-t border-[#D3D8DF]">
-                    <h4 className="text-xs font-bold text-[#383838] uppercase tracking-wider mb-4">아키텍처 개요</h4>
-                    <div className="flex flex-wrap items-center justify-center gap-3">
-                      {[
-                        { icon: Database, label: '데이터 레이어' },
-                        { icon: Cpu, label: 'AI 엔진' },
-                        { icon: Lock, label: '보안' },
-                        { icon: Server, label: '컴퓨트' },
-                        { icon: Cloud, label: '전달' },
-                      ].map((item, index) => (
-                        <div key={index} className="flex items-center gap-3">
-                          <div className="flex flex-col items-center">
-                            <div className="w-10 h-10 rounded-lg bg-[#F8F9FD] flex items-center justify-center mb-1">
-                              <item.icon className="w-4 h-4 text-[#777A86]" aria-hidden="true" />
-                            </div>
-                            <span className="text-[10px] text-[#777A86]">{item.label}</span>
-                          </div>
-                          {index < 4 && (
-                            <ChevronRight className="w-4 h-4 text-[#D3D8DF]" aria-hidden="true" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-
-        {/* Trust Badges */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* 섹션 헤더 */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-3"
+          ref={headerRef}
+          initial={{ opacity: 0, y: 24 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-xl mx-auto mb-6"
         >
-          {['SOC 2 Type II', 'ISO 27001', 'GDPR 준수', 'HIPAA 준비'].map((badge, index) => (
-            <div key={index} className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#D3D8DF]">
-              <Shield className="w-4 h-4 text-[#448CFF]" aria-hidden="true" />
-              <span className="text-sm font-medium text-[#4B4E56]">{badge}</span>
-            </div>
-          ))}
+          <span className="inline-flex items-center gap-2 text-sm font-bold text-[#448CFF] mb-4">
+            <Zap className="w-4 h-4" aria-hidden="true" />
+            {lang === 'ko' ? '기술' : 'Technology'}
+          </span>
+          <h2
+            id="infra-heading"
+            className="font-black text-[#0F1117] mb-4"
+            style={{ fontSize: 'clamp(1.875rem, 4vw, 2.75rem)', letterSpacing: '-0.03em', lineHeight: 1.3 }}
+          >
+            {lang === 'ko' ? (
+              <>확장 가능하게 설계,<br /><span className="gradient-text">신뢰할 수 있게 구축</span></>
+            ) : (
+              <>Designed to scale,<br /><span className="gradient-text">built to trust</span></>
+            )}
+          </h2>
+          <p className="text-[#4B4E56] leading-relaxed text-[17px] font-medium">
+            {lang === 'ko'
+              ? '최첨단 AI와 엔터프라이즈급 보안, 유연한 배포 방식을 결합합니다.'
+              : 'Combining cutting-edge AI, enterprise-grade security, and flexible deployment.'}
+          </p>
         </motion.div>
+
+        {/* 블록 목록 */}
+        <div>
+          {techCategories.map((cat, index) => (
+            <InfraBlock key={cat.id} cat={cat} index={index} lang={lang} />
+          ))}
+        </div>
       </div>
     </section>
   );

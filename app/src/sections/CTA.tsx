@@ -73,7 +73,7 @@ export function CTA() {
           <h2 id="cta-heading" className="text-kr-display mb-5" style={{ lineHeight: 1.3 }}>
             지능형 인프라를
             <br />
-            <span className="gradient-text">경험핳보세요</span>
+            <span className="gradient-text">경험해보세요</span>
           </h2>
 
           <p className="text-kr-subtitle text-[#777A86] max-w-lg mx-auto mb-10 leading-relaxed">

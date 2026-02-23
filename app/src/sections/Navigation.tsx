@@ -1,125 +1,162 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/context/LanguageContext';
 
-interface NavigationProps {
-  isDark: boolean;
-  toggleTheme: () => void;
-}
+type NavItem = {
+  labelKo: string;
+  labelEn: string;
+  anchor?: string;
+  path?: string;
+};
 
-const navItems = [
-  { label: '솔루션', href: '#solution' },
-  { label: '프로세스', href: '#how-it-works' },
-  { label: '기술', href: '#infrastructure' },
-  { label: '적용분야', href: '#use-cases' },
-  { label: '문의', href: '#contact' },
+const navItems: NavItem[] = [
+  { labelKo: '회사 소개', labelEn: 'About', path: '/about' },
+  { labelKo: '서비스 소개', labelEn: 'Services', path: '/services' },
+  { labelKo: '도입 사례', labelEn: 'Cases', path: '/cases' },
+  { labelKo: '공지사항', labelEn: 'Notice', path: '/notice' },
 ];
 
-export function Navigation({ isDark, toggleTheme }: NavigationProps) {
+export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { lang, setLang } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  useEffect(() => {
     setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  const handleNavClick = (item: NavItem) => {
+    setIsMobileMenuOpen(false);
+    if (item.path) {
+      navigate(item.path);
+      return;
+    }
+    if (item.anchor) {
+      if (location.pathname === '/') {
+        document.getElementById(item.anchor)?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.location.href = `/#${item.anchor}`;
+      }
+    }
   };
+
+  const isActive = (item: NavItem) => {
+    if (item.path) return location.pathname === item.path;
+    return location.pathname === '/';
+  };
+
+  const label = (item: NavItem) => lang === 'ko' ? item.labelKo : item.labelEn;
 
   return (
     <>
-      <a href="#main-content" className="skip-to-content">
-        본문으로 바로가기
-      </a>
-
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-[#D3D8DF]/50 dark:border-slate-800'
+            ? 'bg-white/95 backdrop-blur-md border-b border-[#D3D8DF]/50'
             : 'bg-transparent'
         }`}
         role="banner"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Logo */}
-            <motion.a
-              href="#"
-              className="flex items-center gap-2.5 group"
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              aria-label="INNO-HI 홈으로 이동"
-            >
-              <div className="relative w-8 h-8 flex items-center justify-center">
-                <div className="absolute inset-0 bg-[#448CFF] rounded-lg opacity-10" />
-                <span className="relative text-lg font-bold text-[#383838]">I</span>
-                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#448CFF] rounded-full" aria-hidden="true" />
-              </div>
-              <span className="text-lg font-bold text-[#383838] tracking-tight">INNO-HI</span>
-            </motion.a>
+            {/* 로고 */}
+            <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+              <Link
+                to="/"
+                className="flex items-center gap-2.5 group"
+                aria-label="INNO-HI 홈으로 이동"
+              >
+                <div className="relative w-8 h-8 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-[#448CFF] rounded-lg opacity-10" />
+                  <span className="relative text-lg font-bold text-[#383838]">I</span>
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#448CFF] rounded-full" aria-hidden="true" />
+                </div>
+                <span className="text-lg font-bold text-[#383838] tracking-tight">INNO-HI</span>
+              </Link>
+            </motion.div>
 
-            {/* Desktop Navigation */}
+            {/* 데스크탑 네비게이션 */}
             <nav className="hidden lg:flex items-center gap-1" role="navigation" aria-label="메인 메뉴">
               {navItems.map((item, index) => (
                 <motion.button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="px-4 py-2 text-[15px] font-medium text-[#777A86] hover:text-[#383838] transition-colors relative group"
+                  key={item.labelKo}
+                  onClick={() => handleNavClick(item)}
+                  className={`px-4 py-2 text-[15px] font-medium transition-colors relative group ${
+                    isActive(item) ? 'text-[#383838]' : 'text-[#777A86] hover:text-[#383838]'
+                  }`}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 + 0.2 }}
                 >
-                  {item.label}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#448CFF] group-hover:w-4 transition-all duration-200" />
+                  {label(item)}
+                  <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#448CFF] transition-all duration-200 ${
+                    isActive(item) ? 'w-4' : 'w-0 group-hover:w-4'
+                  }`} />
                 </motion.button>
               ))}
             </nav>
 
-            {/* Right Actions */}
-            <div className="flex items-center gap-2">
-              <motion.button
-                onClick={toggleTheme}
-                className="p-2.5 rounded-lg text-[#777A86] hover:bg-[#F8F9FD] transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+            {/* 우측: 도입 문의 CTA + KO/EN 토글 + 모바일 버튼 */}
+            <div className="flex items-center gap-3">
+              {/* 도입 문의 버튼 */}
+              <motion.div
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.35 }}
+                className="hidden lg:block"
               >
-                <AnimatePresence mode="wait" initial={false}>
-                  {isDark ? (
-                    <motion.div key="sun" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Sun className="w-5 h-5" aria-hidden="true" />
-                    </motion.div>
-                  ) : (
-                    <motion.div key="moon" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
-                      <Moon className="w-5 h-5" aria-hidden="true" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.button>
-
-              <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }} className="hidden lg:block">
-                <Button
-                  onClick={() => scrollToSection('#contact')}
-                  className="bg-[#383838] hover:bg-[#444B52] text-white rounded-full px-5 py-2 text-sm font-semibold transition-all min-h-[40px]"
+                <Link
+                  to="/notice"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#448CFF] text-white text-sm font-bold hover:bg-[#2E7FFA] transition-colors shadow-sm"
                 >
-                  도입 문의
-                </Button>
+                  {lang === 'ko' ? '도입 문의' : 'Contact'}
+                </Link>
               </motion.div>
 
+              {/* 언어 토글 */}
+              <motion.div
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 }}
+                className="hidden lg:flex items-center rounded-full border border-[#D3D8DF] overflow-hidden bg-[#F8F9FD]"
+              >
+                <button
+                  onClick={() => setLang('ko')}
+                  className={`px-3.5 py-1.5 text-sm font-semibold transition-all ${
+                    lang === 'ko'
+                      ? 'bg-[#383838] text-white'
+                      : 'text-[#777A86] hover:text-[#383838]'
+                  }`}
+                >
+                  KO
+                </button>
+                <div className="w-px h-4 bg-[#D3D8DF]" />
+                <button
+                  onClick={() => setLang('en')}
+                  className={`px-3.5 py-1.5 text-sm font-semibold transition-all ${
+                    lang === 'en'
+                      ? 'bg-[#383838] text-white'
+                      : 'text-[#777A86] hover:text-[#383838]'
+                  }`}
+                >
+                  EN
+                </button>
+              </motion.div>
+
+              {/* 모바일 메뉴 버튼 */}
               <motion.button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="lg:hidden p-2.5 rounded-lg text-[#4B4E56] hover:bg-[#F8F9FD] transition-colors"
@@ -128,14 +165,17 @@ export function Navigation({ isDark, toggleTheme }: NavigationProps) {
                 aria-label={isMobileMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
                 aria-expanded={isMobileMenuOpen}
               >
-                {isMobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
+                {isMobileMenuOpen
+                  ? <X className="w-5 h-5" aria-hidden="true" />
+                  : <Menu className="w-5 h-5" aria-hidden="true" />
+                }
               </motion.button>
             </div>
           </div>
         </div>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* 모바일 메뉴 */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -147,7 +187,11 @@ export function Navigation({ isDark, toggleTheme }: NavigationProps) {
             role="dialog"
             aria-label="모바일 메뉴"
           >
-            <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} aria-hidden="true" />
+            <div
+              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-hidden="true"
+            />
             <motion.nav
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
@@ -159,24 +203,45 @@ export function Navigation({ isDark, toggleTheme }: NavigationProps) {
                 <div className="space-y-1">
                   {navItems.map((item, index) => (
                     <motion.button
-                      key={item.href}
-                      onClick={() => scrollToSection(item.href)}
-                      className="block w-full text-left px-4 py-3.5 text-base font-medium text-[#4B4E56] hover:text-[#383838] hover:bg-[#F8F9FD] rounded-lg transition-colors"
+                      key={item.labelKo}
+                      onClick={() => handleNavClick(item)}
+                      className={`block w-full text-left px-4 py-3.5 text-base font-medium rounded-lg transition-colors ${
+                        isActive(item)
+                          ? 'text-[#383838] bg-[#F8F9FD]'
+                          : 'text-[#4B4E56] hover:text-[#383838] hover:bg-[#F8F9FD]'
+                      }`}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.03 }}
                     >
-                      {item.label}
+                      {label(item)}
                     </motion.button>
                   ))}
                 </div>
-                <motion.div className="mt-6 pt-6 border-t border-[#D3D8DF]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-                  <Button
-                    onClick={() => scrollToSection('#contact')}
-                    className="w-full bg-[#448CFF] hover:bg-[#68A1FF] text-white rounded-xl py-3.5 text-base font-semibold min-h-[52px]"
-                  >
-                    도입 문의하기
-                  </Button>
+
+                {/* 모바일 언어 토글 */}
+                <motion.div
+                  className="mt-6 pt-6 border-t border-[#D3D8DF]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <p className="text-xs font-semibold text-[#777A86] mb-3 uppercase tracking-wider">Language</p>
+                  <div className="flex gap-2">
+                    {(['ko', 'en'] as const).map((l) => (
+                      <button
+                        key={l}
+                        onClick={() => setLang(l)}
+                        className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                          lang === l
+                            ? 'bg-[#383838] text-white'
+                            : 'bg-[#F8F9FD] text-[#777A86]'
+                        }`}
+                      >
+                        {l.toUpperCase()}
+                      </button>
+                    ))}
+                  </div>
                 </motion.div>
               </div>
             </motion.nav>
