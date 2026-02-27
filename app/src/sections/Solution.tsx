@@ -6,10 +6,13 @@ import { useLanguage } from '@/context/LanguageContext';
 // ── 휴대폰 목업 콘텐츠 ────────────────────────────────────────────────
 
 function MockVoice() {
+  const { lang } = useLanguage();
   return (
     <div className="h-full bg-white flex flex-col px-4 pt-4 pb-6">
       <div className="flex items-center justify-between mb-4">
-        <span className="text-xs font-bold text-[#444B52]">음성 인식 중</span>
+        <span className="text-xs font-semibold text-[#444B52]">
+          {lang === 'ko' ? '음성 인식 중' : 'Voice Recognition'}
+        </span>
         <div className="flex gap-1">
           {[1,2,3].map(i => (
             <motion.div key={i} className="w-1 rounded-full bg-[#448CFF]"
@@ -29,18 +32,25 @@ function MockVoice() {
       </div>
       <div className="bg-[#F8F9FD] rounded-xl p-3 mb-3">
         <p className="text-[11px] text-[#444B52] leading-relaxed">
-          "오늘 오전 홍길동 어르신 방문 상담 완료. 혈압 정상, 식사 보조 필요 확인됨."
+          {lang === 'ko'
+            ? '"오늘 오전 홍길동 어르신 방문 상담 완료. 혈압 정상, 식사 보조 필요 확인됨."'
+            : '"Morning visit with Mr. Hong completed. BP normal, meal assistance needed."'}
         </p>
         <div className="flex items-center gap-1 mt-2">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          <span className="text-[9px] text-emerald-500 font-semibold">98.5% 정확도</span>
+          <span className="text-[9px] text-emerald-500 font-medium">
+            {lang === 'ko' ? '98.5% 정확도' : '98.5% Accuracy'}
+          </span>
         </div>
       </div>
       <div className="space-y-1.5">
-        {[['이름', '홍길동'], ['상태', '정상'], ['조치', '식사 보조']].map(([k, v]) => (
+        {(lang === 'ko'
+          ? [['이름', '홍길동'], ['상태', '정상'], ['조치', '식사 보조']]
+          : [['Name', 'Hong G.D.'], ['Status', 'Normal'], ['Action', 'Meal Assist']]
+        ).map(([k, v]) => (
           <div key={k} className="flex items-center gap-2">
-            <span className="text-[9px] font-semibold text-[#777A86] w-10">{k}</span>
-            <span className="text-[10px] font-bold text-[#444B52] bg-[#ECF1FD] px-2 py-0.5 rounded-md">{v}</span>
+            <span className="text-[9px] font-medium text-[#777A86] w-10">{k}</span>
+            <span className="text-[10px] font-semibold text-[#444B52] bg-[#ECF1FD] px-2 py-0.5 rounded-md">{v}</span>
           </div>
         ))}
       </div>
@@ -49,10 +59,26 @@ function MockVoice() {
 }
 
 function MockWorkflow() {
-  const steps = ['접수', '분류', '배정', '처리', '완료'];
+  const { lang } = useLanguage();
+  const steps = lang === 'ko'
+    ? ['접수', '분류', '배정', '처리', '완료']
+    : ['Intake', 'Sort', 'Assign', 'Process', 'Done'];
+  const cases = lang === 'ko'
+    ? [
+        { id: '#2841', name: '이○○ 어르신', type: '긴급 방문', status: '처리중', color: 'sky' },
+        { id: '#2842', name: '김○○ 어르신', type: '서비스 신청', status: '배정완료', color: 'blue' },
+        { id: '#2843', name: '박○○ 어르신', type: '정기 상담', status: '완료', color: 'green' },
+      ]
+    : [
+        { id: '#2841', name: 'Lee ○○', type: 'Urgent Visit', status: 'Active', color: 'sky' },
+        { id: '#2842', name: 'Kim ○○', type: 'Service Req.', status: 'Assigned', color: 'blue' },
+        { id: '#2843', name: 'Park ○○', type: 'Consultation', status: 'Done', color: 'green' },
+      ];
   return (
     <div className="h-full bg-white flex flex-col px-4 pt-4 pb-4">
-      <p className="text-xs font-bold text-[#444B52] mb-3">자동화 워크플로우</p>
+      <p className="text-xs font-semibold text-[#444B52] mb-3">
+        {lang === 'ko' ? '자동화 워크플로우' : 'Automation Workflow'}
+      </p>
       <div className="relative mb-4">
         <div className="flex items-center">
           {steps.map((s, i) => (
@@ -63,7 +89,7 @@ function MockWorkflow() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: i * 0.12 }}
               >
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold ${i < 3 ? 'bg-[#448CFF] text-white' : i === 3 ? 'bg-[#60A5FA] text-white' : 'bg-[#F8F9FD] text-[#777A86] border border-[#D3D8DF]'}`}>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-semibold ${i < 3 ? 'bg-[#448CFF] text-white' : i === 3 ? 'bg-[#60A5FA] text-white' : 'bg-[#F8F9FD] text-[#777A86] border border-[#D3D8DF]'}`}>
                   {i < 3 ? '✓' : i + 1}
                 </div>
                 <span className="text-[8px] text-[#777A86] mt-1">{s}</span>
@@ -79,25 +105,23 @@ function MockWorkflow() {
         </div>
       </div>
       <div className="space-y-2 flex-1">
-        {[
-          { id: '#2841', name: '이○○ 어르신', type: '긴급 방문', status: '처리중', color: 'sky' },
-          { id: '#2842', name: '김○○ 어르신', type: '서비스 신청', status: '배정완료', color: 'blue' },
-          { id: '#2843', name: '박○○ 어르신', type: '정기 상담', status: '완료', color: 'green' },
-        ].map(({ id, name, type, status, color }) => (
+        {cases.map(({ id, name, type, status, color }) => (
           <div key={id} className="flex items-center gap-2 p-2 bg-[#F8F9FD] rounded-lg">
             <div className={`w-1.5 h-6 rounded-full flex-shrink-0 ${color === 'sky' ? 'bg-[#60A5FA]' : color === 'blue' ? 'bg-[#448CFF]' : 'bg-emerald-400'}`} />
             <div className="flex-1 min-w-0">
-              <p className="text-[9px] font-bold text-[#444B52] truncate">{name}</p>
+              <p className="text-[9px] font-semibold text-[#444B52] truncate">{name}</p>
               <p className="text-[8px] text-[#777A86]">{type}</p>
             </div>
-            <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-md ${color === 'sky' ? 'bg-sky-50 text-[#60A5FA]' : color === 'blue' ? 'bg-blue-50 text-[#448CFF]' : 'bg-emerald-50 text-emerald-600'}`}>
+            <span className={`text-[8px] font-semibold px-1.5 py-0.5 rounded-md ${color === 'sky' ? 'bg-sky-50 text-[#60A5FA]' : color === 'blue' ? 'bg-blue-50 text-[#448CFF]' : 'bg-emerald-50 text-emerald-600'}`}>
               {status}
             </span>
           </div>
         ))}
       </div>
       <div className="mt-2 text-center">
-        <span className="text-[9px] font-bold text-[#448CFF] bg-[#ECF1FD] px-2 py-0.5 rounded-full">90% 자동화율</span>
+        <span className="text-[9px] font-semibold text-[#448CFF] bg-[#ECF1FD] px-2 py-0.5 rounded-full">
+          {lang === 'ko' ? '90% 자동화율' : '90% Automated'}
+        </span>
       </div>
     </div>
   );
@@ -106,31 +130,53 @@ function MockWorkflow() {
 // ── 브라우저 창 목업 (Sol 02 — 데이터 구조화) ─────────────────────────
 
 function MockDataBrowser() {
-  const rows = [
-    { field: '성명', value: '박○○', tag: '완료', tagColor: '#448CFF' },
-    { field: '나이', value: '65세', tag: '완료', tagColor: '#448CFF' },
-    { field: '가구', value: '독거', tag: '분류됨', tagColor: '#3B82F6' },
-    { field: '수급', value: '기초수급자', tag: '분류됨', tagColor: '#3B82F6' },
-    { field: '서비스', value: '이동지원·정기방문', tag: '생성됨', tagColor: '#38BDF8' },
-    { field: '위험도', value: '보통', tag: '산출됨', tagColor: '#93C5FD' },
-  ];
+  const { lang } = useLanguage();
+  const rows = lang === 'ko'
+    ? [
+        { field: '성명', value: '박○○', tag: '완료', tagColor: '#448CFF' },
+        { field: '나이', value: '65세', tag: '완료', tagColor: '#448CFF' },
+        { field: '가구', value: '독거', tag: '분류됨', tagColor: '#3B82F6' },
+        { field: '수급', value: '기초수급자', tag: '분류됨', tagColor: '#3B82F6' },
+        { field: '서비스', value: '이동지원·정기방문', tag: '생성됨', tagColor: '#38BDF8' },
+        { field: '위험도', value: '보통', tag: '산출됨', tagColor: '#93C5FD' },
+      ]
+    : [
+        { field: 'Name', value: 'Park ○○', tag: 'Done', tagColor: '#448CFF' },
+        { field: 'Age', value: '65', tag: 'Done', tagColor: '#448CFF' },
+        { field: 'Household', value: 'Alone', tag: 'Sorted', tagColor: '#3B82F6' },
+        { field: 'Benefits', value: 'Basic', tag: 'Sorted', tagColor: '#3B82F6' },
+        { field: 'Service', value: 'Transport · Visit', tag: 'Created', tagColor: '#38BDF8' },
+        { field: 'Risk', value: 'Moderate', tag: 'Scored', tagColor: '#93C5FD' },
+      ];
   return (
     <div className="h-full bg-white flex flex-col p-4">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-[11px] font-bold text-[#444B52]">AI 자동 구조화 결과</span>
-        <span className="text-[9px] font-semibold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">처리 완료</span>
+        <span className="text-[11px] font-semibold text-[#444B52]">
+          {lang === 'ko' ? 'AI 자동 구조화 결과' : 'AI Auto-Structuring'}
+        </span>
+        <span className="text-[9px] font-medium text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">
+          {lang === 'ko' ? '처리 완료' : 'Done'}
+        </span>
       </div>
       <div className="bg-[#F8F9FD] rounded-lg p-2.5 text-[10px] text-[#777A86] leading-relaxed mb-3">
-        <span className="text-[#9CA3AF] text-[9px]">[원문]</span>{' '}
-        이용자 박○○, 65세 여, 독거, 기초수급, 이동불편, 정기방문 필요
+        <span className="text-[#9CA3AF] text-[9px]">{lang === 'ko' ? '[원문]' : '[Source]'}</span>{' '}
+        {lang === 'ko'
+          ? '이용자 박○○, 65세 여, 독거, 기초수급, 이동불편, 정기방문 필요'
+          : 'User Park ○○, 65F, alone, basic benefits, mobility issues, visits needed'}
       </div>
       <div className="flex-1 overflow-hidden">
         <table className="w-full text-[10px]">
           <thead>
             <tr className="border-b border-[#EAEDF2]">
-              <th className="text-left text-[#777A86] font-semibold pb-1.5 w-16">필드</th>
-              <th className="text-left text-[#777A86] font-semibold pb-1.5">추출값</th>
-              <th className="text-right text-[#777A86] font-semibold pb-1.5">상태</th>
+              <th className="text-left text-[#777A86] font-medium pb-1.5 w-16">
+                {lang === 'ko' ? '필드' : 'Field'}
+              </th>
+              <th className="text-left text-[#777A86] font-medium pb-1.5">
+                {lang === 'ko' ? '추출값' : 'Value'}
+              </th>
+              <th className="text-right text-[#777A86] font-medium pb-1.5">
+                {lang === 'ko' ? '상태' : 'Status'}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -142,9 +188,9 @@ function MockDataBrowser() {
                 className="border-b border-[#F4F5F7]"
               >
                 <td className="py-1.5 text-[#777A86] font-medium">{r.field}</td>
-                <td className="py-1.5 font-bold text-[#444B52]">{r.value}</td>
+                <td className="py-1.5 font-semibold text-[#444B52]">{r.value}</td>
                 <td className="py-1.5 text-right">
-                  <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-full"
+                  <span className="text-[8px] font-semibold px-1.5 py-0.5 rounded-full"
                     style={{ color: r.tagColor, background: r.tagColor + '15' }}>
                     {r.tag}
                   </span>
@@ -155,8 +201,12 @@ function MockDataBrowser() {
         </table>
       </div>
       <div className="mt-2 flex items-center justify-between">
-        <span className="text-[9px] text-[#9CA3AF]">처리 시간: 0.8초</span>
-        <span className="text-[9px] font-bold text-emerald-500">85% 시간 절감</span>
+        <span className="text-[9px] text-[#9CA3AF]">
+          {lang === 'ko' ? '처리 시간: 0.8초' : 'Time: 0.8s'}
+        </span>
+        <span className="text-[9px] font-semibold text-emerald-500">
+          {lang === 'ko' ? '85% 시간 절감' : '85% Time Saved'}
+        </span>
       </div>
     </div>
   );
@@ -165,6 +215,7 @@ function MockDataBrowser() {
 // ── 대시보드 플로팅 카드 (Sol 03 — 예측 분석) ─────────────────────────
 
 function DashboardCards() {
+  const { lang } = useLanguage();
   const bars = [42, 58, 45, 73, 61, 88, 76, 95];
   return (
     <div className="relative w-full h-full flex items-center justify-center">
@@ -176,7 +227,9 @@ function DashboardCards() {
         className="absolute left-0 top-4 w-56 bg-white rounded-2xl border border-[#EAEDF2] shadow-lg p-4"
         style={{ boxShadow: '0 12px 40px rgba(68,140,255,0.12)' }}
       >
-        <p className="text-[11px] font-bold text-[#444B52] mb-2">실시간 위험 모니터링</p>
+        <p className="text-[11px] font-semibold text-[#444B52] mb-2">
+          {lang === 'ko' ? '실시간 위험 모니터링' : 'Real-time Risk Monitor'}
+        </p>
         <div className="flex items-end gap-1 h-20 mb-2">
           {bars.map((h, i) => (
             <motion.div key={i} className="flex-1 rounded-t-sm"
@@ -187,7 +240,10 @@ function DashboardCards() {
           ))}
         </div>
         <div className="flex gap-2">
-          {[['높음', '#1D4ED8'], ['주의', '#60A5FA'], ['정상', '#93C5FD']].map(([l, c]) => (
+          {(lang === 'ko'
+            ? [['높음', '#1D4ED8'], ['주의', '#60A5FA'], ['정상', '#93C5FD']]
+            : [['High', '#1D4ED8'], ['Mid', '#60A5FA'], ['Normal', '#93C5FD']]
+          ).map(([l, c]) => (
             <div key={l} className="flex items-center gap-1">
               <div className="w-2 h-2 rounded-full" style={{ background: c }} />
               <span className="text-[8px] text-[#777A86]">{l}</span>
@@ -206,12 +262,17 @@ function DashboardCards() {
       >
         <div className="flex items-center gap-1.5 mb-2.5">
           <div className="w-2 h-2 rounded-full bg-[#1D4ED8]" />
-          <span className="text-[10px] font-bold text-[#1D4ED8]">주의 케이스 3건</span>
+          <span className="text-[10px] font-semibold text-[#1D4ED8]">
+            {lang === 'ko' ? '주의 케이스 3건' : '3 Alert Cases'}
+          </span>
         </div>
-        {['이○○ (87세)', '박○○ (74세)', '최○○ (81세)'].map((name, i) => (
+        {(lang === 'ko'
+          ? ['이○○ (87세)', '박○○ (74세)', '최○○ (81세)']
+          : ['Lee ○○ (87)', 'Park ○○ (74)', 'Choi ○○ (81)']
+        ).map((name, i) => (
           <div key={i} className="flex items-center gap-2 py-1 border-b border-[#F4F5F7] last:border-0">
             <div className="w-4 h-4 rounded-full bg-blue-50 flex items-center justify-center">
-              <span className="text-[7px] font-bold text-[#60A5FA]">{i + 1}</span>
+              <span className="text-[7px] font-semibold text-[#60A5FA]">{i + 1}</span>
             </div>
             <span className="text-[9px] text-[#444B52] font-medium">{name}</span>
           </div>
@@ -225,12 +286,18 @@ function DashboardCards() {
         transition={{ duration: 0.6, delay: 0.5 }}
         className="absolute right-4 bottom-4 w-40 bg-[#EEF4FF] rounded-2xl p-3"
       >
-        <p className="text-[9px] text-[#448CFF] font-bold mb-1.5">전월 대비</p>
+        <p className="text-[9px] text-[#448CFF] font-semibold mb-1.5">
+          {lang === 'ko' ? '전월 대비' : 'vs Last Month'}
+        </p>
         <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-black text-[#448CFF]">+32%</span>
-          <span className="text-[10px] text-[#448CFF]">효율</span>
+          <span className="text-3xl font-semibold text-[#448CFF]">+32%</span>
+          <span className="text-[10px] text-[#448CFF]">
+            {lang === 'ko' ? '효율' : 'Efficiency'}
+          </span>
         </div>
-        <p className="text-[8px] text-[#777A86] mt-1">예측 정확도 94.2%</p>
+        <p className="text-[8px] text-[#777A86] mt-1">
+          {lang === 'ko' ? '예측 정확도 94.2%' : 'Accuracy 94.2%'}
+        </p>
       </motion.div>
 
       {/* AI 처리 카드 */}
@@ -246,9 +313,13 @@ function DashboardCards() {
             animate={{ opacity: [1, 0.4, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
-          <span className="text-[9px] font-bold text-emerald-500">AI 분석 중</span>
+          <span className="text-[9px] font-semibold text-emerald-500">
+            {lang === 'ko' ? 'AI 분석 중' : 'AI Analyzing'}
+          </span>
         </div>
-        <span className="text-[8px] text-[#777A86]">127건 실시간 처리</span>
+        <span className="text-[8px] text-[#777A86]">
+          {lang === 'ko' ? '127건 실시간 처리' : '127 records real-time'}
+        </span>
       </motion.div>
     </div>
   );
@@ -326,7 +397,7 @@ const solutions = [
     subtitleEn: 'STT & NLP',
     titleKo: '말하는 순간,\n데이터가 됩니다',
     titleEn: 'The moment you speak,\nit becomes data',
-    descKo: '현장의 목소리를 실시간으로 인식하여\n구조화된 기록으로 변환합니다.\n수기 작성 없이 대화만으로 모든 상담 내용이 시스템에 자동 입력됩니다.',
+    descKo: '현장의 목소리를 실시간으로 인식하여\n구조화된 기록으로 변환합니다.\n수기 작성 없이 대화만으로 모든 상담 내용이\n시스템에 자동 입력됩니다.',
     descEn: 'Real-time voice recognition converts field conversations into structured records.\nAll consultation content is automatically entered through conversation alone.',
     featuresKo: ['실시간 전사 — 0.1초 지연', '12개 언어 동시 지원', '노이즈 환경 98.5% 정확도'],
     featuresEn: ['Real-time transcription — 0.1s delay', '12 languages simultaneously', '98.5% accuracy in noisy environments'],
@@ -419,29 +490,29 @@ function SolutionBlock({ sol, index }: { sol: typeof solutions[0]; index: number
       className="flex flex-col justify-center py-4"
     >
       <div className="flex items-center gap-3 mb-5">
-        <span className="text-3xl font-black tracking-tighter" style={{ color: sol.accent, opacity: 0.18 }}>
+        <span className="text-3xl font-semibold tracking-tighter" style={{ color: sol.accent, opacity: 0.18 }}>
           {sol.num}
         </span>
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: sol.accent + '18' }}>
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: sol.accent + '18' }}>
           <Icon className="w-4.5 h-4.5" style={{ color: sol.accent }} />
         </div>
-        <span className="text-sm font-black" style={{ color: sol.accent }}>
+        <span className="text-sm font-semibold" style={{ color: sol.accent }}>
           {lang === 'ko' ? sol.subtitleKo : sol.subtitleEn}
         </span>
       </div>
 
       <h2
-        className="font-black text-[#444B52] leading-[1.2] mb-5 whitespace-pre-line tracking-tight"
+        className="font-semibold text-[#444B52] leading-[1.2] mb-3 whitespace-pre-line tracking-tight"
         style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)' }}
       >
         {lang === 'ko' ? sol.titleKo : sol.titleEn}
       </h2>
 
-      <p className="text-[15px] text-[#4B4E56] leading-relaxed mb-7 max-w-md whitespace-pre-line font-medium">
+      <p className="text-[15px] text-[#4B4E56] leading-relaxed mb-5 max-w-md whitespace-pre-line font-medium">
         {lang === 'ko' ? sol.descKo : sol.descEn}
       </p>
 
-      <ul className="space-y-2.5 mb-7">
+      <ul className="space-y-2.5 mb-5">
         {(lang === 'ko' ? sol.featuresKo : sol.featuresEn).map((f, i) => (
           <li key={i} className="flex items-start gap-3">
             <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
@@ -454,10 +525,10 @@ function SolutionBlock({ sol, index }: { sol: typeof solutions[0]; index: number
       </ul>
 
       <div className="inline-flex items-baseline gap-2">
-        <span className="text-4xl font-black tracking-tighter" style={{ color: sol.accent }}>
+        <span className="text-5xl font-semibold tracking-tighter" style={{ color: sol.accent }}>
           {sol.metric}
         </span>
-        <span className="text-sm font-semibold text-[#777A86]">
+        <span className="text-sm font-medium text-[#777A86]">
           {lang === 'ko' ? sol.metricLabelKo : sol.metricLabelEn}
         </span>
       </div>
@@ -509,10 +580,10 @@ function MidCTA({ lang }: { lang: 'ko' | 'en' }) {
   return (
     <div className="bg-white py-12 border-y border-[#EAEDF2]">
       <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
-        <p className="text-sm font-black text-[#448CFF] mb-3">
+        <p className="text-sm font-semibold text-[#448CFF] mb-3">
           {lang === 'ko' ? '실제 사례가 궁금하신가요?' : 'Curious about real results?'}
         </p>
-        <h3 className="text-lg sm:text-xl font-black text-[#444B52] mb-5">
+        <h3 className="text-lg sm:text-xl font-semibold text-[#444B52] mb-5">
           {lang === 'ko'
             ? '공공·의료·복지 기관의 실제 도입 사례를 확인하세요'
             : 'Explore real deployment cases from public, healthcare & welfare organizations'}
@@ -521,7 +592,7 @@ function MidCTA({ lang }: { lang: 'ko' | 'en' }) {
           href="/cases"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#448CFF] text-[#448CFF] font-bold text-sm hover:bg-[#448CFF] hover:text-white transition-all duration-200"
+          className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-[#448CFF] text-[#448CFF] font-semibold text-sm hover:bg-[#448CFF] hover:text-white transition-all duration-200"
         >
           {lang === 'ko' ? '도입 사례 보기' : 'View Case Studies'}
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -553,7 +624,7 @@ function SolutionBridge({ lang }: { lang: 'ko' | 'en' }) {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-sm font-black text-[#448CFF] tracking-widest uppercase mb-10"
+          className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-10"
         >
           {lang === 'ko' ? '이노하이 솔루션' : 'INNO-HI Solution'}
         </motion.p>
@@ -574,7 +645,7 @@ function SolutionBridge({ lang }: { lang: 'ko' | 'en' }) {
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="font-black text-[#444B52] leading-[1.18] tracking-tight mb-7"
+            className="font-semibold text-[#444B52] leading-[1.18] tracking-tight mb-7"
             style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)' }}
           >
             {lang === 'ko' ? (
@@ -594,7 +665,7 @@ function SolutionBridge({ lang }: { lang: 'ko' | 'en' }) {
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="text-[17px] text-[#4B4E56] max-w-2xl mx-auto leading-relaxed font-medium"
+            className="text-[17px] text-[#4B4E56] max-w-2xl mx-auto leading-relaxed font-medium mb-10"
           >
             {lang === 'ko' ? (
               <>
@@ -610,6 +681,29 @@ function SolutionBridge({ lang }: { lang: 'ko' | 'en' }) {
               </>
             )}
           </motion.p>
+
+          {/* 핵심 지표 3개 */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="grid grid-cols-3 gap-4 lg:gap-8"
+          >
+            {[
+              { value: '98.5%', labelKo: '인식 정확도', labelEn: 'Recognition Accuracy' },
+              { value: '85%', labelKo: '시간 절감', labelEn: 'Time Saved' },
+              { value: '90%', labelKo: '자동화율', labelEn: 'Automation Rate' },
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <p className="font-semibold text-[#448CFF] tracking-tight" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)' }}>
+                  {stat.value}
+                </p>
+                <p className="text-sm text-[#777A86] font-medium mt-1">
+                  {lang === 'ko' ? stat.labelKo : stat.labelEn}
+                </p>
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
     </div>

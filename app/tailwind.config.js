@@ -82,7 +82,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'Pretendard', 'system-ui', 'sans-serif'],
+        sans: ['A2G', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",

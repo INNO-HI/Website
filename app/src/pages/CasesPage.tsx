@@ -164,7 +164,7 @@ function TestimonialsSlider({ lang }: { lang: 'ko' | 'en' }) {
 
             {/* 분야 배지 */}
             <span
-              className="inline-block px-3 py-1.5 rounded-full text-sm font-bold mb-6"
+              className="inline-block px-3 py-1.5 rounded-full text-sm font-semibold mb-6"
               style={{ background: t.tagBg, color: t.tagColor }}
             >
               {lang === 'ko' ? t.tagKo : t.tagEn}
@@ -177,7 +177,7 @@ function TestimonialsSlider({ lang }: { lang: 'ko' | 'en' }) {
             </p>
 
             {/* 저자 */}
-            <p className="text-sm text-[#9CA3AF] font-semibold mb-8">
+            <p className="text-sm text-[#9CA3AF] font-medium mb-8">
               — {lang === 'ko' ? t.authorKo : t.authorEn}
             </p>
 
@@ -189,7 +189,7 @@ function TestimonialsSlider({ lang }: { lang: 'ko' | 'en' }) {
                   className="flex items-center gap-1.5 px-4 py-2 rounded-xl"
                   style={{ background: t.tagBg }}
                 >
-                  <span className="text-base font-black" style={{ color: t.tagColor }}>{m.value}</span>
+                  <span className="text-lg font-semibold" style={{ color: t.tagColor }}>{m.value}</span>
                   {m.trend === 'up' ? (
                     <TrendingUp className="w-4 h-4" style={{ color: t.tagColor }} />
                   ) : (
@@ -270,7 +270,7 @@ function CaseCard({ c, index, lang, compact = false }: { c: typeof caseCards[0];
           >
             <c.icon className="w-7 h-7 text-white" aria-hidden="true" />
           </div>
-          <h3 className="font-black text-[#444B52] text-center" style={{ fontSize: '1rem', letterSpacing: '-0.02em' }}>
+          <h3 className="font-semibold text-[#444B52] text-center" style={{ fontSize: '1rem', letterSpacing: '-0.02em' }}>
             {lang === 'ko' ? c.titleKo : c.titleEn}
           </h3>
         </div>
@@ -278,7 +278,7 @@ function CaseCard({ c, index, lang, compact = false }: { c: typeof caseCards[0];
         <div className="p-5">
           <div className="text-center p-4 rounded-xl" style={{ background: c.bg }}>
             <div className="flex items-center justify-center gap-1 mb-1">
-              <span className="text-xl font-black" style={{ color: c.color }}>{c.metrics[0].value}</span>
+              <span className="text-2xl font-semibold" style={{ color: c.color }}>{c.metrics[0].value}</span>
               {c.metrics[0].trend === 'up' ? (
                 <TrendingUp className="w-4 h-4 text-emerald-500" />
               ) : (
@@ -318,14 +318,14 @@ function CaseCard({ c, index, lang, compact = false }: { c: typeof caseCards[0];
       <div className="p-6">
         <div className="flex items-center gap-2 mb-3">
           <span
-            className="inline-block px-2.5 py-1 rounded-full text-xs font-black"
+            className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold"
             style={{ background: c.bg, color: c.color }}
           >
             {lang === 'ko' ? c.subtitleKo : c.subtitleEn}
           </span>
         </div>
 
-        <h3 className="font-black text-[#444B52] mb-2" style={{ fontSize: '1.1rem', letterSpacing: '-0.02em' }}>
+        <h3 className="font-semibold text-[#444B52] mb-2" style={{ fontSize: '1.1rem', letterSpacing: '-0.02em' }}>
           {lang === 'ko' ? c.titleKo : c.titleEn}
         </h3>
 
@@ -337,7 +337,7 @@ function CaseCard({ c, index, lang, compact = false }: { c: typeof caseCards[0];
           {c.metrics.map((m, i) => (
             <div key={i} className="text-center p-2.5 rounded-xl" style={{ background: c.bg }}>
               <div className="flex items-center justify-center gap-1">
-                <span className="text-base font-black" style={{ color: c.color }}>{m.value}</span>
+                <span className="text-lg font-semibold" style={{ color: c.color }}>{m.value}</span>
                 {m.trend === 'up' ? (
                   <TrendingUp className="w-3 h-3 text-emerald-500" />
                 ) : (
@@ -371,10 +371,10 @@ function ImpactBar({ lang }: { lang: 'ko' | 'en' }) {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="text-center"
             >
-              <p className="font-black text-[#448CFF] mb-1" style={{ fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', letterSpacing: '-0.03em' }}>
+              <p className="font-semibold text-[#448CFF] mb-1" style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)', letterSpacing: '-0.03em' }}>
                 {m.value}
               </p>
-              <p className="text-sm font-semibold text-[#777A86]">
+              <p className="text-sm font-medium text-[#777A86]">
                 {lang === 'ko' ? m.labelKo : m.labelEn}
               </p>
             </motion.div>
@@ -396,7 +396,7 @@ export function CasesPage() {
 
   return (
     <div className="relative min-h-screen bg-white">
-      <a href="#main-content" className="skip-to-content">본문으로 바로가기</a>
+      <a href="#main-content" className="skip-to-content">{lang === 'ko' ? '본문으로 바로가기' : 'Skip to main content'}</a>
       <Navigation />
       <main id="main-content">
 
@@ -410,7 +410,7 @@ export function CasesPage() {
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#D3D8DF] mb-5 shadow-sm"
             >
               <div className="w-2 h-2 rounded-full bg-[#448CFF]" />
-              <span className="text-xs font-black text-[#448CFF]">
+              <span className="text-xs font-semibold text-[#448CFF]">
                 {lang === 'ko' ? '도입 사례' : 'Case Studies'}
               </span>
             </motion.div>
@@ -418,7 +418,7 @@ export function CasesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="font-black text-[#444B52] tracking-tight mb-4"
+              className="font-semibold text-[#444B52] tracking-tight mb-4"
               style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.6rem)' }}
             >
               {lang === 'ko' ? (
@@ -447,11 +447,11 @@ export function CasesPage() {
         <section className="py-16 lg:py-24 bg-[#F8F9FD]">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-10">
-              <p className="text-sm font-black text-[#448CFF] tracking-widest uppercase mb-3">
+              <p className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-3">
                 {lang === 'ko' ? '현장의 목소리' : 'From the Field'}
               </p>
               <h2
-                className="font-black text-[#444B52]"
+                className="font-semibold text-[#444B52]"
                 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', letterSpacing: '-0.03em' }}
               >
                 {lang === 'ko' ? '사람들이 직접 경험한 변화' : 'Changes people experienced firsthand'}
@@ -466,11 +466,11 @@ export function CasesPage() {
         <section className="py-16 lg:py-24 bg-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
-              <p className="text-sm font-black text-[#448CFF] tracking-widest uppercase mb-3">
+              <p className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-3">
                 {lang === 'ko' ? '적용 분야' : 'Application Areas'}
               </p>
               <h2
-                className="font-black text-[#444B52] mb-4"
+                className="font-semibold text-[#444B52] mb-4"
                 style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)', letterSpacing: '-0.03em' }}
               >
                 {lang === 'ko' ? (

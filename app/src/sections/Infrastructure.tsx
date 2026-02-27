@@ -116,15 +116,15 @@ function InfraBlock({ cat, index, lang }: { cat: TechCategory; index: number; la
           style={{ background: cat.bgColor }}
         >
           <div
-            className="w-20 h-20 rounded-2xl flex items-center justify-center"
+            className="w-16 h-16 rounded-2xl flex items-center justify-center"
             style={{ background: cat.color }}
           >
-            <cat.icon className="w-10 h-10 text-white" aria-hidden="true" />
+            <cat.icon className="w-8 h-8 text-white" aria-hidden="true" />
           </div>
           <div className="grid grid-cols-3 gap-3 w-full">
             {cat.specs.map((spec, i) => (
               <div key={i} className="text-center p-3 rounded-xl bg-white/80">
-                <div className="text-lg font-black text-[#0F1117]">{spec.value}</div>
+                <div className="text-xl font-semibold text-[#0F1117]">{spec.value}</div>
                 <div className="text-[11px] text-[#777A86] mt-0.5">
                   {lang === 'ko' ? spec.labelKo : spec.labelEn}
                 </div>
@@ -138,19 +138,19 @@ function InfraBlock({ cat, index, lang }: { cat: TechCategory; index: number; la
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2.5 mb-4">
           <span
-            className="inline-block px-2.5 py-1 rounded-full text-xs font-bold text-white"
+            className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold text-white"
             style={{ background: cat.color }}
           >
             {subtitle}
           </span>
         </div>
         <h3
-          className="font-black text-[#0F1117] mb-4 leading-tight"
+          className="font-semibold text-[#0F1117] mb-3 leading-tight"
           style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '-0.03em' }}
         >
           {title}
         </h3>
-        <p className="text-[#4B4E56] leading-relaxed whitespace-pre-line mb-7 text-[17px] font-medium">
+        <p className="text-[#4B4E56] leading-relaxed whitespace-pre-line mb-5 text-[17px] font-medium">
           {description}
         </p>
         <ul className="space-y-3">
@@ -186,13 +186,13 @@ export function Infrastructure() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-xl mx-auto mb-6"
         >
-          <span className="inline-flex items-center gap-2 text-sm font-bold text-[#448CFF] mb-4">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#448CFF] mb-4">
             <Zap className="w-4 h-4" aria-hidden="true" />
             {lang === 'ko' ? '기술' : 'Technology'}
           </span>
           <h2
             id="infra-heading"
-            className="font-black text-[#0F1117] mb-4"
+            className="font-semibold text-[#0F1117] mb-4"
             style={{ fontSize: 'clamp(1.875rem, 4vw, 2.75rem)', letterSpacing: '-0.03em', lineHeight: 1.3 }}
           >
             {lang === 'ko' ? (

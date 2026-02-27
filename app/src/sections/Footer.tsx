@@ -1,23 +1,27 @@
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/context/LanguageContext';
+import logoSrc from '@/assets/logo.png';
 
 const footerLinks = {
   solutions: [
-    { label: '음성 인식', href: '/#solution' },
-    { label: '데이터 구조화', href: '/#solution' },
-    { label: '업무 자동화', href: '/#solution' },
+    { labelKo: '음성 인식', labelEn: 'Voice Recognition', href: '/#solution' },
+    { labelKo: '데이터 구조화', labelEn: 'Data Structuring', href: '/#solution' },
+    { labelKo: '업무 자동화', labelEn: 'Workflow Automation', href: '/#solution' },
   ],
   company: [
-    { label: '회사 소개', href: '/about' },
-    { label: '도입 문의', href: 'mailto:contact@innohi.ai.kr' },
+    { labelKo: '회사 소개', labelEn: 'About', href: '/about' },
+    { labelKo: '도입 문의', labelEn: 'Contact', href: 'mailto:contact@innohi.ai.kr' },
   ],
   resources: [
-    { label: '문서', href: '#' },
+    { labelKo: '문서', labelEn: 'Docs', href: '#' },
   ],
 };
 
 export function Footer() {
+  const { lang } = useLanguage();
+
   return (
     <footer id="contact" className="relative bg-white border-t border-[#D3D8DF]">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
@@ -25,18 +29,16 @@ export function Footer() {
 
           {/* Company Info */}
           <div className="lg:col-span-5">
-            <div className="flex items-center gap-2.5 mb-5">
-              <div className="relative w-8 h-8 flex items-center justify-center">
-                <div className="absolute inset-0 bg-[#448CFF] rounded-lg opacity-10" />
-                <span className="relative text-lg font-bold text-[#383838]">I</span>
-                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#448CFF] rounded-full" aria-hidden="true" />
-              </div>
-              <span className="text-lg font-bold text-[#383838] tracking-tight">INNO-HI</span>
+            <div className="mb-5">
+              <img src={logoSrc} alt="INNO-HI" className="h-5 w-auto" />
             </div>
 
             <p className="text-sm text-[#4B4E56] mb-6 max-w-xs leading-relaxed">
-              현실의 업무를 지능화하는 인프라.<br />
-              기술로 사람의 가치를 증명합니다.
+              {lang === 'ko' ? (
+                <>현실의 업무를 지능화하는 인프라.<br />기술로 사람의 가치를 증명합니다.</>
+              ) : (
+                <>Infrastructure that intelligentizes real-world work.<br />Proving human value through technology.</>
+              )}
             </p>
 
             <div className="space-y-2.5">
@@ -56,7 +58,7 @@ export function Footer() {
               </a>
               <div className="flex items-start gap-2.5 text-sm text-[#4B4E56]">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <span>서울특별시 중구 퇴계로36길</span>
+                <span>{lang === 'ko' ? '서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호' : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Chungmuro Image Center B257'}</span>
               </div>
             </div>
 
@@ -78,12 +80,14 @@ export function Footer() {
           {/* Links */}
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
             <div>
-              <h4 className="text-xs font-bold text-[#383838] uppercase tracking-wider mb-4">솔루션</h4>
+              <h4 className="text-xs font-semibold text-[#383838] uppercase tracking-wider mb-4">
+                {lang === 'ko' ? '솔루션' : 'Solutions'}
+              </h4>
               <ul className="space-y-2.5">
                 {footerLinks.solutions.map((link, index) => (
                   <li key={index}>
                     <a href={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                      {link.label}
+                      {lang === 'ko' ? link.labelKo : link.labelEn}
                     </a>
                   </li>
                 ))}
@@ -91,17 +95,19 @@ export function Footer() {
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-[#383838] uppercase tracking-wider mb-4">회사</h4>
+              <h4 className="text-xs font-semibold text-[#383838] uppercase tracking-wider mb-4">
+                {lang === 'ko' ? '회사' : 'Company'}
+              </h4>
               <ul className="space-y-2.5">
                 {footerLinks.company.map((link, index) => (
                   <li key={index}>
                     {link.href.startsWith('/') ? (
                       <Link to={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                        {link.label}
+                        {lang === 'ko' ? link.labelKo : link.labelEn}
                       </Link>
                     ) : (
                       <a href={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                        {link.label}
+                        {lang === 'ko' ? link.labelKo : link.labelEn}
                       </a>
                     )}
                   </li>
@@ -110,12 +116,14 @@ export function Footer() {
             </div>
 
             <div>
-              <h4 className="text-xs font-bold text-[#383838] uppercase tracking-wider mb-4">리소스</h4>
+              <h4 className="text-xs font-semibold text-[#383838] uppercase tracking-wider mb-4">
+                {lang === 'ko' ? '리소스' : 'Resources'}
+              </h4>
               <ul className="space-y-2.5">
                 {footerLinks.resources.map((link, index) => (
                   <li key={index}>
                     <a href={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                      {link.label}
+                      {lang === 'ko' ? link.labelKo : link.labelEn}
                     </a>
                   </li>
                 ))}
@@ -130,18 +138,18 @@ export function Footer() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
           <div className="flex flex-col gap-1.5">
             <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[#9CA3AF]">
-              <span>주식회사 이노하이</span>
-              <span>대표자: 김민수, 한민우</span>
-              <span>사업자등록번호: 758-86-03814</span>
-            </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[#9CA3AF]">
-              <span>주소: 서울특별시 중구 퇴계로36길</span>
-              <span>전화: 010-8225-4024</span>
-              <span>이메일: contact@innohi.ai.kr</span>
+              <span>{lang === 'ko' ? '주식회사 이노하이' : 'INNO-HI Inc.'}</span>
+              <span>{lang === 'ko' ? '대표자: 김민수, 한민우' : 'CEO: Minsu Kim, Minwoo Han'}</span>
+              <span>{lang === 'ko' ? '사업자등록번호: 758-86-03814' : 'BRN: 758-86-03814'}</span>
+              <span>{lang === 'ko' ? '주소: 서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호' : 'Addr: 2, Toegye-ro 36-gil, Jung-gu, Seoul, B257'}</span>
+              <span>{lang === 'ko' ? '전화: 010-8225-4024' : 'Tel: 010-8225-4024'}</span>
+              <span>{lang === 'ko' ? '이메일: contact@innohi.ai.kr' : 'Email: contact@innohi.ai.kr'}</span>
             </div>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2">
-              <p className="text-[11px] text-[#B0BAC8]">© {new Date().getFullYear()} INNO-HI. All rights reserved.</p>
-              <p className="text-[11px] text-[#B0BAC8] font-medium">가장 깊은 지능, 가장 높은 존중.</p>
+              <p className="text-[11px] text-[#B0BAC8]">&copy; {new Date().getFullYear()} INNO-HI. All rights reserved.</p>
+              <p className="text-[11px] text-[#B0BAC8] font-medium">
+                {lang === 'ko' ? '가장 깊은 지능, 가장 높은 존중.' : 'Deepest Intelligence, Highest Respect.'}
+              </p>
             </div>
           </div>
         </div>

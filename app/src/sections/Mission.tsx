@@ -36,7 +36,7 @@ export function Mission() {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-sm font-semibold tracking-widest uppercase mb-8"
+          className="text-sm font-medium tracking-widest uppercase mb-8"
           style={{ color: '#448CFF' }}
         >
           {lang === 'ko' ? '우리의 미션' : 'Our Mission'}
@@ -47,7 +47,7 @@ export function Mission() {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-black text-white leading-[1.15] tracking-tight mb-8"
+          className="font-semibold text-white leading-[1.15] tracking-tight mb-8"
           style={{ fontSize: 'clamp(2.4rem, 5vw, 4rem)' }}
         >
           {lang === 'ko' ? (
@@ -95,7 +95,7 @@ export function Mission() {
               transition={{ duration: 0.6, delay: 0.35 + i * 0.1 }}
             >
               <div
-                className="text-5xl lg:text-6xl font-black tracking-tighter mb-2"
+                className="text-5xl lg:text-6xl font-semibold tracking-tighter mb-2"
                 style={{ color: '#fff' }}
               >
                 {s.value}

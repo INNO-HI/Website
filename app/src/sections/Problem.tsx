@@ -105,7 +105,7 @@ export function Problem() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#448CFF] mb-4"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#448CFF] mb-4"
           >
             <TrendingDown className="w-4 h-4" aria-hidden="true" />
             현재의 과제
@@ -136,12 +136,12 @@ export function Problem() {
                   <problem.icon className="w-5 h-5 text-[#777A86] group-hover:text-[#448CFF] transition-colors" aria-hidden="true" />
                 </div>
                 <div className="text-right">
-                  <div className="text-xl font-bold text-[#383838]">{problem.stat}</div>
+                  <div className="text-xl font-semibold text-[#383838]">{problem.stat}</div>
                   <div className="text-xs text-[#777A86] mt-0.5">{problem.statLabel}</div>
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-[#383838] mb-2.5">{problem.title}</h3>
+              <h3 className="text-lg font-semibold text-[#383838] mb-2.5">{problem.title}</h3>
               <p className="text-sm text-[#4B4E56] whitespace-pre-line leading-relaxed">{problem.description}</p>
             </motion.div>
           ))}
@@ -157,7 +157,7 @@ export function Problem() {
           <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#F8F9FD] border border-[#D3D8DF]">
             <Database className="w-5 h-5 text-[#448CFF]" aria-hidden="true" />
             <span className="text-sm text-[#4B4E56]">
-              조직들은 데이터 비효율로 매년 <span className="font-bold text-[#383838]">3.1조 달러</span>를 잃고 있습니다
+              조직들은 데이터 비효율로 매년 <span className="font-semibold text-[#383838]">3.1조 달러</span>를 잃고 있습니다
             </span>
           </div>
         </motion.div>

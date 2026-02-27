@@ -76,11 +76,11 @@ export function Values() {
           transition={{ duration: 0.6 }}
           className="mb-14 lg:mb-18"
         >
-          <p className="text-sm font-semibold text-[#448CFF] mb-3">
+          <p className="text-sm font-medium text-[#448CFF] mb-3">
             {lang === 'ko' ? '우리가 지향하는 것' : 'What We Stand For'}
           </p>
           <h2
-            className="font-black text-[#0F1117] leading-tight tracking-tight"
+            className="font-semibold text-[#0F1117] leading-tight tracking-tight"
             style={{ fontSize: 'clamp(2rem, 3.5vw, 2.8rem)' }}
           >
             {lang === 'ko' ? (
@@ -115,7 +115,7 @@ export function Values() {
 
                 {/* 텍스트 */}
                 <div>
-                  <h3 className="text-base font-bold text-[#0F1117] mb-1.5">
+                  <h3 className="text-base font-semibold text-[#0F1117] mb-1.5">
                     {lang === 'ko' ? v.titleKo : v.titleEn}
                   </h3>
                   <p className="text-sm text-[#6B7280] leading-relaxed">

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/context/LanguageContext';
+import logoSrc from '@/assets/logo.png';
 
 type NavItem = {
   labelKo: string;
@@ -76,20 +77,15 @@ export function Navigation() {
             <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
               <Link
                 to="/"
-                className="flex items-center gap-2.5 group"
-                aria-label="INNO-HI 홈으로 이동"
+                className="flex items-center group"
+                aria-label={lang === 'ko' ? 'INNO-HI 홈으로 이동' : 'Go to INNO-HI home'}
               >
-                <div className="relative w-8 h-8 flex items-center justify-center">
-                  <div className="absolute inset-0 bg-[#448CFF] rounded-lg opacity-10" />
-                  <span className="relative text-lg font-bold text-[#383838]">I</span>
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-[#448CFF] rounded-full" aria-hidden="true" />
-                </div>
-                <span className="text-lg font-bold text-[#383838] tracking-tight">INNO-HI</span>
+                <img src={logoSrc} alt="INNO-HI" className="h-5 lg:h-6 w-auto" />
               </Link>
             </motion.div>
 
             {/* 데스크탑 네비게이션 */}
-            <nav className="hidden lg:flex items-center gap-1" role="navigation" aria-label="메인 메뉴">
+            <nav className="hidden lg:flex items-center gap-1" role="navigation" aria-label={lang === 'ko' ? '메인 메뉴' : 'Main menu'}>
               {navItems.map((item, index) => (
                 <motion.button
                   key={item.labelKo}
@@ -120,7 +116,7 @@ export function Navigation() {
               >
                 <Link
                   to="/notice"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#448CFF] text-white text-sm font-bold hover:bg-[#2E7FFA] transition-colors shadow-sm"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#448CFF] text-white text-sm font-semibold hover:bg-[#2E7FFA] transition-colors shadow-sm"
                 >
                   {lang === 'ko' ? '도입 문의' : 'Contact'}
                 </Link>
@@ -135,7 +131,7 @@ export function Navigation() {
               >
                 <button
                   onClick={() => setLang('ko')}
-                  className={`px-3.5 py-1.5 text-sm font-semibold transition-all ${
+                  className={`px-3.5 py-1.5 text-sm font-medium transition-all ${
                     lang === 'ko'
                       ? 'bg-[#383838] text-white'
                       : 'text-[#777A86] hover:text-[#383838]'
@@ -146,7 +142,7 @@ export function Navigation() {
                 <div className="w-px h-4 bg-[#D3D8DF]" />
                 <button
                   onClick={() => setLang('en')}
-                  className={`px-3.5 py-1.5 text-sm font-semibold transition-all ${
+                  className={`px-3.5 py-1.5 text-sm font-medium transition-all ${
                     lang === 'en'
                       ? 'bg-[#383838] text-white'
                       : 'text-[#777A86] hover:text-[#383838]'
@@ -162,7 +158,7 @@ export function Navigation() {
                 className="lg:hidden p-2.5 rounded-lg text-[#4B4E56] hover:bg-[#F8F9FD] transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                aria-label={isMobileMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
+                aria-label={isMobileMenuOpen ? (lang === 'ko' ? '메뉴 닫기' : 'Close menu') : (lang === 'ko' ? '메뉴 열기' : 'Open menu')}
                 aria-expanded={isMobileMenuOpen}
               >
                 {isMobileMenuOpen
@@ -185,7 +181,7 @@ export function Navigation() {
             transition={{ duration: 0.15 }}
             className="fixed inset-0 z-40 lg:hidden"
             role="dialog"
-            aria-label="모바일 메뉴"
+            aria-label={lang === 'ko' ? '모바일 메뉴' : 'Mobile menu'}
           >
             <div
               className="absolute inset-0 bg-black/20 backdrop-blur-sm"
@@ -226,13 +222,13 @@ export function Navigation() {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <p className="text-xs font-semibold text-[#777A86] mb-3 uppercase tracking-wider">Language</p>
+                  <p className="text-xs font-medium text-[#777A86] mb-3 uppercase tracking-wider">Language</p>
                   <div className="flex gap-2">
                     {(['ko', 'en'] as const).map((l) => (
                       <button
                         key={l}
                         onClick={() => setLang(l)}
-                        className={`flex-1 py-2.5 rounded-xl text-sm font-bold transition-all ${
+                        className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                           lang === l
                             ? 'bg-[#383838] text-white'
                             : 'bg-[#F8F9FD] text-[#777A86]'

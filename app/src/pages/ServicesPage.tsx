@@ -16,7 +16,7 @@ export function ServicesPage() {
   return (
     <div className="relative min-h-screen bg-white">
       <a href="#main-content" className="skip-to-content">
-        본문으로 바로가기
+        {lang === 'ko' ? '본문으로 바로가기' : 'Skip to main content'}
       </a>
       <Navigation />
       <main id="main-content">
@@ -35,11 +35,11 @@ export function ServicesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-block text-sm font-bold text-[#448CFF] mb-5 tracking-widest uppercase">
+              <span className="inline-block text-sm font-semibold text-[#448CFF] mb-5 tracking-widest uppercase">
                 INNO-HI
               </span>
               <h1
-                className="font-black text-[#444B52] leading-tight tracking-tight mb-6"
+                className="font-semibold text-[#444B52] leading-tight tracking-tight mb-6"
                 style={{ fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}
               >
                 {lang === 'ko' ? (

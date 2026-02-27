@@ -140,13 +140,13 @@ export function UseCases() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-xl mx-auto mb-12"
         >
-          <span className="inline-flex items-center gap-2 text-sm font-bold text-[#448CFF] mb-4">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#448CFF] mb-4">
             <Building2 className="w-4 h-4" aria-hidden="true" />
             {lang === 'ko' ? '적용 분야' : 'Use Cases'}
           </span>
           <h2
             id="usecase-heading"
-            className="font-black text-[#0F1117] mb-4"
+            className="font-semibold text-[#0F1117] mb-4"
             style={{ fontSize: 'clamp(1.875rem, 4vw, 2.75rem)', letterSpacing: '-0.03em', lineHeight: 1.3 }}
           >
             {lang === 'ko' ? (
@@ -188,17 +188,17 @@ export function UseCases() {
                     style={{ background: useCase.bgColor }}
                   >
                     <div
-                      className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center"
                       style={{ background: useCase.color }}
                     >
-                      <useCase.icon className="w-8 h-8 text-white" aria-hidden="true" />
+                      <useCase.icon className="w-7 h-7 text-white" aria-hidden="true" />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 lg:grid-cols-1 gap-3">
                     {useCase.metrics.map((metric, i) => (
                       <div key={i} className="p-3 rounded-xl bg-[#F8F9FD] text-center lg:text-left lg:flex lg:items-center lg:gap-3">
                         <div className="flex items-center justify-center lg:justify-start gap-1 mb-0.5 lg:mb-0">
-                          <span className="text-xl font-black text-[#0F1117]">{metric.value}</span>
+                          <span className="text-2xl font-semibold text-[#0F1117]">{metric.value}</span>
                           {metric.trend === 'up' ? (
                             <TrendingUp className="w-4 h-4 text-emerald-500 flex-shrink-0" aria-hidden="true" />
                           ) : (
@@ -217,26 +217,26 @@ export function UseCases() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2.5 mb-3">
                     <span
-                      className="inline-block px-2.5 py-1 rounded-full text-xs font-bold text-white"
+                      className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold text-white"
                       style={{ background: useCase.color }}
                     >
                       {lang === 'ko' ? useCase.subtitleKo : useCase.subtitleEn}
                     </span>
                   </div>
                   <h3
-                    className="font-black text-[#0F1117] mb-4"
-                    style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2rem)', letterSpacing: '-0.03em', lineHeight: 1.3 }}
+                    className="font-semibold text-[#0F1117] mb-3"
+                    style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)', letterSpacing: '-0.03em', lineHeight: 1.3 }}
                   >
                     {lang === 'ko' ? useCase.titleKo : useCase.titleEn}
                   </h3>
-                  <p className="text-[#4B4E56] text-[17px] font-medium leading-relaxed whitespace-pre-line mb-7">
+                  <p className="text-[#4B4E56] text-[17px] font-medium leading-relaxed whitespace-pre-line mb-5">
                     {lang === 'ko' ? useCase.descriptionKo : useCase.descriptionEn}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {(lang === 'ko' ? useCase.featuresKo : useCase.featuresEn).map((feature, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold"
+                        className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium"
                         style={{ background: useCase.bgColor, color: useCase.color }}
                       >
                         {feature}
@@ -284,13 +284,13 @@ export function UseCases() {
                 }`}
                 role="tab"
                 aria-selected={i === page}
-                aria-label={`${i + 1}번째 슬라이드`}
+                aria-label={lang === 'ko' ? `${i + 1}번째 슬라이드` : `Slide ${i + 1}`}
               />
             ))}
           </div>
 
           {/* 카운터 */}
-          <span className="text-sm font-bold text-[#9CA3AF]">
+          <span className="text-sm font-semibold text-[#9CA3AF]">
             {page + 1} / {total}
           </span>
         </div>

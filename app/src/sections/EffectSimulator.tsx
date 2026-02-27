@@ -111,7 +111,7 @@ export function EffectSimulator() {
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="simulator-title text-center max-w-xl mx-auto mb-12 lg:mb-16">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#448CFF] mb-4">
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-[#448CFF] mb-4">
             <Calculator className="w-4 h-4" aria-hidden="true" />
             영향 계산기
           </span>
@@ -131,7 +131,7 @@ export function EffectSimulator() {
         <div className="simulator-content grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Input Panel */}
           <div className="p-5 rounded-xl bg-white border border-[#D3D8DF]">
-            <h3 className="text-base font-bold text-[#383838] mb-6">현재 운영 상황</h3>
+            <h3 className="text-base font-semibold text-[#383838] mb-6">현재 운영 상황</h3>
 
             <div className="space-y-6">
               <div>
@@ -140,7 +140,7 @@ export function EffectSimulator() {
                     <BarChart3 className="w-4 h-4 text-[#448CFF]" aria-hidden="true" />
                     월간 케이스
                   </label>
-                  <span className="text-sm font-bold text-[#448CFF]">{monthlyCases.toLocaleString()}</span>
+                  <span className="text-sm font-semibold text-[#448CFF]">{monthlyCases.toLocaleString()}</span>
                 </div>
                 <Slider value={[monthlyCases]} onValueChange={(value) => setMonthlyCases(value[0])} min={100} max={10000} step={100} className="w-full" aria-label="월간 케이스 수" />
                 <div className="flex justify-between mt-1 text-xs text-[#777A86]">
@@ -155,7 +155,7 @@ export function EffectSimulator() {
                     <Clock className="w-4 h-4 text-[#448CFF]" aria-hidden="true" />
                     평균 처리 시간 (분)
                   </label>
-                  <span className="text-sm font-bold text-[#448CFF]">{avgHandleTime}분</span>
+                  <span className="text-sm font-semibold text-[#448CFF]">{avgHandleTime}분</span>
                 </div>
                 <Slider value={[avgHandleTime]} onValueChange={(value) => setAvgHandleTime(value[0])} min={5} max={120} step={5} className="w-full" aria-label="평균 처리 시간" />
                 <div className="flex justify-between mt-1 text-xs text-[#777A86]">
@@ -170,7 +170,7 @@ export function EffectSimulator() {
                     <Users className="w-4 h-4 text-[#448CFF]" aria-hidden="true" />
                     직원 수
                   </label>
-                  <span className="text-sm font-bold text-[#448CFF]">{staffCount}명</span>
+                  <span className="text-sm font-semibold text-[#448CFF]">{staffCount}명</span>
                 </div>
                 <Slider value={[staffCount]} onValueChange={(value) => setStaffCount(value[0])} min={1} max={100} step={1} className="w-full" aria-label="직원 수" />
                 <div className="flex justify-between mt-1 text-xs text-[#777A86]">
@@ -185,7 +185,7 @@ export function EffectSimulator() {
                     <DollarSign className="w-4 h-4 text-[#448CFF]" aria-hidden="true" />
                     시간당 비용 (원)
                   </label>
-                  <span className="text-sm font-bold text-[#448CFF]">{hourlyRate.toLocaleString()}원</span>
+                  <span className="text-sm font-semibold text-[#448CFF]">{hourlyRate.toLocaleString()}원</span>
                 </div>
                 <Slider value={[hourlyRate]} onValueChange={(value) => setHourlyRate(value[0])} min={15000} max={100000} step={5000} className="w-full" aria-label="시간당 비용" />
                 <div className="flex justify-between mt-1 text-xs text-[#777A86]">
@@ -198,7 +198,7 @@ export function EffectSimulator() {
 
           {/* Results Panel */}
           <div className="p-5 rounded-xl bg-gradient-to-br from-[#448CFF] to-[#68A1FF] text-white">
-            <h3 className="text-base font-bold mb-5 flex items-center gap-2">
+            <h3 className="text-base font-semibold mb-5 flex items-center gap-2">
               <Zap className="w-5 h-5" aria-hidden="true" />
               INNO-HI 적용 시
             </h3>
@@ -211,7 +211,7 @@ export function EffectSimulator() {
                     <span className="text-sm text-white/90">월간 절약 시간</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold">{result.timeSaved}시간</div>
+                    <div className="text-xl font-semibold">{result.timeSaved}시간</div>
                     <div className="text-xs text-white/70">1인당 ~{Math.round(result.timeSaved / staffCount)}시간</div>
                   </div>
                 </div>
@@ -224,7 +224,7 @@ export function EffectSimulator() {
                     <span className="text-sm text-white/90">월간 비용 절감</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold">{(result.costSaved * 1000).toLocaleString()}원</div>
+                    <div className="text-xl font-semibold">{(result.costSaved * 1000).toLocaleString()}원</div>
                     <div className="text-xs text-white/70">연간 {(result.costSaved * 12000).toLocaleString()}원</div>
                   </div>
                 </div>
@@ -237,7 +237,7 @@ export function EffectSimulator() {
                     <span className="text-sm text-white/90">효율성 향상</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold">+{result.efficiencyGain}%</div>
+                    <div className="text-xl font-semibold">+{result.efficiencyGain}%</div>
                     <div className="text-xs text-white/70">프로세스 처리량</div>
                   </div>
                 </div>
@@ -250,7 +250,7 @@ export function EffectSimulator() {
                     <span className="text-sm text-white/90">잠재적 월간 처리량</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-xl font-bold">{result.casesProcessed.toLocaleString()}</div>
+                    <div className="text-xl font-semibold">{result.casesProcessed.toLocaleString()}</div>
                     <div className="text-xs text-white/70">+50% 용량</div>
                   </div>
                 </div>
@@ -264,7 +264,7 @@ export function EffectSimulator() {
                   const element = document.querySelector('#contact');
                   if (element) element.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="w-full py-3 rounded-lg bg-white text-[#448CFF] font-bold hover:bg-white/90 transition-colors"
+                className="w-full py-3 rounded-lg bg-white text-[#448CFF] font-semibold hover:bg-white/90 transition-colors"
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
               >

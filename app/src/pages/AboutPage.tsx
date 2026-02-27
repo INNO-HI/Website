@@ -117,7 +117,7 @@ function AboutMission({ lang }: { lang: 'ko' | 'en' }) {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-sm font-black text-[#448CFF] tracking-widest uppercase mb-8"
+          className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-8"
         >
           {lang === 'ko' ? '우리의 미션' : 'Our Mission'}
         </motion.p>
@@ -135,7 +135,7 @@ function AboutMission({ lang }: { lang: 'ko' | 'en' }) {
           }}
         >
           <h2
-            className="font-black text-[#444B52] leading-[1.15] tracking-tight mb-6"
+            className="font-semibold text-[#444B52] leading-[1.15] tracking-tight mb-6"
             style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.6rem)' }}
           >
             {lang === 'ko' ? (
@@ -161,13 +161,13 @@ function AboutMission({ lang }: { lang: 'ko' | 'en' }) {
                 className="text-center p-3 rounded-2xl"
                 style={{ background: 'rgba(68,140,255,0.06)' }}
               >
-                <div className="text-xl sm:text-2xl font-black text-[#444B52] tracking-tight mb-0.5">
+                <div className="text-xl sm:text-2xl font-semibold text-[#444B52] tracking-tight mb-0.5">
                   <CountUp to={s.numeric} suffix={s.suffix} duration={1.8} />
                 </div>
-                <div className="text-[10px] font-semibold text-[#9CA3AF] mb-1">
+                <div className="text-[10px] font-medium text-[#9CA3AF] mb-1">
                   {lang === 'ko' ? s.labelKo : s.labelEn}
                 </div>
-                <div className="text-[10px] font-bold text-emerald-500">{s.trend}</div>
+                <div className="text-[10px] font-semibold text-emerald-500">{s.trend}</div>
               </motion.div>
             ))}
           </div>
@@ -177,74 +177,57 @@ function AboutMission({ lang }: { lang: 'ko' | 'en' }) {
   );
 }
 
-// ── 수직 타임라인 (좌우 교차형) ──────────────────────────────────────
+// ── 타임라인 ──────────────────────────────────────────────────────────
 
 const timeline = [
-  { year: '2022', eventKo: '이노하이 창업\n복지 현장 AI 인프라 비전 수립', eventEn: 'INNO-HI founded\nVision for care sector AI infrastructure' },
-  { year: '2023', eventKo: '서울시 복지관 파일럿 도입\n음성 인식 엔진 v1 출시', eventEn: 'Pilot in Seoul welfare centers\nVoice recognition engine v1 released' },
-  { year: '2024', eventKo: '전국 17개 기관 확산\n예측 분석 모듈 출시', eventEn: 'Expanded to 17 institutions nationwide\nPredictive analytics module launched' },
-  { year: '2025', eventKo: '의료·공공 부문 진출\n5,000만건 데이터 처리 달성', eventEn: 'Entered healthcare & public sector\n50M data records processed' },
+  {
+    year: '2022',
+    tagKo: '시작', tagEn: 'Founded',
+    titleKo: '이노하이 창업', titleEn: 'INNO-HI Founded',
+    descKo: '복지 현장의 종사자 번아웃이라는 문제를 발견하고, AI 인프라로 해결하겠다는 비전을 세웠습니다.',
+    descEn: 'Identified caregiver burnout in welfare and set the vision for AI-powered infrastructure.',
+    highlight: '비전 수립',
+    highlightEn: 'Vision Set',
+    color: '#448CFF',
+  },
+  {
+    year: '2023',
+    tagKo: '검증', tagEn: 'Validated',
+    titleKo: '서울시 복지관 파일럿', titleEn: 'Seoul Welfare Pilot',
+    descKo: '서울시 종합사회복지관에 파일럿 도입. 음성 인식 엔진 v1을 출시하며 현장 검증을 완료했습니다.',
+    descEn: 'Piloted in Seoul welfare centers. Released voice recognition engine v1 and completed field validation.',
+    highlight: '음성 엔진 v1',
+    highlightEn: 'Voice Engine v1',
+    color: '#6366F1',
+  },
+  {
+    year: '2024',
+    tagKo: '확장', tagEn: 'Scaled',
+    titleKo: '전국 17개 기관 확산', titleEn: '17 Institutions Nationwide',
+    descKo: '전국 공공·복지 기관으로 확산. 예측 분석 모듈을 출시하며 데이터 기반 의사결정을 지원합니다.',
+    descEn: 'Expanded nationwide across public and welfare institutions. Launched predictive analytics module.',
+    highlight: '예측 분석 모듈',
+    highlightEn: 'Analytics Module',
+    color: '#10B981',
+  },
+  {
+    year: '2025',
+    tagKo: '도약', tagEn: 'Leap',
+    titleKo: '의료·공공 부문 진출', titleEn: 'Healthcare & Public Sector',
+    descKo: '의료·공공 부문에 본격 진출. 누적 5,000만건 데이터 처리를 달성하며 업계 레퍼런스를 확보했습니다.',
+    descEn: 'Full entry into healthcare and public sectors. Reached 50M cumulative data records processed.',
+    highlight: '5,000만건 처리',
+    highlightEn: '50M Records',
+    color: '#F59E0B',
+  },
 ];
-
-function TimelineItem({ item, index, lang, isLast }: {
-  item: typeof timeline[0]; index: number; lang: 'ko' | 'en'; isLast: boolean;
-}) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
-  const isLeft = index % 2 === 0;
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay: index * 0.12 }}
-      className="relative grid grid-cols-[1fr_60px_1fr] items-start"
-    >
-      <div className={`py-8 pr-8 ${isLeft ? '' : 'invisible'}`}>
-        {isLeft && (
-          <div className="text-right">
-            <p className="text-xs font-black text-[#448CFF] mb-2">{item.year}</p>
-            <p className="text-[15px] text-[#4B4E56] leading-relaxed font-medium whitespace-pre-line">
-              {lang === 'ko' ? item.eventKo : item.eventEn}
-            </p>
-          </div>
-        )}
-      </div>
-      <div className="flex flex-col items-center">
-        <div className="w-11 h-11 rounded-2xl bg-[#EEF4FF] border-2 border-[#C7DEFF] flex items-center justify-center flex-shrink-0 z-10 mt-8">
-          <span className="text-xs font-black text-[#448CFF]">{item.year}</span>
-        </div>
-        {!isLast && (
-          <motion.div
-            className="w-0.5 bg-[#D3D8DF] mt-1"
-            initial={{ scaleY: 0, originY: 0 }}
-            animate={inView ? { scaleY: 1 } : {}}
-            transition={{ duration: 0.6, delay: index * 0.12 + 0.3 }}
-            style={{ minHeight: 56 }}
-          />
-        )}
-      </div>
-      <div className={`py-8 pl-8 ${!isLeft ? '' : 'invisible'}`}>
-        {!isLeft && (
-          <div>
-            <p className="text-xs font-black text-[#448CFF] mb-2">{item.year}</p>
-            <p className="text-[15px] text-[#4B4E56] leading-relaxed font-medium whitespace-pre-line">
-              {lang === 'ko' ? item.eventKo : item.eventEn}
-            </p>
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-}
 
 function Timeline({ lang }: { lang: 'ko' | 'en' }) {
   const headerRef = useRef(null);
   const headerInView = useInView(headerRef, { once: true, margin: '-60px' });
 
   return (
-    <section className="bg-white py-24 lg:py-32">
+    <section className="bg-white py-24 lg:py-32 overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
         <motion.div
           ref={headerRef}
@@ -253,45 +236,122 @@ function Timeline({ lang }: { lang: 'ko' | 'en' }) {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-black text-[#448CFF] tracking-widest uppercase mb-4">
+          <p className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-4">
             {lang === 'ko' ? '이노하이의 여정' : "INNO-HI's Journey"}
           </p>
           <h2
-            className="font-black text-[#444B52] leading-tight tracking-tight"
+            className="font-semibold text-[#444B52] leading-tight tracking-tight"
             style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.6rem)' }}
           >
-            {lang === 'ko' ? (<>작은 시작,<br />큰 변화</>) : (<>Small Start,<br />Big Change</>)}
+            {lang === 'ko' ? (<>작은 시작,<br /><span className="gradient-text">큰 변화</span></>) : (<>Small Start,<br /><span className="gradient-text">Big Change</span></>)}
           </h2>
         </motion.div>
 
-        <div>
-          {timeline.map((item, i) => (
-            <TimelineItem key={item.year} item={item} index={i} lang={lang} isLast={i === timeline.length - 1} />
-          ))}
-          <motion.div
-            className="relative grid grid-cols-[1fr_60px_1fr] items-start"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, delay: timeline.length * 0.12 }}
-          >
-            <div />
-            <div className="flex flex-col items-center pt-8">
-              <div className="w-11 h-11 rounded-2xl border-2 border-dashed border-[#448CFF] flex items-center justify-center flex-shrink-0">
+        {/* 타임라인 카드 */}
+        <div className="relative">
+          {/* 중앙 연결선 (데스크톱) */}
+          <div className="hidden lg:block absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#448CFF]/20 via-[#6366F1]/20 to-[#F59E0B]/20" />
+
+          <div className="space-y-6 lg:space-y-0">
+            {timeline.map((item, i) => {
+              const ref = useRef(null);
+              const inView = useInView(ref, { once: true, margin: '-60px' });
+              return (
                 <motion.div
-                  className="w-3 h-3 rounded-full bg-[#448CFF]"
-                  animate={{ opacity: [1, 0.3, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
+                  key={item.year}
+                  ref={ref}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="relative lg:pl-20 lg:py-6"
+                >
+                  {/* 연도 노드 (데스크톱) */}
+                  <div className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 items-center">
+                    <div
+                      className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg"
+                      style={{ background: `linear-gradient(135deg, ${item.color}, ${item.color}dd)` }}
+                    >
+                      {item.year.slice(2)}
+                    </div>
+                  </div>
+
+                  {/* 카드 */}
+                  <div
+                    className="relative rounded-2xl p-6 lg:p-8 border bg-white hover:shadow-xl transition-all duration-300 group"
+                    style={{ borderColor: item.color + '25' }}
+                  >
+                    {/* 상단 악센트 라인 */}
+                    <div className="absolute top-0 left-6 right-6 h-[3px] rounded-full" style={{ background: `linear-gradient(90deg, ${item.color}, transparent)` }} />
+
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                      {/* 연도 (모바일) */}
+                      <div
+                        className="lg:hidden w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-base flex-shrink-0"
+                        style={{ background: item.color }}
+                      >
+                        {item.year.slice(2)}
+                      </div>
+
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full" style={{ background: item.color + '15', color: item.color }}>
+                            {lang === 'ko' ? item.tagKo : item.tagEn}
+                          </span>
+                          <span className="text-xs text-[#9CA3AF] font-medium">{item.year}</span>
+                        </div>
+                        <h3 className="text-lg font-semibold text-[#383838] mb-2">
+                          {lang === 'ko' ? item.titleKo : item.titleEn}
+                        </h3>
+                        <p className="text-sm text-[#4B4E56] leading-relaxed font-medium mb-3">
+                          {lang === 'ko' ? item.descKo : item.descEn}
+                        </p>
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold" style={{ background: item.color + '10', color: item.color }}>
+                          <div className="w-1.5 h-1.5 rounded-full" style={{ background: item.color }} />
+                          {lang === 'ko' ? item.highlight : item.highlightEn}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+
+            {/* 현재 진행 중 */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="relative lg:pl-20 lg:py-6"
+            >
+              <div className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 items-center">
+                <div className="w-16 h-16 rounded-2xl border-2 border-dashed border-[#448CFF] flex items-center justify-center">
+                  <motion.div
+                    className="w-4 h-4 rounded-full bg-[#448CFF]"
+                    animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="pt-10 pl-8">
-              <p className="text-xs font-black text-[#9CA3AF] mb-1.5">2026</p>
-              <span className="inline-block text-xs font-black text-[#448CFF] bg-[#EEF4FF] px-3 py-1 rounded-full">
-                {lang === 'ko' ? '현재 진행 중' : 'In Progress'}
-              </span>
-            </div>
-          </motion.div>
+              <div className="rounded-2xl p-6 lg:p-8 border-2 border-dashed border-[#448CFF]/30 bg-[#EEF4FF]/50">
+                <div className="flex items-center gap-3">
+                  <div className="lg:hidden w-14 h-14 rounded-xl border-2 border-dashed border-[#448CFF] flex items-center justify-center flex-shrink-0">
+                    <motion.div
+                      className="w-3 h-3 rounded-full bg-[#448CFF]"
+                      animate={{ opacity: [1, 0.3, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-[#9CA3AF] mb-1">2026</p>
+                    <span className="inline-block text-sm font-semibold text-[#448CFF]">
+                      {lang === 'ko' ? '더 큰 변화를 준비하고 있습니다 →' : 'Preparing for bigger change →'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
@@ -359,7 +419,7 @@ const coreValues = [
   },
 ];
 
-function ValueCard({ v, lang }: { v: typeof coreValues[0]; lang: 'ko' | 'en' }) {
+function ValueCard({ v, index, lang }: { v: typeof coreValues[0]; index: number; lang: 'ko' | 'en' }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   return (
@@ -367,28 +427,44 @@ function ValueCard({ v, lang }: { v: typeof coreValues[0]; lang: 'ko' | 'en' }) 
       ref={ref}
       initial={{ opacity: 0, y: 36 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6 }}
-      className="group relative rounded-3xl overflow-hidden bg-white border border-[#EAEDF2] hover:shadow-xl transition-all duration-300"
+      transition={{ duration: 0.6, delay: index * 0.12 }}
+      className="group relative"
     >
-      <div className="relative flex items-center justify-center pt-10 pb-6" style={{ background: v.bg }}>
-        <div className="w-20 h-20"><v.Svg /></div>
-        <div
-          className="absolute top-5 right-5 px-3 py-1 rounded-full text-xs font-bold"
-          style={{ background: v.color + '20', color: v.color }}
-        >
-          {lang === 'ko' ? v.accentKo : v.accentEn}
+      {/* 배경 그라데이션 글로우 */}
+      <div
+        className="absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"
+        style={{ background: `linear-gradient(135deg, ${v.color}30, transparent, ${v.color}15)` }}
+      />
+      <div className="relative rounded-3xl overflow-hidden bg-white border border-[#EAEDF2] group-hover:border-transparent group-hover:shadow-2xl transition-all duration-500">
+        {/* 상단 컬러 배경 */}
+        <div className="relative px-7 pt-8 pb-6" style={{ background: `linear-gradient(135deg, ${v.bg}, white)` }}>
+          <div className="flex items-start justify-between">
+            <div className="w-16 h-16"><v.Svg /></div>
+            <span className="text-5xl font-black leading-none" style={{ color: v.color + '12' }}>
+              0{index + 1}
+            </span>
+          </div>
+          <div
+            className="inline-block mt-3 px-3 py-1 rounded-full text-xs font-semibold"
+            style={{ background: v.color + '18', color: v.color }}
+          >
+            {lang === 'ko' ? v.accentKo : v.accentEn}
+          </div>
         </div>
+
+        <div className="p-7 lg:p-8">
+          <h3 className="font-semibold text-[#383838] leading-tight tracking-tight mb-4 whitespace-pre-line"
+            style={{ fontSize: 'clamp(1.15rem, 2vw, 1.45rem)' }}>
+            {lang === 'ko' ? v.titleKo : v.titleEn}
+          </h3>
+          <p className="text-[14px] text-[#4B4E56] leading-relaxed font-medium">
+            {lang === 'ko' ? v.descKo : v.descEn}
+          </p>
+        </div>
+
+        {/* 하단 그라데이션 라인 */}
+        <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, ${v.color}, ${v.color}40)` }} />
       </div>
-      <div className="p-7 lg:p-8">
-        <h3 className="font-black text-[#444B52] leading-tight tracking-tight mb-4 whitespace-pre-line"
-          style={{ fontSize: 'clamp(1.2rem, 2vw, 1.6rem)' }}>
-          {lang === 'ko' ? v.titleKo : v.titleEn}
-        </h3>
-        <p className="text-[14px] text-[#4B4E56] leading-relaxed font-medium">
-          {lang === 'ko' ? v.descKo : v.descEn}
-        </p>
-      </div>
-      <div className="h-1 w-full" style={{ background: v.color }} />
     </motion.div>
   );
 }
@@ -405,10 +481,10 @@ function ValuesSection({ lang }: { lang: 'ko' | 'en' }) {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <p className="text-sm font-black text-[#448CFF] tracking-widest uppercase mb-4">
+          <p className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-4">
             {lang === 'ko' ? '우리가 지향하는 것' : 'What We Stand For'}
           </p>
-          <h2 className="font-black text-[#444B52] leading-tight tracking-tight"
+          <h2 className="font-semibold text-[#444B52] leading-tight tracking-tight mb-4"
             style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.6rem)' }}>
             {lang === 'ko' ? (
               <>기술이 아니라<br /><span className="gradient-text">가치로 만든 회사</span></>
@@ -416,9 +492,14 @@ function ValuesSection({ lang }: { lang: 'ko' | 'en' }) {
               <>A company built on values,<br /><span className="gradient-text">not just technology</span></>
             )}
           </h2>
+          <p className="text-sm text-[#9CA3AF] font-medium max-w-md mx-auto">
+            {lang === 'ko'
+              ? '세 가지 핵심 가치가 이노하이의 모든 결정을 이끕니다'
+              : 'Three core values guide every decision at INNO-HI'}
+          </p>
         </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {coreValues.map((v, i) => <ValueCard key={i} v={v} lang={lang} />)}
+          {coreValues.map((v, i) => <ValueCard key={i} v={v} index={i} lang={lang} />)}
         </div>
       </div>
     </section>
@@ -436,7 +517,7 @@ export function AboutPage() {
 
   return (
     <div className="relative min-h-screen bg-white">
-      <a href="#main-content" className="skip-to-content">본문으로 바로가기</a>
+      <a href="#main-content" className="skip-to-content">{lang === 'ko' ? '본문으로 바로가기' : 'Skip to main content'}</a>
       <Navigation />
       <main id="main-content">
 
@@ -453,7 +534,7 @@ export function AboutPage() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-block text-sm font-black mb-5 tracking-widest uppercase text-[#448CFF]"
+              className="inline-block text-sm font-semibold mb-5 tracking-widest uppercase text-[#448CFF]"
             >
               INNO-HI
             </motion.span>
@@ -461,7 +542,7 @@ export function AboutPage() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-black text-[#444B52] leading-[1.15] tracking-tight mb-6"
+              className="font-semibold text-[#444B52] leading-[1.15] tracking-tight mb-6"
               style={{ fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}
             >
               {lang === 'ko' ? (

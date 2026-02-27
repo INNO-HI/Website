@@ -2,29 +2,20 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 
-// 파트너 기관 목록 — 로고 이미지로 교체 시 PartnerLogo 내 <span>을 <img>로 교체
-// <img src="/logos/seoul.png" alt="서울특별시" className="h-7 object-contain" />
-const partners = [
-  { nameKo: '서울특별시', nameEn: 'Seoul City' },
-  { nameKo: '국민건강보험공단', nameEn: 'NHIS' },
-  { nameKo: '사회보장정보원', nameEn: 'SSIS' },
-  { nameKo: '한국사회복지관협회', nameEn: 'KASW' },
-  { nameKo: '경기도의료원', nameEn: 'Gyeonggi Medical' },
-  { nameKo: '보건복지부', nameEn: 'MOHW' },
-  { nameKo: '서울복지재단', nameEn: 'Seoul Welfare' },
-  { nameKo: '경기사회서비스원', nameEn: 'Gyeonggi SSA' },
-  { nameKo: '인천광역시', nameEn: 'Incheon City' },
-  { nameKo: '부산광역시', nameEn: 'Busan City' },
-  { nameKo: '국립중앙의료원', nameEn: 'NMC' },
-  { nameKo: '건강보험심사평가원', nameEn: 'HIRA' },
-  { nameKo: '한국장애인복지관협회', nameEn: 'KAWRD' },
-  { nameKo: '정신건강복지센터', nameEn: 'Mental Health Center' },
-  { nameKo: '지역아동센터협의회', nameEn: 'CCAP' },
-  { nameKo: '한국사회복지사협회', nameEn: 'KASW Assoc.' },
-  { nameKo: '사회복지공동모금회', nameEn: 'Community Chest' },
-  { nameKo: '대구광역시', nameEn: 'Daegu City' },
-  { nameKo: '광주광역시', nameEn: 'Gwangju City' },
-  { nameKo: '노인장기요양보험', nameEn: 'Long-term Care Ins.' },
+import kepcoMcsLogo from '@/assets/partners/kepco-mcs.png';
+import donggukLogo from '@/assets/partners/dongguk.png';
+import bodymapLogo from '@/assets/partners/bodymap.png';
+import seoulAiLogo from '@/assets/partners/seoul-ai.jpg';
+import yangcheonLogo from '@/assets/partners/yangcheon.jpg';
+import ssisLogo from '@/assets/partners/ssis.svg';
+
+const partnerLogos = [
+  { src: kepcoMcsLogo, alt: '한전MCS', altEn: 'KEPCO MCS', height: 'h-8' },
+  { src: ssisLogo, alt: '한국사회보장정보원', altEn: 'SSIS', height: 'h-8' },
+  { src: seoulAiLogo, alt: '서울AI재단', altEn: 'Seoul AI Foundation', height: 'h-8' },
+  { src: yangcheonLogo, alt: '양천구청', altEn: 'Yangcheon District', height: 'h-12' },
+  { src: donggukLogo, alt: '동국대학교', altEn: 'Dongguk University', height: 'h-8' },
+  { src: bodymapLogo, alt: '바디맵', altEn: 'Bodymap', height: 'h-8' },
 ];
 
 const testimonials = [
@@ -46,13 +37,14 @@ const testimonials = [
   },
 ];
 
-function PartnerChip({ nameKo, nameEn, lang }: { nameKo: string; nameEn: string; lang: 'ko' | 'en' }) {
+function PartnerChip({ logo, lang }: { logo: typeof partnerLogos[number]; lang: 'ko' | 'en' }) {
   return (
-    <div className="flex-shrink-0 flex items-center justify-center px-5 py-3 rounded-xl bg-white border border-[#EAEDF2] mx-2" style={{ minWidth: 140 }}>
-      {/* 로고 이미지 넣을 자리 — 아래 span을 <img> 태그로 교체하세요 */}
-      <span className="text-sm font-bold text-[#B0BAC8] whitespace-nowrap select-none">
-        {lang === 'ko' ? nameKo : nameEn}
-      </span>
+    <div className="flex-shrink-0 flex items-center justify-center px-6 py-3 rounded-xl bg-white border border-[#EAEDF2] mx-2" style={{ minWidth: 160, height: 56 }}>
+      <img
+        src={logo.src}
+        alt={lang === 'ko' ? logo.alt : logo.altEn}
+        className={`${logo.height} w-auto max-w-[120px] object-contain`}
+      />
     </div>
   );
 }
@@ -62,8 +54,8 @@ export function SocialProof() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const { lang } = useLanguage();
 
-  // 무한루프를 위해 두 번 복사
-  const doubled = [...partners, ...partners];
+  // 무한루프를 위해 복사 (6개 → 12개 → 24개로 넉넉하게)
+  const quadrupled = [...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos];
 
   return (
     <section ref={ref} className="bg-[#F8F9FD] py-20 lg:py-28 overflow-hidden">
@@ -77,7 +69,7 @@ export function SocialProof() {
           className="text-center mb-10"
         >
           <p
-            className="font-black text-[#1A1D2E] mb-2"
+            className="font-semibold text-[#1A1D2E] mb-2"
             style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)', letterSpacing: '-0.02em' }}
           >
             {lang === 'ko' ? '함께하는 기관' : 'Trusted Partners'}
@@ -89,35 +81,32 @@ export function SocialProof() {
           </p>
         </motion.div>
 
-        {/* 무한 스크롤 마키 */}
+        {/* 무한 스크롤 마키 — 1열 */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative mb-3"
         >
-          {/* 좌측 페이드 */}
           <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(to right, #F8F9FD, transparent)' }} />
-          {/* 우측 페이드 */}
           <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(to left, #F8F9FD, transparent)' }} />
-          {/* 마키 */}
           <div className="overflow-hidden">
             <div className="flex animate-marquee">
-              {doubled.map((p, i) => (
-                <PartnerChip key={i} nameKo={p.nameKo} nameEn={p.nameEn} lang={lang} />
+              {quadrupled.map((logo, i) => (
+                <PartnerChip key={i} logo={logo} lang={lang} />
               ))}
             </div>
           </div>
         </motion.div>
 
-        {/* 두 번째 역방향 마키 */}
+        {/* 무한 스크롤 마키 — 2열 역방향 */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.35 }}
-          className="relative mb-10"
+          className="relative mb-14"
         >
           <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(to right, #F8F9FD, transparent)' }} />
@@ -125,50 +114,57 @@ export function SocialProof() {
             style={{ background: 'linear-gradient(to left, #F8F9FD, transparent)' }} />
           <div className="overflow-hidden">
             <div className="flex animate-marquee-reverse">
-              {doubled.map((p, i) => (
-                <PartnerChip key={i} nameKo={p.nameKo} nameEn={p.nameEn} lang={lang} />
+              {quadrupled.map((logo, i) => (
+                <PartnerChip key={i} logo={logo} lang={lang} />
               ))}
             </div>
           </div>
         </motion.div>
 
-        <p className="text-center text-xs text-[#D3D8DF] mb-14">
-          {lang === 'ko' ? '* 로고 이미지는 추후 업데이트 예정입니다' : '* Partner logos will be updated soon'}
-        </p>
-
         {/* 구분선 */}
         <div className="h-px bg-[#EAEDF2] mb-14" />
 
-        {/* 인용문 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {testimonials.map((t, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.15 + 0.3 }}
-              className="bg-white rounded-2xl p-8 border border-[#EAEDF2] shadow-sm"
-            >
-              <div className="text-4xl font-black text-[#448CFF] leading-none mb-5 select-none">"</div>
-              <p className="text-[15px] text-[#4B4E56] leading-relaxed mb-7 font-medium">
-                {lang === 'ko' ? t.quoteKo : t.quoteEn}
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#EEF4FF] flex items-center justify-center text-sm font-bold text-[#448CFF]">
-                  {(lang === 'ko' ? t.authorKo : t.authorEn).charAt(0)}
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-[#383838]">
-                    {lang === 'ko' ? t.authorKo : t.authorEn}
+        {/* 인용문 마키 슬라이드 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="relative"
+        >
+          <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to right, #F8F9FD, transparent)' }} />
+          <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to left, #F8F9FD, transparent)' }} />
+          <div className="overflow-hidden">
+            <div className="flex animate-marquee-reverse" style={{ animationDuration: '45s' }}>
+              {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((t, i) => (
+                <div
+                  key={i}
+                  className="flex-shrink-0 bg-white rounded-2xl p-7 border border-[#EAEDF2] shadow-sm mx-2.5"
+                  style={{ width: 360 }}
+                >
+                  <div className="text-3xl font-semibold text-[#448CFF] leading-none mb-4 select-none">"</div>
+                  <p className="text-[14px] text-[#4B4E56] leading-relaxed mb-6 font-medium line-clamp-4">
+                    {lang === 'ko' ? t.quoteKo : t.quoteEn}
                   </p>
-                  <p className="text-xs text-[#9CA3AF]">
-                    {lang === 'ko' ? t.orgKo : t.orgEn}
-                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-[#EEF4FF] flex items-center justify-center text-sm font-semibold text-[#448CFF]">
+                      {(lang === 'ko' ? t.authorKo : t.authorEn).charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#383838]">
+                        {lang === 'ko' ? t.authorKo : t.authorEn}
+                      </p>
+                      <p className="text-xs text-[#9CA3AF]">
+                        {lang === 'ko' ? t.orgKo : t.orgEn}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
       </div>
     </section>
