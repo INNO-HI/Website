@@ -2,20 +2,24 @@ import { useEffect } from 'react';
 import { Hero } from '@/sections/Hero';
 import { Solution } from '@/sections/Solution';
 import { SocialProof } from '@/sections/SocialProof';
+import { PressSection } from '@/sections/PressSection';
 import { CTA } from '@/sections/CTA';
 import { FloatingCTA } from '@/components/FloatingCTA';
 
 export function MainPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.documentElement.classList.add('snap-scroll');
+    return () => document.documentElement.classList.remove('snap-scroll');
   }, []);
 
   return (
     <>
       <main id="main-content">
         <Hero />
-        <Solution />
         <SocialProof />
+        <Solution />
+        <PressSection />
         <CTA />
       </main>
       <FloatingCTA />
