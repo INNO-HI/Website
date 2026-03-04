@@ -14,7 +14,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { labelKo: '회사 소개', labelEn: 'About', path: '/about' },
   { labelKo: '서비스 소개', labelEn: 'Services', path: '/services' },
-  { labelKo: '도입 사례', labelEn: 'Cases', path: '/cases' },
+  // { labelKo: '도입 사례', labelEn: 'Cases', path: '/cases' },
   { labelKo: '공고사항', labelEn: 'Announcements', path: '/notice' },
 ];
 

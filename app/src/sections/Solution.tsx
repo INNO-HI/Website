@@ -611,7 +611,7 @@ function SolutionBridge({ lang }: { lang: 'ko' | 'en' }) {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <div ref={ref} className="relative bg-gradient-to-b from-white via-[#F4F8FF] to-white py-24 lg:py-32 overflow-hidden">
+    <div ref={ref} className="relative bg-gradient-to-b from-white via-[#F4F8FF] to-white min-h-screen flex items-center overflow-hidden">
       {/* 배경 블러 */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] rounded-full pointer-events-none"
@@ -619,92 +619,56 @@ function SolutionBridge({ lang }: { lang: 'ko' | 'en' }) {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
+      <div className="relative z-10 w-full max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14 text-center">
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-10"
+          className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-8"
         >
           {lang === 'ko' ? '이노하이 솔루션' : 'INNO-HI Solution'}
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.97 }}
-          animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="relative rounded-3xl px-10 py-12 lg:px-16 lg:py-16 mx-auto"
-          style={{
-            background: 'rgba(255,255,255,0.72)',
-            backdropFilter: 'blur(28px)',
-            border: '1.5px solid rgba(255,255,255,0.95)',
-            boxShadow: '0 24px 80px rgba(68,140,255,0.12), 0 2px 8px rgba(0,0,0,0.04)',
-          }}
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="font-bold text-[#191F28] leading-[1.25] tracking-tight mb-10"
+          style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
         >
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="font-semibold text-[#444B52] leading-[1.18] tracking-tight mb-7"
-            style={{ fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)' }}
-          >
-            {lang === 'ko' ? (
-              <>
-                흩어진 업무를<br />
-                <span className="gradient-text">하나의 AX 인프라</span>로 연결하세요.
-              </>
-            ) : (
-              <>
-                Connect scattered work into<br />
-                <span className="gradient-text">one AX infrastructure</span>.
-              </>
-            )}
-          </motion.h2>
+          {lang === 'ko' ? (
+            <>
+              흩어진 업무를<br />
+              <span className="gradient-text">하나의 AX 인프라</span>로 연결하세요.
+            </>
+          ) : (
+            <>
+              Connect scattered work into<br />
+              <span className="gradient-text">one AX infrastructure</span>.
+            </>
+          )}
+        </motion.h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="text-[17px] text-[#4B4E56] max-w-2xl mx-auto leading-relaxed font-medium mb-10"
-          >
-            {lang === 'ko' ? (
-              <>
-                말과 기록으로 남아 있던 현장의 데이터,<br />
-                이노하이가 자동으로 구조화하고 실행까지 이어드립니다.<br />
-                이제 사람은 더 중요한 일에 집중할 수 있습니다.
-              </>
-            ) : (
-              <>
-                Field data trapped in speech and notes —<br />
-                INNO-HI automatically structures it and drives action.<br />
-                Now people can focus on what truly matters.
-              </>
-            )}
-          </motion.p>
-
-          {/* 핵심 지표 3개 */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="grid grid-cols-3 gap-4 lg:gap-8"
-          >
-            {[
-              { value: '98.5%', labelKo: '인식 정확도', labelEn: 'Recognition Accuracy' },
-              { value: '85%', labelKo: '시간 절감', labelEn: 'Time Saved' },
-              { value: '90%', labelKo: '자동화율', labelEn: 'Automation Rate' },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="font-semibold text-[#448CFF] tracking-tight" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.4rem)' }}>
-                  {stat.value}
-                </p>
-                <p className="text-sm text-[#777A86] font-medium mt-1">
-                  {lang === 'ko' ? stat.labelKo : stat.labelEn}
-                </p>
-              </div>
-            ))}
-          </motion.div>
-        </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-[18px] lg:text-[20px] text-[#4E5968] max-w-3xl mx-auto leading-[1.8]"
+        >
+          {lang === 'ko' ? (
+            <>
+              말과 기록으로 남아 있던 현장의 데이터,<br />
+              이노하이가 자동으로 구조화하고 실행까지 이어드립니다.<br />
+              이제 사람은 더 중요한 일에 집중할 수 있습니다.
+            </>
+          ) : (
+            <>
+              Field data trapped in speech and notes —<br />
+              INNO-HI automatically structures it and drives action.<br />
+              Now people can focus on what truly matters.
+            </>
+          )}
+        </motion.p>
       </div>
     </div>
   );

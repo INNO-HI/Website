@@ -5,7 +5,7 @@ import logoSrc from '@/assets/logo.png';
 const siteLinks = [
   { labelKo: '회사 소개', labelEn: 'About', href: '/about' },
   { labelKo: '서비스 소개', labelEn: 'Services', href: '/services' },
-  { labelKo: '도입 사례', labelEn: 'Case Studies', href: '/cases' },
+  // { labelKo: '도입 사례', labelEn: 'Case Studies', href: '/cases' },
   { labelKo: '공고사항', labelEn: 'Announcements', href: '/notice' },
 ];
 

@@ -9,7 +9,7 @@ import { MainPage } from '@/pages/MainPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { NoticePage } from '@/pages/NoticePage';
 import { ServicesPage } from '@/pages/ServicesPage';
-import { CasesPage } from '@/pages/CasesPage';
+// import { CasesPage } from '@/pages/CasesPage';
 import './App.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,7 +30,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/notice/:id?" element={<NoticePage />} />
           <Route path="/services" element={<ServicesPage />} />
-          <Route path="/cases" element={<CasesPage />} />
+          {/* <Route path="/cases" element={<CasesPage />} /> */}
         </Routes>
         <Footer />
       </div>

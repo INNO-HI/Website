@@ -34,8 +34,8 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
           backgroundPosition: 'center',
         }}
       />
-      {/* 어두운 오버레이 (가독성) */}
-      <div className="absolute inset-0 bg-[#050D1A]/35" />
+      {/* 블루 톤 오버레이 (붉은끼 제거) */}
+      <div className="absolute inset-0 bg-[#0A1A3A]/30" />
 
       <div className="relative z-10 text-center px-6">
         <motion.h1
@@ -51,6 +51,24 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
             <>With technology that understands people deeper,<br />we make the world more intelligent.</>
           )}
         </motion.h1>
+
+        {/* 스크롤 유도 화살표 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="mt-12"
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-10 h-10 rounded-full border-2 border-white/40 flex items-center justify-center mx-auto"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M7 2v10M3 8l4 4 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
+            </svg>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
@@ -370,14 +388,24 @@ function ProblemCard({ p, i, lang }: {
 }) {
   const [active, setActive] = useState(false);
   const cardRef = useRef(null);
-  const cardInView = useInView(cardRef, { once: true, margin: '-50px' });
+  const cardInView = useInView(cardRef, { once: true, margin: '-60px' });
+
+  // 카드별 슬라이드 방향: 좌상, 우상, 좌하, 우하
+  const directions = [
+    { x: -60, y: 40 },
+    { x: 60, y: 40 },
+    { x: -60, y: 40 },
+    { x: 60, y: 40 },
+  ];
+  const dir = directions[i] || { x: 0, y: 40 };
 
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      animate={cardInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: i % 2 === 0 ? 0 : 0.15, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, x: dir.x, y: dir.y, scale: 0.95 }}
+      animate={cardInView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -6, boxShadow: '0 12px 40px rgba(68,140,255,0.12)' }}
       className="relative aspect-[2/1] rounded-2xl cursor-pointer overflow-hidden"
       style={{
         background: '#ffffff',
@@ -387,9 +415,14 @@ function ProblemCard({ p, i, lang }: {
       onClick={() => setActive(!active)}
     >
       {/* 우측 일러스트 배경 */}
-      <div className="absolute right-3 lg:right-5 top-1/2 -translate-y-1/2 w-[38%] aspect-square pointer-events-none opacity-70">
+      <motion.div
+        className="absolute right-3 lg:right-5 top-1/2 -translate-y-1/2 w-[38%] aspect-square pointer-events-none"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={cardInView ? { opacity: 0.7, scale: 1 } : {}}
+        transition={{ duration: 0.8, delay: i * 0.12 + 0.3 }}
+      >
         {problemIllusts[i]}
-      </div>
+      </motion.div>
 
       {/* 기본 상태: from → to */}
       <motion.div
@@ -398,19 +431,34 @@ function ProblemCard({ p, i, lang }: {
         transition={{ duration: 0.3 }}
       >
         <div>
-          <p className="text-[14px] lg:text-[15px] text-[#777A86] leading-relaxed mb-1">
+          <motion.p
+            className="text-[14px] lg:text-[15px] text-[#777A86] leading-relaxed mb-1"
+            initial={{ opacity: 0, y: 10 }}
+            animate={cardInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: i * 0.12 + 0.2 }}
+          >
             {lang === 'ko' ? p.fromKo : p.fromEn}
-          </p>
-          <h3 className="text-[20px] lg:text-[22px] font-bold text-[#191F28] leading-snug">
+          </motion.p>
+          <motion.h3
+            className="text-[20px] lg:text-[22px] font-bold text-[#191F28] leading-snug"
+            initial={{ opacity: 0, y: 10 }}
+            animate={cardInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: i * 0.12 + 0.3 }}
+          >
             {lang === 'ko' ? p.toKo : p.toEn}
-          </h3>
+          </motion.h3>
         </div>
-        <div className="w-8 h-8 rounded-full border-2 border-[#448CFF]/40 flex items-center justify-center">
+        {/* 플러스 버튼: 클릭 시 45도 회전(X로 변환) */}
+        <motion.div
+          className="w-8 h-8 rounded-full border-2 border-[#448CFF]/40 flex items-center justify-center"
+          animate={{ rotate: active ? 45 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <line x1="6" y1="2" x2="6" y2="10" stroke="#448CFF" strokeWidth="2" strokeLinecap="round" />
             <line x1="2" y1="6" x2="10" y2="6" stroke="#448CFF" strokeWidth="2" strokeLinecap="round" />
           </svg>
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* 클릭 시: 불투명 유리 질감 + 설명 */}
@@ -423,8 +471,8 @@ function ProblemCard({ p, i, lang }: {
           border: '1px solid rgba(255,255,255,0.45)',
           boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -1px 1px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.06)',
         }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: active ? 1 : 0 }}
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={active ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.97 }}
         transition={{ duration: 0.35 }}
       >
         <p className="text-[14px] lg:text-[15px] text-[#2D3440] leading-[1.85] whitespace-pre-line">
@@ -496,7 +544,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
           initial={{ opacity: 0, y: 30 }}
           animate={headInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-bold text-[#191F28] text-center leading-[1.3] tracking-tight mb-10 lg:mb-14"
+          className="font-bold text-[#191F28] text-center leading-[1.3] tracking-tight mb-16 lg:mb-20"
           style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
         >
           {lang === 'ko'
@@ -521,18 +569,18 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   const futureValues = [
     {
       titleKo: '지능 엔진', titleEn: 'Intelligence Engine',
-      descKo: '음성, 기록, 환경 데이터를 실시간으로 이해하는 핵심 AI 엔진을 구축합니다.\n\n단일 기능이 아니라, 다양한 서비스에 적용 가능한 공통 지능 기반을 만듭니다.',
-      descEn: 'We build a core AI engine that understands voice, records, and environmental data in real time.\n\nNot a single function, but a common intelligence foundation applicable to diverse services.',
+      descKo: '음성, 기록, 환경 데이터를\n실시간으로 이해하는\n핵심 AI 엔진을 구축합니다.\n\n단일 기능이 아니라,\n다양한 서비스에 적용 가능한\n공통 지능 기반을 만듭니다.',
+      descEn: 'We build a core AI engine\nthat understands voice, records,\nand environmental data in real time.\n\nNot a single function,\nbut a common intelligence foundation\napplicable to diverse services.',
     },
     {
       titleKo: '데이터 네트워크', titleEn: 'Data Network',
-      descKo: '현장에서 생성되는 데이터를 연결하고 학습하고, 예측하고, 고도화합니다.\n\n데이터는 저장되는 것이 아니라 지능을 진화시키는 구조가 됩니다.',
-      descEn: 'We connect, learn from, predict, and enhance data generated in the field.\n\nData doesn\'t just get stored — it becomes the structure that evolves intelligence.',
+      descKo: '현장에서 생성되는 데이터를\n연결하고 학습하고,\n예측하고, 고도화합니다.\n\n데이터는 저장되는 것이 아니라\n지능을 진화시키는 구조가 됩니다.',
+      descEn: 'We connect, learn from, predict,\nand enhance data generated in the field.\n\nData doesn\'t just get stored —\nit becomes the structure\nthat evolves intelligence.',
     },
     {
       titleKo: 'Physical AI 확장', titleEn: 'Physical AI Extension',
-      descKo: '지능을 화면에 두지 않습니다. 행정 시스템, 현장 기기, 공간과 디바이스에 탑재합니다.\n\n소프트웨어를 넘어 현실에서 작동하는 AI로 확장합니다.',
-      descEn: 'We don\'t keep intelligence on screens. We embed it in administrative systems, field devices, spaces and hardware.\n\nBeyond software — AI that operates in the real world.',
+      descKo: '지능을 화면에 두지 않습니다.\n행정 시스템, 현장 기기,\n공간과 디바이스에 탑재합니다.\n\n소프트웨어를 넘어\n현실에서 작동하는 AI로 확장합니다.',
+      descEn: 'We don\'t keep intelligence on screens.\nWe embed it in administrative systems,\nfield devices, spaces and hardware.\n\nBeyond software —\nAI that operates in the real world.',
     },
   ];
 
@@ -645,7 +693,7 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="select-none"
           >
             <span
@@ -673,6 +721,12 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
           className="relative z-20 w-full max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14"
           style={{ opacity: cardsOpacity }}
         >
+          <motion.p
+            className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase text-center mb-10"
+            style={{ opacity: cardsOpacity }}
+          >
+            {lang === 'ko' ? '이노하이가 만들 세상' : 'The World INNO-HI Creates'}
+          </motion.p>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {futureValues.map((v, i) => (
                 <motion.div
