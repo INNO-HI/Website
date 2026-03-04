@@ -60,7 +60,7 @@ export function ContactPage() {
   const isValid =
     form.lastName && form.firstName && form.company &&
     form.department && form.jobTitle && form.email &&
-    form.phone && form.message;
+    form.message;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,7 +218,7 @@ export function ContactPage() {
               {/* 전화번호 */}
               <div>
                 <label className="block text-[13px] font-medium text-[#4E5968] mb-1.5">
-                  {lang === 'ko' ? '전화번호' : 'Phone'}<span className="text-[#448CFF]">*</span>
+                  {lang === 'ko' ? '전화번호' : 'Phone'}
                 </label>
                 <div className="flex gap-2">
                   <div className="flex items-center gap-1.5 px-3 py-2.5 rounded-lg border border-[#E5E8EB] bg-[#F8F9FD] text-[14px] text-[#4E5968] shrink-0">
@@ -229,7 +229,6 @@ export function ContactPage() {
                     type="tel"
                     value={form.phone}
                     onChange={e => update('phone', e.target.value)}
-                    required
                     className="flex-1 px-4 py-2.5 rounded-lg border border-[#E5E8EB] text-[14px] text-[#191F28] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] focus:ring-1 focus:ring-[#448CFF]/20 transition-colors"
                     placeholder="10-1234-5678"
                   />

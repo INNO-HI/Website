@@ -14,10 +14,10 @@ export function Footer() {
 
   return (
     <footer className="bg-white border-t border-[#E5E8EB]">
-      <div className="max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14">
+      <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
 
         {/* Upper: Logo · Nav · Contact */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pt-12 lg:pt-14 pb-10 lg:pb-12">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 sm:gap-6 pt-8 sm:pt-12 lg:pt-14 pb-8 sm:pb-10 lg:pb-12">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
             <img src={logoSrc} alt="INNO-HI" className="h-5 w-auto" />
             <nav className="flex flex-wrap items-center gap-x-8 gap-y-2">
@@ -42,8 +42,8 @@ export function Footer() {
         </div>
 
         {/* Lower: Legal · Tagline · Copyright */}
-        <div className="border-t border-[#F2F4F6] py-8 lg:py-10">
-          <div className="space-y-1.5 text-[14px] text-[#8B95A1] leading-relaxed">
+        <div className="border-t border-[#F2F4F6] py-6 sm:py-8 lg:py-10">
+          <div className="space-y-1.5 text-[12px] sm:text-[14px] text-[#8B95A1] leading-relaxed">
             <p>
               {lang === 'ko'
                 ? '주식회사 이노하이 · 대표자: 김민수, 한민우 · 사업자등록번호: 758-86-03814'

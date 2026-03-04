@@ -12,7 +12,7 @@ export function CTA() {
   return (
     <section
       ref={ref}
-      className="relative py-28 lg:py-40 bg-[#F0F2F8] overflow-hidden snap-start border-t border-[#E5E8EB]"
+      className="relative py-16 sm:py-24 lg:py-40 bg-[#F0F2F8] overflow-hidden snap-start border-t border-[#E5E8EB]"
     >
       {/* 배경 글로우 */}
       <div className="absolute inset-0" aria-hidden="true">
@@ -20,7 +20,7 @@ export function CTA() {
         <div className="absolute top-1/2 right-1/4 w-[300px] h-[300px] bg-[#7C5CFC]/6 rounded-full blur-[100px] -translate-y-1/2" />
       </div>
 
-      <div className="relative z-10 max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14">
+      <div className="relative z-10 max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -45,7 +45,7 @@ export function CTA() {
 
           <motion.button
             onClick={() => navigate('/contact')}
-            className="mt-10 inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-white text-[16px] font-semibold transition-all cursor-pointer"
+            className="mt-8 sm:mt-10 inline-flex items-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-white text-[15px] sm:text-[16px] font-semibold transition-all cursor-pointer"
             style={{ background: 'linear-gradient(135deg, #448CFF 0%, #7C5CFC 100%)' }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}

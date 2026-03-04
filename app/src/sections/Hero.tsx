@@ -85,7 +85,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-black/40 z-[1]" />
 
       {/* 텍스트 — 왼쪽으로 */}
-      <div className="relative z-10 w-full max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14">
+      <div className="relative z-10 w-full max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-14">
         <div className="max-w-[700px]">
           <h1
             className="hero-title font-semibold text-white leading-[1.1] tracking-tight"

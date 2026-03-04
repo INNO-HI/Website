@@ -18,11 +18,11 @@ const partnerLogos = [
 
 function PartnerChip({ logo, lang }: { logo: typeof partnerLogos[number]; lang: 'ko' | 'en' }) {
   return (
-    <div className="flex-shrink-0 flex items-center justify-center px-8 py-4 mx-3" style={{ minWidth: 200, height: 72 }}>
+    <div className="flex-shrink-0 flex items-center justify-center px-4 sm:px-8 py-3 sm:py-4 mx-2 sm:mx-3" style={{ minWidth: 140, height: 56 }}>
       <img
         src={logo.src}
         alt={lang === 'ko' ? logo.alt : logo.altEn}
-        className={`${logo.height} w-auto max-w-[150px] object-contain`}
+        className={`${logo.height} w-auto max-w-[100px] sm:max-w-[150px] object-contain grayscale opacity-60`}
       />
     </div>
   );
@@ -34,26 +34,18 @@ export function PartnerLogos() {
   const quadrupled = [...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos];
 
   return (
-    <div className="bg-white py-16 lg:py-20">
-      <div className="max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14">
+    <div className="bg-white py-10 sm:py-16 lg:py-20">
+      <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
         <div className="relative overflow-hidden">
-          <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-20 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(to right, white, transparent)' }} />
-          <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-20 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(to left, white, transparent)' }} />
           <div className="flex animate-marquee">
             {quadrupled.map((logo, i) => (
               <PartnerChip key={i} logo={logo} lang={lang} />
             ))}
           </div>
-        </div>
-
-        {/* Support */}
-        <div className="mt-10 flex items-center justify-center gap-2 text-[14px] text-[#8B95A1]">
-          <span className="font-medium">Support</span>
-          <a href="mailto:contact@innohi.ai" className="hover:text-[#448CFF] transition-colors">
-            contact@innohi.ai
-          </a>
         </div>
       </div>
     </div>

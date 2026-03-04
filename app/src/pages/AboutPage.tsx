@@ -8,8 +8,8 @@ import heroBgSrc from '@/assets/hero-bg.jpg';
 
 function Section({ children, className = '', bg = 'bg-white' }: { children: React.ReactNode; className?: string; bg?: string }) {
   return (
-    <section className={`py-28 lg:py-[140px] ${bg} ${className}`}>
-      <div className="max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14">
+    <section className={`py-16 sm:py-24 lg:py-[140px] ${bg} ${className}`}>
+      <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
         <div className="max-w-[1360px] mx-auto">
           {children}
         </div>
@@ -24,7 +24,7 @@ function Section({ children, className = '', bg = 'bg-white' }: { children: Reac
 
 function Hero({ lang }: { lang: 'ko' | 'en' }) {
   return (
-    <section className="relative overflow-hidden min-h-screen flex items-start justify-center pt-[28vh]">
+    <section className="relative overflow-hidden min-h-screen flex items-center justify-center">
       {/* 배경 이미지 */}
       <div
         className="absolute inset-0"
@@ -37,13 +37,13 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
       {/* 블루 톤 오버레이 (붉은끼 제거) */}
       <div className="absolute inset-0 bg-[#0A1A3A]/30" />
 
-      <div className="relative z-10 text-center px-6">
+      <div className="relative z-10 text-center px-5 sm:px-6">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="font-bold text-white leading-[1.35] tracking-tight"
-          style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}
+          style={{ fontSize: 'clamp(1.5rem, 4.5vw, 3rem)' }}
         >
           {lang === 'ko' ? (
             <>사람을 더 깊이 이해하는 기술로<br />세상을 더 지능적으로 만듭니다.</>
@@ -237,12 +237,12 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
 
         {/* 텍스트 1 */}
         <motion.div
-          className="absolute inset-0 flex items-center justify-center px-6 z-10"
+          className="absolute inset-0 flex items-center justify-center px-5 sm:px-6 z-10"
           style={{ opacity: text1Opacity }}
         >
           <p
             className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight whitespace-pre-line"
-            style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}
+            style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
               ? '데이터는 계속 쌓이고 있지만\n세상을 움직이는 방식은 크게 달라지지 않았습니다.'
@@ -252,12 +252,12 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
 
         {/* 텍스트 2: 플립 등장 */}
         <motion.div
-          className="absolute inset-0 flex flex-col items-center justify-center px-6 z-10"
+          className="absolute inset-0 flex flex-col items-center justify-center px-5 sm:px-6 z-10"
           style={{ opacity: text2Opacity }}
         >
           <p
             className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight"
-            style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}
+            style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
               ? '기술과 데이터로 더 지능적인 세상을 만들고,'
@@ -265,7 +265,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
           </p>
           <p
             className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight mt-2"
-            style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}
+            style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
               ? '더 나은 내일의 기준을 만들어가겠습니다.'
@@ -392,7 +392,7 @@ function ProblemCard({ p, i, lang }: {
       initial={{ opacity: 0, y: 30 }}
       animate={cardInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="relative aspect-[2/1] rounded-2xl cursor-pointer overflow-hidden hover:-translate-y-1 transition-transform duration-300"
+      className="relative aspect-auto sm:aspect-[2/1] rounded-2xl cursor-pointer overflow-hidden hover:-translate-y-1 transition-transform duration-300"
       style={{
         background: '#ffffff',
         border: '1px solid #E5E8EB',
@@ -407,7 +407,7 @@ function ProblemCard({ p, i, lang }: {
 
       {/* 기본 상태: from → to */}
       <motion.div
-        className="absolute inset-0 flex flex-col justify-between p-6 lg:p-7"
+        className="relative sm:absolute sm:inset-0 flex flex-col justify-between p-5 sm:p-6 lg:p-7"
         animate={{ opacity: active ? 0 : 1 }}
         transition={{ duration: 0.3 }}
       >
@@ -508,7 +508,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
 
   return (
     <section className="bg-white min-h-screen flex flex-col justify-center py-12 lg:py-16">
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14 w-full">
+      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
         {/* 헤더 */}
         <motion.h2
           ref={headRef}
@@ -561,64 +561,66 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   const futureIllusts = [
     /* 01 지능 엔진 — 뇌+회로 */
     <svg key="il1" viewBox="0 0 400 300" fill="none" className="w-full h-full">
-      <path d="M200 60c-50 0-90 35-90 80 0 30 18 56 45 70l-5 40h100l-5-40c27-14 45-40 45-70 0-45-40-80-90-80z" fill="rgba(68,140,255,0.06)" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.3" />
-      <line x1="160" y1="130" x2="200" y2="110" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="200" y1="110" x2="240" y2="130" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.4" />
-      <line x1="200" y1="110" x2="200" y2="80" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="170" y1="150" x2="200" y2="140" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="200" y1="140" x2="230" y2="150" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="200" y1="140" x2="200" y2="170" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.25" />
-      <circle cx="200" cy="110" r="4" fill="#448CFF" fillOpacity="0.5" />
-      <circle cx="160" cy="130" r="3" fill="#448CFF" fillOpacity="0.35" />
-      <circle cx="240" cy="130" r="3" fill="#448CFF" fillOpacity="0.35" />
-      <circle cx="200" cy="140" r="3" fill="#448CFF" fillOpacity="0.4" />
-      <circle cx="200" cy="80" r="2.5" fill="#448CFF" fillOpacity="0.3" />
-      <circle cx="200" cy="110" r="12" fill="none" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.15" />
-      <circle cx="200" cy="110" r="22" fill="none" stroke="#448CFF" strokeWidth="0.4" strokeOpacity="0.08" />
+      <path d="M200 60c-50 0-90 35-90 80 0 30 18 56 45 70l-5 40h100l-5-40c27-14 45-40 45-70 0-45-40-80-90-80z" fill="rgba(68,140,255,0.15)" stroke="#448CFF" strokeWidth="2" strokeOpacity="0.7" />
+      <line x1="160" y1="130" x2="200" y2="110" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.8" />
+      <line x1="200" y1="110" x2="240" y2="130" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.8" />
+      <line x1="200" y1="110" x2="200" y2="80" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
+      <line x1="170" y1="150" x2="200" y2="140" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
+      <line x1="200" y1="140" x2="230" y2="150" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
+      <line x1="200" y1="140" x2="200" y2="170" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.6" />
+      <circle cx="200" cy="110" r="5" fill="#448CFF" fillOpacity="0.85" />
+      <circle cx="160" cy="130" r="4" fill="#448CFF" fillOpacity="0.7" />
+      <circle cx="240" cy="130" r="4" fill="#448CFF" fillOpacity="0.7" />
+      <circle cx="200" cy="140" r="4" fill="#448CFF" fillOpacity="0.75" />
+      <circle cx="200" cy="80" r="3.5" fill="#448CFF" fillOpacity="0.65" />
+      <circle cx="200" cy="110" r="12" fill="none" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.35" />
+      <circle cx="200" cy="110" r="22" fill="none" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
     </svg>,
     /* 02 데이터 네트워크 — 연결 그래프 */
     <svg key="il2" viewBox="0 0 400 300" fill="none" className="w-full h-full">
-      <line x1="200" y1="80" x2="120" y2="140" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.25" />
-      <line x1="200" y1="80" x2="280" y2="140" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.25" />
-      <line x1="120" y1="140" x2="200" y2="180" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="280" y1="140" x2="200" y2="180" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
-      <line x1="200" y1="180" x2="140" y2="240" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-      <line x1="200" y1="180" x2="260" y2="240" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-      <circle cx="200" cy="80" r="8" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.4" />
-      <circle cx="200" cy="80" r="3" fill="#448CFF" fillOpacity="0.5" />
-      <circle cx="120" cy="140" r="6" fill="#448CFF" fillOpacity="0.1" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
-      <circle cx="280" cy="140" r="6" fill="#448CFF" fillOpacity="0.1" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
-      <circle cx="200" cy="180" r="10" fill="#448CFF" fillOpacity="0.08" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.35" />
-      <circle cx="200" cy="180" r="4" fill="#448CFF" fillOpacity="0.5" />
-      <circle cx="140" cy="240" r="3" fill="#448CFF" fillOpacity="0.07" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-      <circle cx="260" cy="240" r="3" fill="#448CFF" fillOpacity="0.07" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-      <line x1="200" y1="80" x2="200" y2="180" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.12" strokeDasharray="4 4" />
+      <line x1="200" y1="80" x2="120" y2="140" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.6" />
+      <line x1="200" y1="80" x2="280" y2="140" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.6" />
+      <line x1="120" y1="140" x2="200" y2="180" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
+      <line x1="280" y1="140" x2="200" y2="180" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
+      <line x1="200" y1="180" x2="140" y2="240" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
+      <line x1="200" y1="180" x2="260" y2="240" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
+      <circle cx="200" cy="80" r="10" fill="#448CFF" fillOpacity="0.25" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
+      <circle cx="200" cy="80" r="4" fill="#448CFF" fillOpacity="0.85" />
+      <circle cx="120" cy="140" r="7" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
+      <circle cx="120" cy="140" r="3" fill="#448CFF" fillOpacity="0.7" />
+      <circle cx="280" cy="140" r="7" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
+      <circle cx="280" cy="140" r="3" fill="#448CFF" fillOpacity="0.7" />
+      <circle cx="200" cy="180" r="12" fill="#448CFF" fillOpacity="0.18" stroke="#448CFF" strokeWidth="2" strokeOpacity="0.7" />
+      <circle cx="200" cy="180" r="5" fill="#448CFF" fillOpacity="0.85" />
+      <circle cx="140" cy="240" r="5" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
+      <circle cx="260" cy="240" r="5" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
+      <line x1="200" y1="80" x2="200" y2="180" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" strokeDasharray="4 4" />
     </svg>,
     /* 03 Physical AI — 디바이스+공간 */
     <svg key="il3" viewBox="0 0 400 300" fill="none" className="w-full h-full">
-      <rect x="60" y="120" width="80" height="120" rx="4" fill="#448CFF" fillOpacity="0.04" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.2" />
-      <rect x="75" y="140" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.06" />
-      <rect x="105" y="140" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.06" />
-      <rect x="75" y="170" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.06" />
-      <rect x="105" y="170" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.06" />
-      <rect x="260" y="100" width="80" height="55" rx="6" fill="#448CFF" fillOpacity="0.04" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.25" />
-      <rect x="268" y="108" width="64" height="36" rx="3" fill="#448CFF" fillOpacity="0.06" />
-      <rect x="270" y="190" width="60" height="45" rx="8" fill="#448CFF" fillOpacity="0.04" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.2" />
-      <circle cx="288" cy="208" r="5" fill="#448CFF" fillOpacity="0.12" />
-      <circle cx="312" cy="208" r="5" fill="#448CFF" fillOpacity="0.12" />
-      <circle cx="200" cy="150" r="6" fill="#448CFF" fillOpacity="0.15" />
-      <circle cx="200" cy="150" r="3" fill="#448CFF" fillOpacity="0.4" />
-      <circle cx="200" cy="150" r="20" fill="none" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.12" strokeDasharray="3 3" />
-      <circle cx="200" cy="150" r="40" fill="none" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.08" strokeDasharray="4 4" />
-      <line x1="200" y1="150" x2="140" y2="160" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.15" strokeDasharray="3 3" />
-      <line x1="200" y1="150" x2="270" y2="130" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.15" strokeDasharray="3 3" />
-      <line x1="200" y1="150" x2="280" y2="210" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.15" strokeDasharray="3 3" />
+      <rect x="60" y="120" width="80" height="120" rx="4" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.5" />
+      <rect x="75" y="140" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
+      <rect x="105" y="140" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
+      <rect x="75" y="170" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
+      <rect x="105" y="170" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
+      <rect x="260" y="100" width="80" height="55" rx="6" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.55" />
+      <rect x="268" y="108" width="64" height="36" rx="3" fill="#448CFF" fillOpacity="0.18" />
+      <rect x="270" y="190" width="60" height="45" rx="8" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.5" />
+      <circle cx="288" cy="208" r="5" fill="#448CFF" fillOpacity="0.35" />
+      <circle cx="312" cy="208" r="5" fill="#448CFF" fillOpacity="0.35" />
+      <circle cx="200" cy="150" r="7" fill="#448CFF" fillOpacity="0.3" />
+      <circle cx="200" cy="150" r="3.5" fill="#448CFF" fillOpacity="0.8" />
+      <circle cx="200" cy="150" r="20" fill="none" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.35" strokeDasharray="3 3" />
+      <circle cx="200" cy="150" r="40" fill="none" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.2" strokeDasharray="4 4" />
+      <line x1="200" y1="150" x2="140" y2="160" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.45" strokeDasharray="3 3" />
+      <line x1="200" y1="150" x2="270" y2="130" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.45" strokeDasharray="3 3" />
+      <line x1="200" y1="150" x2="280" y2="210" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.45" strokeDasharray="3 3" />
     </svg>,
   ];
 
   return (
-    <section ref={sectionRef} className="bg-[#FAFBFF] py-28 lg:py-[140px]">
-      <div className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14">
+    <section ref={sectionRef} className="bg-[#FAFBFF] py-16 sm:py-24 lg:py-[140px]">
+      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-14">
         {/* 헤더 */}
         <motion.div
           className="text-center mb-14"
@@ -646,7 +648,7 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
               className="flex flex-col items-center text-center rounded-3xl bg-white border border-[#E5E8EB] p-8 lg:p-10"
               style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}
             >
-              <div className="w-full h-[180px] flex items-center justify-center opacity-50 mb-8">
+              <div className="w-full h-[180px] flex items-center justify-center mb-8">
                 {futureIllusts[i]}
               </div>
               <h3
@@ -917,9 +919,9 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
     >
       {/* 고정 레이아웃 */}
       <div className="sticky top-0 h-screen flex items-center">
-        <div className="max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14 w-full">
+        <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
           <div className="max-w-[1360px] mx-auto">
-            <div className="w-full flex flex-col gap-8 lg:flex-row lg:gap-16 items-center">
+            <div className="w-full flex flex-col gap-6 sm:gap-8 lg:flex-row lg:gap-16 items-center">
 
               {/* 좌: 이미지 영역 — 카드가 밀려 올라오는 전환 */}
               <div className="w-full lg:w-[60%] flex-shrink-0 relative overflow-hidden rounded-2xl border border-[#1F2937]" style={{ aspectRatio: '16 / 9' }}>
@@ -942,7 +944,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
               </div>
 
               {/* 우: 텍스트 영역 — 아래에서 밀려 올라오는 카드 전환 */}
-              <div className="w-full lg:w-[40%] relative overflow-hidden" style={{ minHeight: '320px' }}>
+              <div className="w-full lg:w-[40%] relative overflow-hidden" style={{ minHeight: 280 }}>
                 {modules.map((m, i) => (
                   <motion.div
                     key={i}
@@ -958,7 +960,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
                     <p className="text-[12px] font-semibold text-[#448CFF] tracking-widest uppercase mb-3">
                       {String(i + 1).padStart(2, '0')}
                     </p>
-                    <p className="text-[26px] lg:text-[34px] font-bold text-white leading-tight mb-5">
+                    <p className="text-[20px] sm:text-[26px] lg:text-[34px] font-bold text-white leading-tight mb-4 sm:mb-5">
                       {lang === 'ko' ? m.ko : m.en}
                     </p>
                     <p className="text-[15px] lg:text-[16px] text-white/70 font-medium leading-relaxed mb-4">

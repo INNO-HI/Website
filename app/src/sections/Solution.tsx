@@ -3,6 +3,230 @@ import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
 
+/* ── 목업 프레임 ─────────────────────────────────────────────────────── */
+
+function MockupFrame({ children, gradient }: { children: React.ReactNode; gradient: string }) {
+  return (
+    <div className="relative mx-auto max-w-[380px]">
+      <div className="absolute -inset-3 sm:-inset-4 rounded-3xl opacity-40 sm:opacity-60 blur-lg sm:blur-xl" style={{ background: gradient }} aria-hidden="true" />
+      <div className="relative rounded-xl sm:rounded-2xl overflow-hidden border border-[#E5E8EB] bg-white" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}>
+        {/* 브라우저 크롬 */}
+        <div className="bg-[#EBEBEB] px-3 sm:px-4 py-2 sm:py-2.5 flex items-center gap-2 sm:gap-3">
+          <div className="flex gap-1 sm:gap-1.5">
+            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FF5F57]" />
+            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#FFBD2E]" />
+            <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#28C840]" />
+          </div>
+          <div className="flex-1 bg-white rounded-md py-0.5 sm:py-1 px-2 sm:px-3 text-[9px] sm:text-[10px] text-[#9CA3AF] text-center">
+            app.innohi.ai.kr
+          </div>
+        </div>
+        <div className="bg-white h-[280px] sm:h-[320px]">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── 01 음성 인식 목업 ─────────────────────────────────────────────── */
+
+function MockVoice() {
+  return (
+    <div className="p-3 sm:p-5 h-full flex flex-col">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-8 h-8 rounded-full bg-[#448CFF] flex items-center justify-center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/></svg>
+        </div>
+        <span className="text-[11px] font-semibold text-[#191F28]">실시간 음성 인식</span>
+        <span className="ml-auto text-[10px] font-bold text-[#448CFF] bg-[#448CFF]/10 px-2 py-0.5 rounded-full">98.5%</span>
+      </div>
+      {/* 파형 */}
+      <div className="flex items-end gap-[3px] h-12 mb-4">
+        {Array.from({ length: 32 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="flex-1 rounded-full bg-[#448CFF]"
+            style={{ opacity: 0.3 + Math.random() * 0.7 }}
+            initial={{ height: 4 }}
+            animate={{ height: [4, 8 + Math.random() * 36, 4] }}
+            transition={{ duration: 0.6 + Math.random() * 0.8, repeat: Infinity, delay: i * 0.05 }}
+          />
+        ))}
+      </div>
+      {/* 전사 텍스트 */}
+      <div className="bg-[#F8F9FD] rounded-lg p-3 mb-3 flex-1">
+        <p className="text-[11px] text-[#4E5968] leading-relaxed">
+          "오늘 오전 홍길동 어르신 방문 상담 완료했습니다. 건강 상태 양호하며 식사 보조 서비스 요청하셨습니다..."
+        </p>
+      </div>
+      {/* 추출 필드 */}
+      <div className="flex gap-2">
+        {[{ l: '이름', v: '홍길동' }, { l: '상태', v: '양호' }, { l: '조치', v: '식사 보조' }].map((f) => (
+          <div key={f.l} className="flex-1 bg-[#448CFF]/5 rounded-md px-2 py-1.5 text-center">
+            <p className="text-[9px] text-[#8B95A1]">{f.l}</p>
+            <p className="text-[11px] font-semibold text-[#191F28]">{f.v}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── 02 데이터 구조화 목업 ─────────────────────────────────────────── */
+
+function MockDataBrowser() {
+  const rows = [
+    { field: '성명', value: '박OO', tag: '완료', tagColor: '#448CFF' },
+    { field: '나이', value: '65세', tag: '분류됨', tagColor: '#3B82F6' },
+    { field: '가구', value: '독거', tag: '생성됨', tagColor: '#60A5FA' },
+    { field: '등급', value: '3등급', tag: '산출됨', tagColor: '#93C5FD' },
+  ];
+  return (
+    <div className="p-3 sm:p-5 h-full flex flex-col">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-8 h-8 rounded-full bg-[#3B82F6] flex items-center justify-center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <span className="text-[11px] font-semibold text-[#191F28]">지능형 데이터 추출</span>
+      </div>
+      {/* 원문 */}
+      <div className="bg-[#F8F9FD] rounded-lg p-3 mb-3">
+        <p className="text-[9px] font-semibold text-[#8B95A1] mb-1">[원문]</p>
+        <p className="text-[11px] text-[#4E5968] leading-relaxed">
+          박OO, 65세, 독거 가구, 장기요양 3등급 판정...
+        </p>
+      </div>
+      {/* 추출 테이블 */}
+      <div className="flex-1 space-y-1.5">
+        {rows.map((r) => (
+          <div key={r.field} className="flex items-center justify-between bg-white border border-[#F2F4F6] rounded-lg px-3 py-2">
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] text-[#8B95A1] w-8">{r.field}</span>
+              <span className="text-[12px] font-semibold text-[#191F28]">{r.value}</span>
+            </div>
+            <span className="text-[9px] font-semibold px-2 py-0.5 rounded-full" style={{ color: r.tagColor, background: r.tagColor + '18' }}>{r.tag}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── 03 예측 대시보드 목업 ─────────────────────────────────────────── */
+
+function MockDashboard() {
+  const bars = [42, 58, 45, 73, 61, 88, 76, 95];
+  const alerts = [
+    { name: '이OO', age: '87세', level: '높음', color: '#EF4444' },
+    { name: '박OO', age: '74세', level: '주의', color: '#F59E0B' },
+    { name: '최OO', age: '81세', level: '정상', color: '#22C55E' },
+  ];
+  return (
+    <div className="p-3 sm:p-5 h-full flex flex-col">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-8 h-8 rounded-full bg-[#38BDF8] flex items-center justify-center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <span className="text-[11px] font-semibold text-[#191F28]">예측 분석 대시보드</span>
+      </div>
+      {/* 차트 */}
+      <div className="flex items-end gap-1.5 h-24 mb-2 px-1">
+        {bars.map((h, i) => (
+          <motion.div
+            key={i}
+            className="flex-1 rounded-t-sm"
+            style={{ background: h > 80 ? '#1D4ED8' : h > 60 ? '#60A5FA' : '#93C5FD' }}
+            initial={{ height: 0 }}
+            animate={{ height: `${h}%` }}
+            transition={{ duration: 0.6, delay: i * 0.08 }}
+          />
+        ))}
+      </div>
+      <div className="flex gap-3 mb-4 px-1">
+        {[{ l: '높음', c: '#1D4ED8' }, { l: '주의', c: '#60A5FA' }, { l: '정상', c: '#93C5FD' }].map((x) => (
+          <div key={x.l} className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full" style={{ background: x.c }} />
+            <span className="text-[9px] text-[#8B95A1]">{x.l}</span>
+          </div>
+        ))}
+      </div>
+      {/* 알림 케이스 */}
+      <div className="space-y-1.5 flex-1">
+        {alerts.map((a) => (
+          <div key={a.name} className="flex items-center justify-between bg-[#F8F9FD] rounded-lg px-3 py-2">
+            <span className="text-[11px] font-semibold text-[#191F28]">{a.name} ({a.age})</span>
+            <span className="text-[9px] font-bold px-2 py-0.5 rounded-full" style={{ color: a.color, background: a.color + '18' }}>{a.level}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── 04 워크플로우 자동화 목업 ─────────────────────────────────────── */
+
+function MockWorkflow() {
+  const steps = ['접수', '분류', '배정', '처리', '완료'];
+  const cases = [
+    { id: '#2841', name: '이OO 어르신', desc: '긴급 방문', urgent: true },
+    { id: '#2842', name: '김OO', desc: '서비스 신청', urgent: false },
+    { id: '#2843', name: '박OO', desc: '정기 상담', urgent: false },
+  ];
+  return (
+    <div className="p-3 sm:p-5 h-full flex flex-col">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-8 h-8 rounded-full bg-[#6366F1] flex items-center justify-center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <span className="text-[11px] font-semibold text-[#191F28]">자동 워크플로우</span>
+      </div>
+      {/* 진행 단계 */}
+      <div className="flex items-center gap-1 mb-5">
+        {steps.map((s, i) => (
+          <div key={s} className="flex items-center gap-1 flex-1">
+            <motion.div
+              className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[8px] font-bold"
+              style={{ background: i < 3 ? '#6366F1' : '#E5E8EB' }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: i * 0.12 }}
+            >
+              {i < 3 ? '✓' : i + 1}
+            </motion.div>
+            <span className="text-[9px] text-[#8B95A1] hidden sm:inline">{s}</span>
+            {i < steps.length - 1 && <div className="flex-1 h-px bg-[#E5E8EB]" />}
+          </div>
+        ))}
+      </div>
+      {/* 케이스 카드 */}
+      <div className="space-y-2 flex-1">
+        {cases.map((c) => (
+          <div key={c.id} className="flex items-center gap-3 bg-[#F8F9FD] rounded-lg px-3 py-2.5">
+            <span className="text-[10px] font-mono text-[#8B95A1]">{c.id}</span>
+            <div className="flex-1">
+              <p className="text-[11px] font-semibold text-[#191F28]">{c.name}</p>
+              <p className="text-[9px] text-[#8B95A1]">{c.desc}</p>
+            </div>
+            {c.urgent && <span className="text-[9px] font-bold text-[#EF4444] bg-[#EF4444]/10 px-2 py-0.5 rounded-full">긴급</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── 그라데이션 배경 ─────────────────────────────────────────────── */
+
+const gradients = [
+  'linear-gradient(135deg, #C7DEFF 0%, #448CFF 50%, #8AB8FB 100%)',
+  'linear-gradient(135deg, #93C5FD 0%, #3B82F6 50%, #6366F1 100%)',
+  'linear-gradient(135deg, #BAE6FD 0%, #38BDF8 50%, #448CFF 100%)',
+  'linear-gradient(135deg, #C7DEFF 0%, #93C5FD 50%, #A78BFA 100%)',
+];
+
+const mockups = [<MockVoice />, <MockDataBrowser />, <MockDashboard />, <MockWorkflow />];
+
 /* ── 파이프라인 데이터 ─────────────────────────────────────────────── */
 
 const pipeline = [
@@ -17,9 +241,6 @@ const pipeline = [
     descEn: 'Real-time voice recognition converts field conversations into structured records.',
     detailKo: '수기 작성 없이 대화만으로 모든 상담 내용이 자동 입력됩니다. 12개 언어를 동시에 지원하며, 노이즈 환경에서도 98.5%의 정확도를 유지합니다.',
     detailEn: 'All consultation content is automatically entered through conversation alone. Supports 12 languages simultaneously with 98.5% accuracy even in noisy environments.',
-    metric: '98.5%',
-    metricLabelKo: '인식 정확도',
-    metricLabelEn: 'Recognition Accuracy',
     featuresKo: ['실시간 전사 — 0.1초 지연', '12개 언어 동시 지원', '노이즈 환경 98.5% 정확도'],
     featuresEn: ['Real-time transcription — 0.1s delay', '12 languages simultaneously', '98.5% accuracy in noisy environments'],
     color: '#448CFF',
@@ -43,9 +264,6 @@ const pipeline = [
     descEn: 'No matter the format, AI automatically classifies and extracts fields.',
     detailKo: '업무 시간의 85%를 단순 입력에서 해방시킵니다. 검증 규칙을 자동 적용하고, 기존 시스템과 완벽히 연동됩니다.',
     detailEn: 'Frees 85% of work time from manual data entry. Applies validation rules automatically and integrates seamlessly with existing systems.',
-    metric: '85%',
-    metricLabelKo: '시간 절감',
-    metricLabelEn: 'Time Saved',
     featuresKo: ['자동 분류 & 개체 추출', '검증 규칙 적용', '기존 시스템 연동'],
     featuresEn: ['Auto classification & entity extraction', 'Validation rule enforcement', 'Legacy system integration'],
     color: '#3B82F6',
@@ -69,9 +287,6 @@ const pipeline = [
     descEn: 'Learns patterns from data to identify risk cases before they escalate.',
     detailKo: '담당자가 놓칠 수 있는 신호를 AI가 먼저 포착합니다. 예측 모델이 자동으로 업데이트되어 실시간 대시보드에서 즉시 확인 가능합니다.',
     detailEn: 'AI detects signals that staff might miss. Predictive models auto-update and results are instantly available on the real-time dashboard.',
-    metric: '3x',
-    metricLabelKo: '더 빠른 인사이트',
-    metricLabelEn: 'Faster Insights',
     featuresKo: ['추세 분석 & 위험 점수화', '예측 모델 자동 업데이트', '실시간 대시보드'],
     featuresEn: ['Trend analysis & risk scoring', 'Auto-updating predictive models', 'Real-time dashboard'],
     color: '#38BDF8',
@@ -92,9 +307,6 @@ const pipeline = [
     descEn: 'Analysis flows to staff assignment, notifications, and document generation.',
     detailKo: '판단에서 실행까지 걸리는 시간을 90% 단축합니다. 스마트 케이스 라우팅과 자동 에스컬레이션으로 모든 과정이 투명하게 추적됩니다.',
     detailEn: 'Reduces time from decision to execution by 90%. Smart case routing and auto-escalation ensure full audit trail.',
-    metric: '90%',
-    metricLabelKo: '자동화율',
-    metricLabelEn: 'Automation Rate',
     featuresKo: ['스마트 케이스 라우팅', '자동 에스컬레이션', '완전한 감사 추적'],
     featuresEn: ['Smart case routing', 'Auto-escalation', 'Full audit trail'],
     color: '#6366F1',
@@ -116,12 +328,9 @@ function SolutionSection({ item, index }: { item: typeof pipeline[number]; index
   const isEven = index % 2 === 0;
 
   return (
-    <div
-      ref={ref}
-      className="py-24 lg:py-32 bg-white"
-    >
-      <div className="max-w-[1100px] mx-auto px-6 sm:px-8 lg:px-12">
-        <div className={`flex flex-col lg:flex-row gap-10 lg:gap-16 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+    <div ref={ref} className="py-14 sm:py-20 lg:py-32 bg-white">
+      <div className="max-w-[1100px] mx-auto px-5 sm:px-8 lg:px-12">
+        <div className={`flex flex-col lg:flex-row gap-8 lg:gap-16 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
 
           {/* 텍스트 */}
           <motion.div
@@ -143,8 +352,8 @@ function SolutionSection({ item, index }: { item: typeof pipeline[number]; index
             </div>
 
             <h2
-              className="font-bold text-[#191F28] leading-[1.2] mb-4 tracking-tight"
-              style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}
+              className="font-bold text-[#191F28] leading-[1.2] mb-3 sm:mb-4 tracking-tight"
+              style={{ fontSize: 'clamp(1.25rem, 3vw, 2.25rem)' }}
             >
               {lang === 'ko' ? item.titleKo : item.titleEn}
             </h2>
@@ -180,30 +389,16 @@ function SolutionSection({ item, index }: { item: typeof pipeline[number]; index
             </button>
           </motion.div>
 
-          {/* 메트릭 카드 */}
+          {/* 목업 */}
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-shrink-0 w-full lg:w-[380px]"
+            className="flex-shrink-0 w-full sm:w-[340px] lg:w-[380px]"
           >
-            <div
-              className="rounded-3xl p-10 flex flex-col items-center justify-center text-center"
-              style={{ background: item.color + '10' }}
-            >
-              <div
-                className="w-20 h-20 rounded-2xl flex items-center justify-center text-white mb-6"
-                style={{ background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}cc 100%)` }}
-              >
-                {item.icon}
-              </div>
-              <span className="text-5xl font-bold tracking-tighter mb-2" style={{ color: item.color }}>
-                {item.metric}
-              </span>
-              <span className="text-sm font-medium text-[#8B95A1]">
-                {lang === 'ko' ? item.metricLabelKo : item.metricLabelEn}
-              </span>
-            </div>
+            <MockupFrame gradient={gradients[index]}>
+              {mockups[index]}
+            </MockupFrame>
           </motion.div>
 
         </div>
@@ -223,15 +418,15 @@ export function Solution() {
     <div id="solution">
 
       {/* ── Pipeline Overview ────────────────────────────────────── */}
-      <div ref={pipelineRef} className="bg-white py-24 lg:py-32 snap-start">
-        <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div ref={pipelineRef} className="bg-white py-14 sm:py-20 lg:py-32 snap-start">
+        <div className="max-w-5xl mx-auto px-5 sm:px-8 lg:px-12">
 
           {/* 솔루션 헤딩 */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={pipelineInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
-            className="text-center mb-20"
+            className="text-center mb-12 sm:mb-16 lg:mb-20"
           >
             <p className="text-sm font-semibold text-[#448CFF] tracking-wide uppercase mb-3">
               Solution
