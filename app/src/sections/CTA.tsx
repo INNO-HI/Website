@@ -1,142 +1,61 @@
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function CTA() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
   const { lang } = useLanguage();
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.cta-content',
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
-          },
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const scrollToContact = () => {
-    const element = document.querySelector('#contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <section
-      ref={sectionRef}
-      className="relative py-28 lg:py-40 bg-[#F8F9FD] overflow-hidden"
-      aria-labelledby="cta-heading"
+      ref={ref}
+      className="relative py-28 lg:py-40 bg-[#F0F2F8] overflow-hidden snap-start border-t border-[#E5E8EB]"
     >
+      {/* 배경 글로우 */}
       <div className="absolute inset-0" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/3 w-[300px] h-[300px] bg-[#ECF1FD] rounded-full blur-3xl -translate-y-1/2" />
-        <div className="absolute top-1/2 right-1/3 w-[250px] h-[250px] bg-[#ECF1FD] rounded-full blur-3xl -translate-y-1/2" />
-        
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#E0DBFF] rounded-full blur-[120px] opacity-20" />
+        <div className="absolute top-1/2 left-1/3 w-[400px] h-[400px] bg-[#448CFF]/8 rounded-full blur-[120px] -translate-y-1/2" />
+        <div className="absolute top-1/2 right-1/4 w-[300px] h-[300px] bg-[#7C5CFC]/6 rounded-full blur-[100px] -translate-y-1/2" />
       </div>
 
-      <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="cta-content text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#D3D8DF] mb-8"
+      <div className="relative z-10 max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+        >
+          <p
+            className="text-[#191F28] leading-[1.5] tracking-tight"
+            style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
           >
-            <Sparkles className="w-4 h-4 text-[#448CFF]" aria-hidden="true" />
-            <span className="text-sm font-medium text-[#4B4E56]">
-              {lang === 'ko' ? '변화를 시작하세요' : 'Start the change'}
-            </span>
-          </motion.div>
-
-          <h2
-            id="cta-heading"
-            className="font-medium text-[#0F1117] mb-5"
-            style={{ fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', lineHeight: 1.35, letterSpacing: '-0.02em' }}
-          >
-            {lang === 'ko' ? (
-              <>지능형 인프라를<br /><span className="gradient-text">경험해보세요</span></>
-            ) : (
-              <>Experience intelligent<br /><span className="gradient-text">infrastructure</span></>
-            )}
-          </h2>
-
-          <p className="text-[15px] text-[#777A86] max-w-lg mx-auto mb-10 leading-relaxed font-normal">
             {lang === 'ko' ? (
               <>
-                AI 기반 자동화로 운영을 변화시키는 조직들에 함께하세요.
-                <br className="hidden sm:block" />
-                INNO-HI가 귀하의 목표 달성을 어떻게 도울 수 있는지 알아보세요.
+                더 깊은 지능으로 가장 높은 존중,<br />
+                <span className="font-bold bg-gradient-to-r from-[#448CFF] to-[#7C5CFC] bg-clip-text text-transparent">이노하이와 함께 하세요.</span>
               </>
             ) : (
               <>
-                Join organizations transforming operations with AI-powered automation.
-                <br className="hidden sm:block" />
-                Discover how INNO-HI can help you achieve your goals.
+                The deepest intelligence, the highest respect —<br />
+                <span className="font-bold bg-gradient-to-r from-[#448CFF] to-[#7C5CFC] bg-clip-text text-transparent">with INNO-HI.</span>
               </>
             )}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                onClick={scrollToContact}
-                size="lg"
-                className="text-white rounded-full px-8 py-5 text-[15px] font-medium transition-all min-h-[52px]"
-                style={{ background: 'linear-gradient(135deg, #448CFF 0%, #7C5CFC 100%)' }}
-                aria-label={lang === 'ko' ? '데모 일정 예약' : 'Schedule a demo'}
-              >
-                {lang === 'ko' ? '데모 일정 예약' : 'Schedule a Demo'}
-                <ArrowRight className="ml-2 w-4 h-4" aria-hidden="true" />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                variant="ghost"
-                size="lg"
-                className="rounded-full px-8 py-5 text-[15px] font-medium text-[#777A86] hover:text-[#383838] hover:bg-white transition-all min-h-[52px]"
-                onClick={() => window.open('#', '_blank')}
-                aria-label={lang === 'ko' ? 'IR 자료 다운로드' : 'Download IR materials'}
-              >
-                {lang === 'ko' ? 'IR 자료 다운로드' : 'Download IR'}
-              </Button>
-            </motion.div>
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-16 pt-8 border-t border-[#D3D8DF]/50"
+          <motion.button
+            onClick={() => navigate('/contact')}
+            className="mt-10 inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-white text-[16px] font-semibold transition-all cursor-pointer"
+            style={{ background: 'linear-gradient(135deg, #448CFF 0%, #7C5CFC 100%)' }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <p className="text-sm text-[#777A86]">
-              {lang === 'ko' ? '공공·의료·복지 현장의 파트너' : 'Trusted across public, healthcare & welfare'}
-            </p>
-          </motion.div>
-        </div>
+            Get Started
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </motion.button>
+        </motion.div>
       </div>
     </section>
   );

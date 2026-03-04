@@ -56,7 +56,12 @@ export function Footer() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-5">
-            <p className="text-[13px] text-[#B0B8C1]">&copy; {new Date().getFullYear()} INNO-HI. All rights reserved.</p>
+            <div className="flex items-center gap-4">
+              <p className="text-[13px] text-[#B0B8C1]">&copy; {new Date().getFullYear()} INNO-HI. All rights reserved.</p>
+              <Link to="/privacy" className="text-[13px] text-[#B0B8C1] hover:text-[#448CFF] transition-colors">
+                {lang === 'ko' ? '개인정보 처리방침' : 'Privacy Policy'}
+              </Link>
+            </div>
             <p className="text-[14px] text-[#D1D6DB] font-light tracking-wide">
               {lang === 'ko' ? '가장 깊은 지능, 가장 높은 존중.' : 'Deepest Intelligence, Highest Respect.'}
             </p>

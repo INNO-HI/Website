@@ -10,6 +10,7 @@ import { AboutPage } from '@/pages/AboutPage';
 import { NoticePage } from '@/pages/NoticePage';
 import { ServicesPage } from '@/pages/ServicesPage';
 import { ContactPage } from '@/pages/ContactPage';
+import { PrivacyPage } from '@/pages/PrivacyPage';
 // import { CasesPage } from '@/pages/CasesPage';
 import './App.css';
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/notice/:id?" element={<NoticePage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
           {/* <Route path="/cases" element={<CasesPage />} /> */}
         </Routes>
         <Footer />

@@ -57,39 +57,6 @@ Please direct all mail and visits to the new address.
 Thank you.
 INNO-HI Inc.`,
   },
-  {
-    id: 2,
-    date: '26.01.09',
-    title: '법인 설립 및 사업 승계 안내',
-    titleEn: 'Notice of Incorporation and Business Succession',
-    content: `**법인 설립 및 사업 승계 안내**
-
-안녕하세요, 주식회사 이노하이입니다.
-
-당사는 2026년 1월 8일 개인사업자 「안심하이」의 사업 일체를 포괄양수도 방식으로 승계하였으며,
-**2026년 1월 9일 주식회사 이노하이로 법인 설립** 등기를 완료하였습니다.
-
-이에 따라 기존 안심하이의 모든 사업은 동일하게 유지되며, 관련 권리 및 의무는 주식회사 이노하이로 승계되었음을 안내드립니다.
-
-앞으로도 더욱 체계적이고 책임 있는 기업으로 성장해 나가겠습니다.
-
-감사합니다.
-
-주식회사 이노하이`,
-    contentEn: `**Notice of Incorporation and Business Succession**
-
-Hello, this is INNO-HI Inc.
-
-On January 8, 2026, our company succeeded all business operations of the sole proprietorship "Ansim-HI" through a comprehensive transfer, and **on January 9, 2026, completed the corporate registration as INNO-HI Inc.**
-
-Accordingly, all existing business operations of Ansim-HI will continue as before, and all related rights and obligations have been succeeded by INNO-HI Inc.
-
-We will continue to grow as a more systematic and responsible company.
-
-Thank you.
-
-INNO-HI Inc.`,
-  },
 ];
 
 // ── 상세 ─────────────────────────────────────────────────────────────

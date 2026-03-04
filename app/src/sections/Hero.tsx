@@ -95,11 +95,14 @@ export function Hero() {
           </h1>
           <p
             className="hero-subtitle font-semibold text-white/80 mt-6 lg:mt-8 leading-relaxed"
-            style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)' }}
+            style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.5rem)' }}
           >
             {lang === 'ko'
               ? '더 깊은 지능으로 가장 높은 존중을 만듭니다.'
               : 'Creating the highest respect with the deepest intelligence.'}
+          </p>
+          <p className="hero-subtitle mt-4 text-[13px] sm:text-[14px] text-white/40 tracking-[0.2em] font-medium">
+            Voice → Data → Insight → Action
           </p>
         </div>
       </div>
