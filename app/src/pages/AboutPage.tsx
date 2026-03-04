@@ -52,24 +52,25 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
           )}
         </motion.h1>
 
-        {/* 스크롤 유도 화살표 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="mt-12"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-10 h-10 rounded-full border-2 border-white/40 flex items-center justify-center mx-auto"
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M7 2v10M3 8l4 4 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
-            </svg>
-          </motion.div>
-        </motion.div>
       </div>
+
+      {/* 스크롤 유도 화살표 — 화면 하단 고정 */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          className="w-10 h-10 rounded-full border-2 border-white/40 flex items-center justify-center"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 2v10M3 8l4 4 4-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7" />
+          </svg>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
@@ -432,7 +433,7 @@ function ProblemCard({ p, i, lang }: {
       >
         <div>
           <motion.p
-            className="text-[14px] lg:text-[15px] text-[#777A86] leading-relaxed mb-1"
+            className="text-[14px] lg:text-[15px] text-[#595959] leading-relaxed mb-1"
             initial={{ opacity: 0, y: 10 }}
             animate={cardInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: i * 0.12 + 0.2 }}
@@ -440,7 +441,7 @@ function ProblemCard({ p, i, lang }: {
             {lang === 'ko' ? p.fromKo : p.fromEn}
           </motion.p>
           <motion.h3
-            className="text-[20px] lg:text-[22px] font-bold text-[#191F28] leading-snug"
+            className="text-[20px] lg:text-[22px] font-bold text-[#595959] leading-snug"
             initial={{ opacity: 0, y: 10 }}
             animate={cardInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: i * 0.12 + 0.3 }}
@@ -475,11 +476,11 @@ function ProblemCard({ p, i, lang }: {
         animate={active ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.97 }}
         transition={{ duration: 0.35 }}
       >
-        <p className="text-[14px] lg:text-[15px] text-[#2D3440] leading-[1.85] whitespace-pre-line">
+        <p className="text-[14px] lg:text-[15px] text-[#595959] leading-[1.85] whitespace-pre-line">
           {lang === 'ko' ? p.descKo : p.descEn}
         </p>
         {p.closingKo && (
-          <p className="text-[13px] lg:text-[14px] text-[#448CFF] font-semibold mt-4 whitespace-pre-line leading-relaxed">
+          <p className="text-[13px] lg:text-[14px] text-[#595959] font-semibold mt-4 whitespace-pre-line leading-relaxed">
             {lang === 'ko' ? p.closingKo : p.closingEn}
           </p>
         )}
@@ -544,7 +545,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
           initial={{ opacity: 0, y: 30 }}
           animate={headInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-bold text-[#191F28] text-center leading-[1.3] tracking-tight mb-16 lg:mb-20"
+          className="font-bold text-[#595959] text-center leading-[1.3] tracking-tight mb-16 lg:mb-20"
           style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
         >
           {lang === 'ko'
@@ -721,12 +722,16 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
           className="relative z-20 w-full max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14"
           style={{ opacity: cardsOpacity }}
         >
-          <motion.p
-            className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase text-center mb-10"
-            style={{ opacity: cardsOpacity }}
-          >
-            {lang === 'ko' ? '이노하이가 만들 세상' : 'The World INNO-HI Creates'}
-          </motion.p>
+          <motion.div className="text-center mb-14" style={{ opacity: cardsOpacity }}>
+            <motion.h2
+              className="font-bold text-[#191F28] leading-[1.3] tracking-tight"
+              style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
+            >
+              {lang === 'ko' ? '이노하이가 만들 세상' : 'The World INNO-HI Creates'}
+            </motion.h2>
+            {/* 카드와 연결하는 세로 라인 */}
+            <div className="mx-auto mt-6 w-px h-10 bg-gradient-to-b from-[#448CFF]/40 to-transparent" />
+          </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {futureValues.map((v, i) => (
                 <motion.div
