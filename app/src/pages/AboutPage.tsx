@@ -64,13 +64,13 @@ function DataPanelsBg() {
     <svg viewBox="0 0 1440 900" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
       <defs>
         <linearGradient id="mBg" x1="0" y1="0" x2="1440" y2="900" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#0F172A" />
-          <stop offset="50%" stopColor="#1E293B" />
-          <stop offset="100%" stopColor="#1A2744" />
+          <stop offset="0%" stopColor="#E4EDFC" />
+          <stop offset="40%" stopColor="#EBF1FF" />
+          <stop offset="100%" stopColor="#F5F8FF" />
         </linearGradient>
         <linearGradient id="panelFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.12" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.04" />
+          <stop offset="0%" stopColor="#448CFF" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#448CFF" stopOpacity="0.03" />
         </linearGradient>
         {/* 글로우 */}
         <filter id="glow"><feGaussianBlur stdDeviation="18" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
@@ -217,18 +217,18 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
           style={{ opacity: brightOpacity }}
         />
 
-        {/* 텍스트 1: 흰 글씨 */}
+        {/* 텍스트 1 */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center px-6 z-10"
           style={{ opacity: text1Opacity }}
         >
           <p
-            className="text-white font-bold text-center leading-[1.6] tracking-tight whitespace-pre-line"
-            style={{ fontSize: 'clamp(1.25rem, 3vw, 2rem)' }}
+            className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight whitespace-pre-line"
+            style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
-              ? '데이터는 계속 쌓이고 있지만\n세상을 움직이는 방식은\n크게 달라지지 않았습니다.'
-              : 'Data keeps accumulating,\nbut the way the world operates\nhas barely changed.'}
+              ? '데이터는 계속 쌓이고 있지만\n세상을 움직이는 방식은 크게 달라지지 않았습니다.'
+              : 'Data keeps accumulating,\nbut the way the world operates has barely changed.'}
           </p>
         </motion.div>
 
@@ -242,16 +242,16 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
           }}
         >
           <p
-            className="text-[#191F28] font-bold text-center leading-[1.5] tracking-tight"
-            style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
+            className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight"
+            style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
               ? '기술과 데이터로 더 지능적인 세상을 만들고,'
               : 'We create a more intelligent world with technology and data,'}
           </p>
           <p
-            className="text-[#191F28] font-bold text-center leading-[1.5] tracking-tight mt-2"
-            style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
+            className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight mt-2"
+            style={{ fontSize: 'clamp(1.75rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
               ? '더 나은 내일의 기준을 만들어가겠습니다.'
@@ -488,7 +488,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
   const headInView = useInView(headRef, { once: true, margin: '-80px' });
 
   return (
-    <section className="bg-white py-24 lg:py-32">
+    <section className="bg-white min-h-screen flex flex-col justify-center py-12 lg:py-16">
       <div className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14 w-full">
         {/* 헤더 */}
         <motion.h2
@@ -496,8 +496,8 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
           initial={{ opacity: 0, y: 30 }}
           animate={headInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-bold text-[#191F28] text-center leading-[1.3] tracking-tight mb-20 lg:mb-24"
-          style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+          className="font-bold text-[#191F28] text-center leading-[1.3] tracking-tight mb-10 lg:mb-14"
+          style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
         >
           {lang === 'ko'
             ? 'AI의 끝은 결국 사람입니다.'
@@ -505,7 +505,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
         </motion.h2>
 
         {/* 카드 2×2 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:gap-6">
           {problems.map((p, i) => (
             <ProblemCard key={i} p={p} i={i} lang={lang} />
           ))}
