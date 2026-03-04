@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Navigation } from '@/sections/Navigation';
 import { HowItWorks } from '@/sections/HowItWorks';
 import { Infrastructure } from '@/sections/Infrastructure';
-import { Footer } from '@/sections/Footer';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export function ServicesPage() {
   const { lang } = useLanguage();
@@ -14,11 +12,7 @@ export function ServicesPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-white">
-      <a href="#main-content" className="skip-to-content">
-        {lang === 'ko' ? '본문으로 바로가기' : 'Skip to main content'}
-      </a>
-      <Navigation />
+    <>
       <main id="main-content">
 
         {/* 페이지 헤더 — 전체 뷰포트 */}
@@ -82,7 +76,6 @@ export function ServicesPage() {
         <HowItWorks />
         <Infrastructure />
       </main>
-      <Footer />
-    </div>
+    </>
   );
 }

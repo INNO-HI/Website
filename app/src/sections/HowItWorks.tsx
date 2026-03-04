@@ -8,7 +8,7 @@ import {
   Link2,
   ArrowRight,
 } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 const steps = [
   {

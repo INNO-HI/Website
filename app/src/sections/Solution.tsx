@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mic, Database, LineChart, Workflow } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 // ── 휴대폰 목업 콘텐츠 ────────────────────────────────────────────────
 
@@ -397,7 +397,7 @@ const solutions = [
     subtitleEn: 'STT & NLP',
     titleKo: '말하는 순간,\n데이터가 됩니다',
     titleEn: 'The moment you speak,\nit becomes data',
-    descKo: '현장의 목소리를 실시간으로 인식하여\n구조화된 기록으로 변환합니다.\n수기 작성 없이 대화만으로 모든 상담 내용이\n시스템에 자동 입력됩니다.',
+    descKo: '현장의 목소리를 실시간으로 인식하여 구조화된 기록으로 변환합니다.\n수기 작성 없이 대화만으로 모든 상담 내용이 시스템에 자동 입력됩니다.',
     descEn: 'Real-time voice recognition converts field conversations into structured records.\nAll consultation content is automatically entered through conversation alone.',
     featuresKo: ['실시간 전사 — 0.1초 지연', '12개 언어 동시 지원', '노이즈 환경 98.5% 정확도'],
     featuresEn: ['Real-time transcription — 0.1s delay', '12 languages simultaneously', '98.5% accuracy in noisy environments'],
@@ -563,7 +563,7 @@ function SolutionBlock({ sol, index }: { sol: typeof solutions[0]; index: number
   );
 
   return (
-    <section key={index} className={`${sol.bg} py-20 lg:py-28`} id={index === 0 ? 'solution' : undefined}>
+    <section key={index} className={`${sol.bg} py-24 lg:py-36`} id={index === 0 ? 'solution' : undefined}>
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className={`grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center ${sol.flip ? 'lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1' : ''}`}>
           {textCol}

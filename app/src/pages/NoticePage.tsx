@@ -1,240 +1,297 @@
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Bell, Calendar, ArrowLeft } from 'lucide-react';
-import { Navigation } from '@/sections/Navigation';
-import { Footer } from '@/sections/Footer';
-import { useLanguage } from '@/context/LanguageContext';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLanguage } from '@/hooks/useLanguage';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 
-const notices = [
+interface Notice {
+  id: number;
+  date: string;
+  title: string;
+  titleEn: string;
+  content: string;
+  contentEn: string;
+}
+
+const notices: Notice[] = [
   {
     id: 1,
-    category: '공지',
-    categoryEn: 'Notice',
-    title: 'INNO-HI 공식 홈페이지 개설 안내',
-    titleEn: 'INNO-HI Official Website Launch',
-    date: '2026.02.20',
-    content: '안녕하세요, 이노하이입니다.\n\nINNO-HI 공식 홈페이지가 개설되었습니다.\n앞으로 회사 소개, 서비스 안내, 공지사항 등 다양한 정보를 이 곳에서 확인하실 수 있습니다.\n\n도입 문의 및 기타 문의사항은 contact@innohi.ai.kr 으로 연락해 주세요.\n감사합니다.',
-    contentEn: 'Hello, this is INNO-HI.\n\nThe official INNO-HI website has launched.\nYou can now find information about our company, services, and announcements here.\n\nFor inquiries, please contact us at contact@innohi.ai.kr.\nThank you.',
+    date: '26.03.01',
+    title: '등기 주소지 변경 안내',
+    titleEn: 'Notice of Registered Address Change',
+    content: `**등기 주소지 변경 안내**
+
+안녕하세요, ㈜이노하이입니다.
+
+당사의 등기 주소지가 아래와 같이 변경되었음을 안내드립니다.
+
+**기존 주소**
+서울특별시 강남구 영동대로 602, 6층 티288
+
+**변경 주소**
+서울특별시 중구 퇴계로36길 2, 신관동 지하2층 비257호
+
+**적용일자**
+2026년 3월 1일
+
+변경된 주소로 우편 및 방문 업무를 진행해주시기 바랍니다.
+
+감사합니다.
+㈜이노하이 드림`,
+    contentEn: `**Notice of Registered Address Change**
+
+Hello, this is INNO-HI Inc.
+
+We would like to inform you that our registered address has been changed as follows.
+
+**Previous Address**
+6F T288, 602 Yeongdong-daero, Gangnam-gu, Seoul
+
+**New Address**
+B2F B245, Singwan-dong, 2 Toegye-ro 36-gil, Jung-gu, Seoul
+
+**Effective Date**
+March 1, 2026
+
+Please direct all mail and visits to the new address.
+
+Thank you.
+INNO-HI Inc.`,
   },
   {
     id: 2,
-    category: '안내',
-    categoryEn: 'Guide',
-    title: '서비스 도입 문의 채널 안내',
-    titleEn: 'Service Inquiry Channel Guide',
-    date: '2026.02.20',
-    content: '안녕하세요, 이노하이입니다.\n\n도입 문의는 아래 채널을 통해 진행해 주세요.\n\n- 이메일: contact@innohi.ai.kr\n- 전화: 010-8225-4024\n\n담당자가 빠르게 회신 드리겠습니다.\n감사합니다.',
-    contentEn: 'Hello, this is INNO-HI.\n\nFor service inquiries, please use the following channels.\n\n- Email: contact@innohi.ai.kr\n- Phone: 010-8225-4024\n\nOur team will respond promptly.\nThank you.',
-  },
-  {
-    id: 3,
-    category: '업데이트',
-    categoryEn: 'Update',
-    title: '이노하이 베타 서비스 출시 예정 안내',
-    titleEn: 'INNO-HI Beta Service Launch Notice',
-    date: '2026.02.20',
-    content: '안녕하세요, 이노하이입니다.\n\n이노하이 AX 플랫폼 베타 서비스 출시를 앞두고 있습니다.\n사전 등록 기관에는 우선적으로 도입 혜택을 제공해 드릴 예정입니다.\n\n자세한 내용은 추후 공지드리겠습니다.\n감사합니다.',
-    contentEn: 'Hello, this is INNO-HI.\n\nWe are preparing to launch the INNO-HI AX Platform beta service.\nPre-registered organizations will receive priority access and special benefits.\n\nMore details will be announced soon.\nThank you.',
+    date: '26.01.09',
+    title: '법인 설립 및 사업 승계 안내',
+    titleEn: 'Notice of Incorporation and Business Succession',
+    content: `**법인 설립 및 사업 승계 안내**
+
+안녕하세요, 주식회사 이노하이입니다.
+
+당사는 2026년 1월 8일 개인사업자 「안심하이」의 사업 일체를 포괄양수도 방식으로 승계하였으며,
+**2026년 1월 9일 주식회사 이노하이로 법인 설립** 등기를 완료하였습니다.
+
+이에 따라 기존 안심하이의 모든 사업은 동일하게 유지되며, 관련 권리 및 의무는 주식회사 이노하이로 승계되었음을 안내드립니다.
+
+앞으로도 더욱 체계적이고 책임 있는 기업으로 성장해 나가겠습니다.
+
+감사합니다.
+
+주식회사 이노하이`,
+    contentEn: `**Notice of Incorporation and Business Succession**
+
+Hello, this is INNO-HI Inc.
+
+On January 8, 2026, our company succeeded all business operations of the sole proprietorship "Ansim-HI" through a comprehensive transfer, and **on January 9, 2026, completed the corporate registration as INNO-HI Inc.**
+
+Accordingly, all existing business operations of Ansim-HI will continue as before, and all related rights and obligations have been succeeded by INNO-HI Inc.
+
+We will continue to grow as a more systematic and responsible company.
+
+Thank you.
+
+INNO-HI Inc.`,
   },
 ];
 
-const categoryStyle: Record<string, string> = {
-  '공지': 'bg-blue-50 text-blue-600',
-  '안내': 'bg-purple-50 text-purple-600',
-  '업데이트': 'bg-emerald-50 text-emerald-600',
-};
+// ── 상세 ─────────────────────────────────────────────────────────────
 
-// 상세 페이지
 function NoticeDetail({ noticeId, lang }: { noticeId: number; lang: 'ko' | 'en' }) {
   const notice = notices.find(n => n.id === noticeId);
   const navigate = useNavigate();
 
   if (!notice) {
     return (
-      <section className="py-32 text-center">
-        <p className="text-[#777A86]">{lang === 'ko' ? '존재하지 않는 공지사항입니다.' : 'Notice not found.'}</p>
+      <section className="pt-32 pb-20 text-center">
+        <p className="text-[#B0B8C1]">{lang === 'ko' ? '존재하지 않는 공고사항입니다.' : 'Announcement not found.'}</p>
         <Link to="/notice" className="text-sm text-[#448CFF] font-medium mt-4 inline-block">
-          {lang === 'ko' ? '← 목록으로 돌아가기' : '← Back to list'}
+          {lang === 'ko' ? '← 목록으로' : '← Back'}
         </Link>
       </section>
     );
   }
 
-  const catStyle = categoryStyle[notice.category] || 'bg-gray-50 text-gray-500';
-  const currentIndex = notices.findIndex(n => n.id === noticeId);
-  const prevNotice = currentIndex > 0 ? notices[currentIndex - 1] : null;
-  const nextNotice = currentIndex < notices.length - 1 ? notices[currentIndex + 1] : null;
+  const idx = notices.findIndex(n => n.id === noticeId);
+  const prev = idx > 0 ? notices[idx - 1] : null;
+  const next = idx < notices.length - 1 ? notices[idx + 1] : null;
 
   return (
-    <>
-      <section className="pt-32 pb-10 lg:pt-40 lg:pb-14 bg-gradient-to-b from-[#EEF4FF] to-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            onClick={() => navigate('/notice')}
-            className="flex items-center gap-1.5 text-sm text-[#777A86] hover:text-[#448CFF] font-medium mb-6 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {lang === 'ko' ? '목록으로' : 'Back to list'}
-          </motion.button>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <div className="flex items-center gap-2 mb-4">
-              <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-semibold ${catStyle}`}>
-                {lang === 'ko' ? notice.category : notice.categoryEn}
-              </span>
-              <span className="flex items-center gap-1 text-xs text-[#9CA3AF]">
-                <Calendar className="w-3.5 h-3.5" />
-                {notice.date}
-              </span>
-            </div>
-            <h1 className="font-semibold text-[#1A1D2E] tracking-tight" style={{ fontSize: 'clamp(1.4rem, 3vw, 2rem)' }}>
+    <section className="pt-40 pb-20 lg:pt-[194px] lg:pb-32">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-14">
+        <div className="mb-10">
+          <p className="text-[16px] text-[#8B95A1] mb-5 tabular-nums">{notice.date}</p>
+          <div className="flex items-start justify-between gap-6">
+            <h1 className="text-[1.5rem] sm:text-[1.75rem] font-bold text-[#191F28] leading-snug tracking-tight">
               {lang === 'ko' ? notice.title : notice.titleEn}
             </h1>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="py-10 lg:py-14">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="rounded-2xl border border-[#EAEDF2] bg-white p-6 sm:p-8 shadow-sm"
-          >
-            <p className="text-[15px] text-[#4B4E56] leading-relaxed whitespace-pre-line font-medium">
-              {lang === 'ko' ? notice.content : notice.contentEn}
-            </p>
-          </motion.div>
-
-          {/* 이전/다음 네비게이션 */}
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            {prevNotice ? (
-              <Link
-                to={`/notice/${prevNotice.id}`}
-                className="p-4 rounded-xl border border-[#EAEDF2] hover:border-[#448CFF]/30 hover:bg-[#FAFBFF] transition-all"
-              >
-                <p className="text-[10px] text-[#9CA3AF] font-semibold mb-1">{lang === 'ko' ? '이전 글' : 'Previous'}</p>
-                <p className="text-sm text-[#383838] font-medium truncate">{lang === 'ko' ? prevNotice.title : prevNotice.titleEn}</p>
-              </Link>
-            ) : <div />}
-            {nextNotice ? (
-              <Link
-                to={`/notice/${nextNotice.id}`}
-                className="p-4 rounded-xl border border-[#EAEDF2] hover:border-[#448CFF]/30 hover:bg-[#FAFBFF] transition-all text-right"
-              >
-                <p className="text-[10px] text-[#9CA3AF] font-semibold mb-1">{lang === 'ko' ? '다음 글' : 'Next'}</p>
-                <p className="text-sm text-[#383838] font-medium truncate">{lang === 'ko' ? nextNotice.title : nextNotice.titleEn}</p>
-              </Link>
-            ) : <div />}
+            <button
+              onClick={() => navigate('/notice')}
+              className="flex items-center gap-1.5 text-[14px] text-[#B0B8C1] hover:text-[#333D4B] font-medium flex-shrink-0 transition-colors duration-200"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {lang === 'ko' ? '목록으로' : 'Back to list'}
+            </button>
           </div>
         </div>
-      </section>
-    </>
+
+        <div className="border-t border-[#E5E8EB] pt-10 pb-14 sm:pt-12 sm:pb-16 min-h-[320px] text-[17px] text-[#4E5968] leading-[2] whitespace-pre-line max-w-4xl">
+          {(lang === 'ko' ? notice.content : notice.contentEn).split(/(\*\*.*?\*\*)/).map((part, i) =>
+            part.startsWith('**') && part.endsWith('**')
+              ? <strong key={i} className="font-semibold text-[#333D4B]">{part.slice(2, -2)}</strong>
+              : <span key={i}>{part}</span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-3 pt-6">
+          {prev && (
+            <Link
+              to={`/notice/${prev.id}`}
+              className="group flex items-center justify-between px-8 py-[26px] bg-white rounded-[14px] shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] hover:-translate-y-[2px] transition-all duration-200"
+            >
+              <div className="flex items-center gap-5">
+                <span className="text-[13px] text-[#B0B8C1] font-medium">{lang === 'ko' ? '이전' : 'Prev'}</span>
+                <span className="text-[16px] text-[#4E5968] font-medium group-hover:text-[#448CFF] truncate transition-colors duration-200">{lang === 'ko' ? prev.title : prev.titleEn}</span>
+              </div>
+              <ChevronLeft className="w-[18px] h-[18px] text-[#D1D6DB] group-hover:text-[#448CFF] transition-colors duration-200" />
+            </Link>
+          )}
+          {next && (
+            <Link
+              to={`/notice/${next.id}`}
+              className="group flex items-center justify-between px-8 py-[26px] bg-white rounded-[14px] shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] hover:-translate-y-[2px] transition-all duration-200"
+            >
+              <div className="flex items-center gap-5">
+                <span className="text-[13px] text-[#B0B8C1] font-medium">{lang === 'ko' ? '다음' : 'Next'}</span>
+                <span className="text-[16px] text-[#4E5968] font-medium group-hover:text-[#448CFF] truncate transition-colors duration-200">{lang === 'ko' ? next.title : next.titleEn}</span>
+              </div>
+              <ChevronRight className="w-[18px] h-[18px] text-[#D1D6DB] group-hover:text-[#448CFF] transition-colors duration-200" />
+            </Link>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }
 
-// 목록 페이지
+// ── 목록 ─────────────────────────────────────────────────────────────
+
+const ITEMS_PER_PAGE = 5;
+const PAGE_GROUP_SIZE = 5;
+const sortedNotices = [...notices].sort((a, b) => a.id - b.id);
+
 function NoticeList({ lang }: { lang: 'ko' | 'en' }) {
+  const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const filtered = sortedNotices.filter(n => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return n.title.toLowerCase().includes(q) || n.titleEn.toLowerCase().includes(q);
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const paged = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
+  const currentGroup = Math.floor((currentPage - 1) / PAGE_GROUP_SIZE);
+  const groupStart = currentGroup * PAGE_GROUP_SIZE + 1;
+  const groupEnd = Math.min(groupStart + PAGE_GROUP_SIZE - 1, totalPages);
+  const pageNumbers = Array.from({ length: groupEnd - groupStart + 1 }, (_, i) => groupStart + i);
+
+  useEffect(() => { setCurrentPage(1); }, [search]);
+
+  const handlePage = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <>
-      <section className="pt-32 pb-10 lg:pt-40 lg:pb-14 bg-gradient-to-b from-[#EEF4FF] to-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-[#D3D8DF] mb-5"
-          >
-            <Bell className="w-3.5 h-3.5 text-[#448CFF]" />
-            <span className="text-xs font-semibold text-[#448CFF]">
-              {lang === 'ko' ? '공지사항' : 'Notice'}
-            </span>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-semibold text-[#1A1D2E] tracking-tight mb-3"
-            style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)' }}
-          >
-            {lang === 'ko' ? '공지사항' : 'Notices'}
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-[#777A86] text-[15px] font-medium"
-          >
-            {lang === 'ko'
-              ? 'INNO-HI의 최신 소식과 업데이트를 확인하세요.'
-              : 'Check the latest news and updates from INNO-HI.'}
-          </motion.p>
-        </div>
-      </section>
-
-      <section className="py-10 lg:py-14">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="hidden sm:grid grid-cols-[auto_1fr_auto] gap-4 px-4 py-2 mb-2 text-xs font-semibold text-[#9CA3AF] uppercase tracking-wider">
-            <span className="w-16">{lang === 'ko' ? '분류' : 'Category'}</span>
-            <span>{lang === 'ko' ? '제목' : 'Title'}</span>
-            <span className="text-right">{lang === 'ko' ? '날짜' : 'Date'}</span>
+    <section className="pt-40 pb-16 lg:pt-[194px] lg:pb-24">
+      <div className="max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14 w-full">
+        {/* 헤더 */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
+          <div>
+            <h1 className="text-[1.75rem] sm:text-[2rem] font-bold text-[#191F28] tracking-tight">
+              {lang === 'ko' ? '공고사항' : 'Announcements'}
+            </h1>
+            <p className="text-[15px] text-[#777A86] mt-3 leading-relaxed">
+              {lang === 'ko'
+                ? '이노하이의 공식 발표 및 주요 변경 사항을 안내합니다.'
+                : 'Official announcements and key updates from INNO-HI.'}
+            </p>
           </div>
-
-          <div className="rounded-2xl border border-[#EAEDF2] overflow-hidden bg-white shadow-sm">
-            {notices.map((notice, index) => {
-              const catStyle = categoryStyle[notice.category] || 'bg-gray-50 text-gray-500';
-
-              return (
-                <motion.div
-                  key={notice.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: index * 0.06 }}
-                  className="border-b border-[#EAEDF2] last:border-0"
-                >
-                  <Link
-                    to={`/notice/${notice.id}`}
-                    className="block w-full text-left px-5 py-4 sm:px-6 sm:py-5 hover:bg-[#FAFBFF] transition-colors duration-150"
-                  >
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-semibold flex-shrink-0 ${catStyle}`}>
-                        {lang === 'ko' ? notice.category : notice.categoryEn}
-                      </span>
-
-                      <p className="flex-1 text-sm sm:text-[15px] font-semibold text-[#1A1D2E] truncate hover:text-[#448CFF] transition-colors">
-                        {lang === 'ko' ? notice.title : notice.titleEn}
-                      </p>
-
-                      <span className="hidden sm:flex items-center gap-1 text-xs text-[#9CA3AF] flex-shrink-0">
-                        <Calendar className="w-3.5 h-3.5" />
-                        {notice.date}
-                      </span>
-                    </div>
-
-                    <div className="sm:hidden flex items-center gap-1 text-[11px] text-[#9CA3AF] mt-1.5">
-                      <Calendar className="w-3 h-3" />
-                      {notice.date}
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
+          <div className="relative w-full sm:w-80">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-[#B0B8C1]" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={lang === 'ko' ? '검색' : 'Search'}
+              className="w-full pl-11 pr-4 py-2.5 rounded-xl bg-white border border-[#E5E8EB] text-[15px] text-[#333D4B] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] transition-all duration-200"
+            />
           </div>
-
-          <p className="text-center text-xs text-[#B0BAC8] mt-6">
-            {lang === 'ko'
-              ? '총 ' + notices.length + '건의 공지사항이 있습니다.'
-              : notices.length + ' notice(s) total.'}
-          </p>
         </div>
-      </section>
-    </>
+
+        {/* 카드 리스트 */}
+        {filtered.length === 0 ? (
+          <div className="py-20 text-center">
+            <p className="text-sm text-[#B0B8C1]">
+              {lang === 'ko' ? '검색 결과가 없습니다.' : 'No results found.'}
+            </p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3 min-h-[480px]">
+            {paged.map((notice) => (
+              <Link
+                key={notice.id}
+                to={`/notice/${notice.id}`}
+                className="group flex items-center justify-between px-8 py-[26px] bg-white rounded-[14px] shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] hover:-translate-y-[2px] transition-all duration-200"
+              >
+                <div className="flex items-center gap-6 min-w-0">
+                  <span className="text-[14px] text-[#B0B8C1] tabular-nums flex-shrink-0">{notice.date}</span>
+                  <span className="text-[16px] text-[#333D4B] font-medium group-hover:text-[#448CFF] transition-colors duration-200 truncate">
+                    {lang === 'ko' ? notice.title : notice.titleEn}
+                  </span>
+                </div>
+                <ChevronRight className="w-[18px] h-[18px] text-[#D1D6DB] group-hover:text-[#448CFF] flex-shrink-0 ml-4 transition-colors duration-200" />
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* 페이지네이션 */}
+        <div className="flex items-center justify-center gap-2 mt-8">
+          <button
+            onClick={() => handlePage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-[#B0B8C1] hover:text-[#3182F6] hover:bg-[#E8F3FF] disabled:opacity-30 disabled:pointer-events-none transition-all duration-200"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          {pageNumbers.map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePage(page)}
+              className={`w-8 h-8 rounded-lg text-[13px] font-medium transition-all duration-200 ${
+                page === currentPage
+                  ? 'bg-[#E8F3FF] text-[#3182F6]'
+                  : 'text-[#B0B8C1] hover:bg-[#F2F4F6] hover:text-[#333D4B]'
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="w-8 h-8 rounded-lg flex items-center justify-center text-[#B0B8C1] hover:text-[#3182F6] hover:bg-[#E8F3FF] disabled:opacity-30 disabled:pointer-events-none transition-all duration-200"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
+
+// ── 메인 ─────────────────────────────────────────────────────────────
 
 export function NoticePage() {
   const { lang } = useLanguage();
@@ -245,15 +302,8 @@ export function NoticePage() {
   }, [id]);
 
   return (
-    <div className="relative min-h-screen bg-white">
-      <a href="#main-content" className="skip-to-content">
-        {lang === 'ko' ? '본문으로 바로가기' : 'Skip to main content'}
-      </a>
-      <Navigation />
-      <main id="main-content">
-        {id ? <NoticeDetail noticeId={Number(id)} lang={lang} /> : <NoticeList lang={lang} />}
-      </main>
-      <Footer />
-    </div>
+    <main id="main-content">
+      {id ? <NoticeDetail noticeId={Number(id)} lang={lang} /> : <NoticeList lang={lang} />}
+    </main>
   );
 }

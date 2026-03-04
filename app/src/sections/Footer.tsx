@@ -1,158 +1,68 @@
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import logoSrc from '@/assets/logo.png';
 
-const footerLinks = {
-  solutions: [
-    { labelKo: '음성 인식', labelEn: 'Voice Recognition', href: '/#solution' },
-    { labelKo: '데이터 구조화', labelEn: 'Data Structuring', href: '/#solution' },
-    { labelKo: '업무 자동화', labelEn: 'Workflow Automation', href: '/#solution' },
-  ],
-  company: [
-    { labelKo: '회사 소개', labelEn: 'About', href: '/about' },
-    { labelKo: '도입 문의', labelEn: 'Contact', href: 'mailto:contact@innohi.ai.kr' },
-  ],
-  resources: [
-    { labelKo: '문서', labelEn: 'Docs', href: '#' },
-  ],
-};
+const siteLinks = [
+  { labelKo: '회사 소개', labelEn: 'About', href: '/about' },
+  { labelKo: '서비스 소개', labelEn: 'Services', href: '/services' },
+  { labelKo: '도입 사례', labelEn: 'Case Studies', href: '/cases' },
+  { labelKo: '공고사항', labelEn: 'Announcements', href: '/notice' },
+];
 
 export function Footer() {
   const { lang } = useLanguage();
 
   return (
-    <footer id="contact" className="relative bg-white border-t border-[#D3D8DF]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8">
+    <footer className="bg-white border-t border-[#E5E8EB]">
+      <div className="max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14">
 
-          {/* Company Info */}
-          <div className="lg:col-span-5">
-            <div className="mb-5">
-              <img src={logoSrc} alt="INNO-HI" className="h-5 w-auto" />
-            </div>
+        {/* Upper: Logo · Nav · Contact */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pt-12 lg:pt-14 pb-10 lg:pb-12">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
+            <img src={logoSrc} alt="INNO-HI" className="h-5 w-auto" />
+            <nav className="flex flex-wrap items-center gap-x-8 gap-y-2">
+              {siteLinks.map((link, i) => (
+                <Link
+                  key={i}
+                  to={link.href}
+                  className="text-[15px] text-[#4E5968] hover:text-[#448CFF] transition-colors duration-200"
+                >
+                  {lang === 'ko' ? link.labelKo : link.labelEn}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <a
+            href="mailto:contact@innohi.ai.kr"
+            className="inline-flex items-center gap-2 text-[15px] text-[#4E5968] hover:text-[#448CFF] font-medium transition-colors duration-200"
+          >
+            contact@innohi.ai.kr
+            <span className="text-[#D1D6DB]">&rarr;</span>
+          </a>
+        </div>
 
-            <p className="text-sm text-[#4B4E56] mb-6 max-w-xs leading-relaxed">
-              {lang === 'ko' ? (
-                <>현실의 업무를 지능화하는 인프라.<br />기술로 사람의 가치를 증명합니다.</>
-              ) : (
-                <>Infrastructure that intelligentizes real-world work.<br />Proving human value through technology.</>
-              )}
+        {/* Lower: Legal · Tagline · Copyright */}
+        <div className="border-t border-[#F2F4F6] py-8 lg:py-10">
+          <div className="space-y-1.5 text-[14px] text-[#8B95A1] leading-relaxed">
+            <p>
+              {lang === 'ko'
+                ? '주식회사 이노하이 · 대표자: 김민수, 한민우 · 사업자등록번호: 758-86-03814'
+                : 'INNO-HI Inc. · CEO: Minsu Kim, Minwoo Han · BRN: 758-86-03814'}
             </p>
-
-            <div className="space-y-2.5">
-              <a
-                href="mailto:contact@innohi.ai.kr"
-                className="flex items-center gap-2.5 text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors"
-              >
-                <Mail className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-                <span>contact@innohi.ai.kr</span>
-              </a>
-              <a
-                href="tel:010-8225-4024"
-                className="flex items-center gap-2.5 text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors"
-              >
-                <Phone className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-                <span>010-8225-4024</span>
-              </a>
-              <div className="flex items-start gap-2.5 text-sm text-[#4B4E56]">
-                <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <span>{lang === 'ko' ? '서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호' : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Chungmuro Image Center B257'}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 mt-5">
-              <motion.a
-                href="#"
-                className="w-9 h-9 rounded-full bg-[#F8F9FD] border border-[#D3D8DF] flex items-center justify-center text-[#777A86] hover:text-[#448CFF] hover:border-[#8AB8FB] transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                aria-label="LinkedIn"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                </svg>
-              </motion.a>
-            </div>
+            <p>
+              {lang === 'ko'
+                ? '서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호 · 010-8225-4024'
+                : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Chungmuro Image Center B257 · 010-8225-4024'}
+            </p>
           </div>
-
-          {/* Links */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
-            <div>
-              <h4 className="text-xs font-semibold text-[#383838] uppercase tracking-wider mb-4">
-                {lang === 'ko' ? '솔루션' : 'Solutions'}
-              </h4>
-              <ul className="space-y-2.5">
-                {footerLinks.solutions.map((link, index) => (
-                  <li key={index}>
-                    <a href={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                      {lang === 'ko' ? link.labelKo : link.labelEn}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-xs font-semibold text-[#383838] uppercase tracking-wider mb-4">
-                {lang === 'ko' ? '회사' : 'Company'}
-              </h4>
-              <ul className="space-y-2.5">
-                {footerLinks.company.map((link, index) => (
-                  <li key={index}>
-                    {link.href.startsWith('/') ? (
-                      <Link to={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                        {lang === 'ko' ? link.labelKo : link.labelEn}
-                      </Link>
-                    ) : (
-                      <a href={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                        {lang === 'ko' ? link.labelKo : link.labelEn}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-xs font-semibold text-[#383838] uppercase tracking-wider mb-4">
-                {lang === 'ko' ? '리소스' : 'Resources'}
-              </h4>
-              <ul className="space-y-2.5">
-                {footerLinks.resources.map((link, index) => (
-                  <li key={index}>
-                    <a href={link.href} className="text-sm text-[#4B4E56] hover:text-[#448CFF] transition-colors">
-                      {lang === 'ko' ? link.labelKo : link.labelEn}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-5">
+            <p className="text-[13px] text-[#B0B8C1]">&copy; {new Date().getFullYear()} INNO-HI. All rights reserved.</p>
+            <p className="text-[14px] text-[#D1D6DB] font-light tracking-wide">
+              {lang === 'ko' ? '가장 깊은 지능, 가장 높은 존중.' : 'Deepest Intelligence, Highest Respect.'}
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-[#D3D8DF]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-          <div className="flex flex-col gap-1.5">
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[#9CA3AF]">
-              <span>{lang === 'ko' ? '주식회사 이노하이' : 'INNO-HI Inc.'}</span>
-              <span>{lang === 'ko' ? '대표자: 김민수, 한민우' : 'CEO: Minsu Kim, Minwoo Han'}</span>
-              <span>{lang === 'ko' ? '사업자등록번호: 758-86-03814' : 'BRN: 758-86-03814'}</span>
-              <span>{lang === 'ko' ? '주소: 서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호' : 'Addr: 2, Toegye-ro 36-gil, Jung-gu, Seoul, B257'}</span>
-              <span>{lang === 'ko' ? '전화: 010-8225-4024' : 'Tel: 010-8225-4024'}</span>
-              <span>{lang === 'ko' ? '이메일: contact@innohi.ai.kr' : 'Email: contact@innohi.ai.kr'}</span>
-            </div>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2">
-              <p className="text-[11px] text-[#B0BAC8]">&copy; {new Date().getFullYear()} INNO-HI. All rights reserved.</p>
-              <p className="text-[11px] text-[#B0BAC8] font-medium">
-                {lang === 'ko' ? '가장 깊은 지능, 가장 높은 존중.' : 'Deepest Intelligence, Highest Respect.'}
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </footer>
   );

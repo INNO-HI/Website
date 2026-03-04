@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 // ── 플로팅 글래스 카드 ─────────────────────────────────────────────────
 
@@ -271,7 +271,7 @@ export function Hero() {
     <section
       ref={containerRef}
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(155deg, #EEF4FF 0%, #F4F8FF 40%, #FAFCFF 75%, #FFFFFF 100%)' }}
+      style={{ background: 'linear-gradient(155deg, #E8EEFF 0%, #F0F4FF 30%, #F8F0FF 60%, #FAFCFF 80%, #FFFFFF 100%)' }}
       aria-label={lang === 'ko' ? '메인 히어로' : 'Main hero'}
     >
       {/* 배경 블러 오브 */}
@@ -331,8 +331,8 @@ export function Hero() {
 
           {/* 타이틀 */}
           <h1
-            className="font-semibold text-[#444B52] mb-14 lg:mb-16 leading-[1.08] tracking-tighter"
-            style={{ fontSize: 'clamp(3.25rem, 7.5vw, 5rem)' }}
+            className="font-semibold text-[#1A1D2E] mb-14 lg:mb-16 leading-[1.08] tracking-tighter"
+            style={{ fontSize: 'clamp(3.25rem, 8vw, 5.5rem)' }}
           >
             {lang === 'ko' ? (
               <>

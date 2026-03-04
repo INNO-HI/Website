@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,18 +46,14 @@ export function CTA() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 lg:py-32 bg-[#F8F9FD] overflow-hidden"
+      className="relative py-28 lg:py-40 bg-[#F8F9FD] overflow-hidden"
       aria-labelledby="cta-heading"
     >
       <div className="absolute inset-0" aria-hidden="true">
         <div className="absolute top-1/2 left-1/3 w-[300px] h-[300px] bg-[#ECF1FD] rounded-full blur-3xl -translate-y-1/2" />
         <div className="absolute top-1/2 right-1/3 w-[250px] h-[250px] bg-[#ECF1FD] rounded-full blur-3xl -translate-y-1/2" />
         
-        <div className="absolute inset-0 opacity-[0.015]" style={{
-          backgroundImage: `linear-gradient(to right, #D3D8DF 1px, transparent 1px),
-            linear-gradient(to bottom, #D3D8DF 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }} />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#E0DBFF] rounded-full blur-[120px] opacity-20" />
       </div>
 
       <div className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -107,7 +103,8 @@ export function CTA() {
               <Button
                 onClick={scrollToContact}
                 size="lg"
-                className="bg-[#383838] hover:bg-[#444B52] text-white rounded-full px-8 py-5 text-[15px] font-medium transition-all min-h-[52px]"
+                className="text-white rounded-full px-8 py-5 text-[15px] font-medium transition-all min-h-[52px]"
+                style={{ background: 'linear-gradient(135deg, #448CFF 0%, #7C5CFC 100%)' }}
                 aria-label={lang === 'ko' ? '데모 일정 예약' : 'Schedule a demo'}
               >
                 {lang === 'ko' ? '데모 일정 예약' : 'Schedule a Demo'}

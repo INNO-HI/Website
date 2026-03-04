@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Navigation } from '@/sections/Navigation';
-import { Footer } from '@/sections/Footer';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 import { Building2, HeartPulse, Users, Cpu, TrendingUp, TrendingDown, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // ── 영향력 지표 ───────────────────────────────────────────────────────
@@ -395,9 +393,7 @@ export function CasesPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-white">
-      <a href="#main-content" className="skip-to-content">{lang === 'ko' ? '본문으로 바로가기' : 'Skip to main content'}</a>
-      <Navigation />
+    <>
       <main id="main-content">
 
         {/* 헤더 */}
@@ -502,7 +498,6 @@ export function CasesPage() {
         </section>
 
       </main>
-      <Footer />
-    </div>
+    </>
   );
 }

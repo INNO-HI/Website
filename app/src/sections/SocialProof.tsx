@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 import kepcoMcsLogo from '@/assets/partners/kepco-mcs.png';
 import donggukLogo from '@/assets/partners/dongguk.png';
@@ -58,7 +58,7 @@ export function SocialProof() {
   const quadrupled = [...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos];
 
   return (
-    <section ref={ref} className="bg-[#F8F9FD] py-20 lg:py-28 overflow-hidden">
+    <section ref={ref} className="bg-[#F8F9FD] py-24 lg:py-36 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
 
         {/* 헤더 */}
@@ -86,26 +86,6 @@ export function SocialProof() {
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative mb-3"
-        >
-          <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to right, #F8F9FD, transparent)' }} />
-          <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(to left, #F8F9FD, transparent)' }} />
-          <div className="overflow-hidden">
-            <div className="flex animate-marquee">
-              {quadrupled.map((logo, i) => (
-                <PartnerChip key={i} logo={logo} lang={lang} />
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* 무한 스크롤 마키 — 2열 역방향 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.35 }}
           className="relative mb-14"
         >
           <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
@@ -113,7 +93,7 @@ export function SocialProof() {
           <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(to left, #F8F9FD, transparent)' }} />
           <div className="overflow-hidden">
-            <div className="flex animate-marquee-reverse">
+            <div className="flex animate-marquee">
               {quadrupled.map((logo, i) => (
                 <PartnerChip key={i} logo={logo} lang={lang} />
               ))}

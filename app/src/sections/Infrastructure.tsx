@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   Zap,
 } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 const techCategories = [
   {

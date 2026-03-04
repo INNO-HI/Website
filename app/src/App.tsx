@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { LanguageProvider } from '@/context/LanguageContext';
+import { LanguageProvider } from '@/context/LanguageProvider';
+import { Navigation } from '@/sections/Navigation';
+import { Footer } from '@/sections/Footer';
 import { MainPage } from '@/pages/MainPage';
 import { AboutPage } from '@/pages/AboutPage';
 import { NoticePage } from '@/pages/NoticePage';
@@ -21,14 +23,17 @@ function App() {
 
   return (
     <LanguageProvider>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/notice" element={<NoticePage />} />
-        <Route path="/notice/:id" element={<NoticePage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/cases" element={<CasesPage />} />
-      </Routes>
+      <div className="relative min-h-screen bg-white">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/notice/:id?" element={<NoticePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/cases" element={<CasesPage />} />
+        </Routes>
+        <Footer />
+      </div>
     </LanguageProvider>
   );
 }

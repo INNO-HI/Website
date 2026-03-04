@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Heart, MapPin, BarChart2, Globe, Eye, Users } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 const values = [
   {

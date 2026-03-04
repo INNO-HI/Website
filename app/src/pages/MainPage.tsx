@@ -1,10 +1,8 @@
 import { useEffect } from 'react';
-import { Navigation } from '@/sections/Navigation';
 import { Hero } from '@/sections/Hero';
 import { Solution } from '@/sections/Solution';
 import { SocialProof } from '@/sections/SocialProof';
 import { CTA } from '@/sections/CTA';
-import { Footer } from '@/sections/Footer';
 import { FloatingCTA } from '@/components/FloatingCTA';
 
 export function MainPage() {
@@ -13,21 +11,16 @@ export function MainPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-white">
-      <a href="#main-content" className="skip-to-content">
-        본문으로 바로가기
-      </a>
-      <Navigation />
+    <>
       <main id="main-content">
         <Hero />
         <Solution />
         <SocialProof />
         <CTA />
       </main>
-      <Footer />
       <FloatingCTA />
       <ScrollProgress />
-    </div>
+    </>
   );
 }
 

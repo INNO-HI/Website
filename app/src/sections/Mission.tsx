@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/hooks/useLanguage';
 
 const stats = [
   { value: '99.9%', ko: '시스템 가동률', en: 'System Uptime' },
