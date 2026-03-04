@@ -3,7 +3,7 @@ import { Hero } from '@/sections/Hero';
 import { Solution } from '@/sections/Solution';
 import { UseCases } from '@/sections/UseCases';
 import { PartnerLogos } from '@/sections/SocialProof';
-import { PressSection } from '@/sections/PressSection';
+
 import { CTA } from '@/sections/CTA';
 import { FloatingCTA } from '@/components/FloatingCTA';
 
@@ -21,7 +21,6 @@ export function MainPage() {
         <PartnerLogos />
         <Solution />
         <UseCases />
-        <PressSection />
         <CTA />
       </main>
       <FloatingCTA />

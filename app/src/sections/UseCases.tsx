@@ -131,7 +131,7 @@ export function UseCases() {
       className="relative py-24 lg:py-32 bg-[#F8F9FD]"
       aria-labelledby="usecase-heading"
     >
-      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* 헤더 */}
         <motion.div
           ref={headerRef}

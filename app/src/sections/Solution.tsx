@@ -120,8 +120,8 @@ function SolutionSection({ item, index }: { item: typeof pipeline[number]; index
       ref={ref}
       className="py-24 lg:py-32 bg-white"
     >
-      <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className={`flex flex-col lg:flex-row gap-12 lg:gap-20 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
+      <div className="max-w-[1100px] mx-auto px-6 sm:px-8 lg:px-12">
+        <div className={`flex flex-col lg:flex-row gap-10 lg:gap-16 items-center ${!isEven ? 'lg:flex-row-reverse' : ''}`}>
 
           {/* 텍스트 */}
           <motion.div
@@ -223,7 +223,7 @@ export function Solution() {
     <div id="solution">
 
       {/* ── Pipeline Overview ────────────────────────────────────── */}
-      <div ref={pipelineRef} className="bg-[#F8F9FD] py-24 lg:py-32 snap-start">
+      <div ref={pipelineRef} className="bg-white py-24 lg:py-32 snap-start">
         <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12">
 
           {/* 솔루션 헤딩 */}
