@@ -14,21 +14,20 @@ function MockVoice() {
           {lang === 'ko' ? '음성 인식 중' : 'Voice Recognition'}
         </span>
         <div className="flex gap-1">
-          {[1,2,3].map(i => (
-            <motion.div key={i} className="w-1 rounded-full bg-[#448CFF]"
-              animate={{ height: [8, 18, 8] }}
-              transition={{ duration: 0.7, delay: i * 0.15, repeat: Infinity }} />
+          {[12, 16, 10].map((h, i) => (
+            <div key={i} className="w-1 rounded-full bg-[#448CFF]" style={{ height: h }} />
           ))}
         </div>
       </div>
       <div className="flex items-center justify-center gap-0.5 h-14 mb-4">
-        {Array.from({ length: 32 }).map((_, i) => (
-          <motion.div key={i}
-            className="w-1 rounded-full bg-[#448CFF]"
-            style={{ opacity: 0.3 + (i % 5) * 0.15 }}
-            animate={{ height: [4, Math.random() * 36 + 8, 4] }}
-            transition={{ duration: 0.5 + (i % 3) * 0.2, delay: i * 0.03, repeat: Infinity }} />
-        ))}
+        {Array.from({ length: 32 }).map((_, i) => {
+          const h = Math.abs(Math.sin(i * 0.5 + 1)) * 30 + 6;
+          return (
+            <div key={i}
+              className="w-1 rounded-full bg-[#448CFF]"
+              style={{ height: h, opacity: 0.3 + (i % 5) * 0.15 }} />
+          );
+        })}
       </div>
       <div className="bg-[#F8F9FD] rounded-xl p-3 mb-3">
         <p className="text-[11px] text-[#444B52] leading-relaxed">
@@ -308,11 +307,7 @@ function DashboardCards() {
         className="absolute left-4 bottom-6 w-36 bg-white rounded-xl border border-[#EAEDF2] p-3"
       >
         <div className="flex items-center gap-1.5 mb-1.5">
-          <motion.div
-            className="w-2 h-2 rounded-full bg-emerald-400"
-            animate={{ opacity: [1, 0.4, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          />
+          <div className="w-2 h-2 rounded-full bg-emerald-400" />
           <span className="text-[9px] font-semibold text-emerald-500">
             {lang === 'ko' ? 'AI 분석 중' : 'AI Analyzing'}
           </span>
@@ -620,55 +615,41 @@ function SolutionBridge({ lang }: { lang: 'ko' | 'en' }) {
       />
 
       <div className="relative z-10 w-full max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="text-sm font-semibold text-[#448CFF] tracking-widest uppercase mb-8"
-        >
-          {lang === 'ko' ? '이노하이 솔루션' : 'INNO-HI Solution'}
-        </motion.p>
-
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="font-bold text-[#191F28] leading-[1.25] tracking-tight mb-10"
-          style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl mx-auto text-[#191F28] leading-[1.8] tracking-tight"
+          style={{ fontSize: 'clamp(1.25rem, 3vw, 1.75rem)' }}
         >
-          {lang === 'ko' ? (
-            <>
-              흩어진 업무를<br />
-              <span className="gradient-text">하나의 AX 인프라</span>로 연결하세요.
-            </>
-          ) : (
-            <>
-              Connect scattered work into<br />
-              <span className="gradient-text">one AX infrastructure</span>.
-            </>
-          )}
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-[18px] lg:text-[20px] text-[#4E5968] max-w-3xl mx-auto leading-[1.8]"
-        >
-          {lang === 'ko' ? (
-            <>
-              말과 기록으로 남아 있던 현장의 데이터,<br />
-              이노하이가 자동으로 구조화하고 실행까지 이어드립니다.<br />
-              이제 사람은 더 중요한 일에 집중할 수 있습니다.
-            </>
-          ) : (
-            <>
-              Field data trapped in speech and notes —<br />
-              INNO-HI automatically structures it and drives action.<br />
-              Now people can focus on what truly matters.
-            </>
-          )}
-        </motion.p>
+          <p>
+            {lang === 'ko' ? (
+              <>
+                흩어진 업무를<br />
+                <span className="font-bold bg-gradient-to-r from-[#448CFF] to-[#6AA8FF] bg-clip-text text-transparent">하나의 AX 인프라</span>로 연결하세요.
+              </>
+            ) : (
+              <>
+                Connect scattered work into<br />
+                <span className="font-bold bg-gradient-to-r from-[#448CFF] to-[#6AA8FF] bg-clip-text text-transparent">one AX infrastructure</span>.
+              </>
+            )}
+          </p>
+          <p className="mt-6">
+            {lang === 'ko'
+              ? '말과 기록으로 남아 있던 현장의 데이터,'
+              : 'Field data trapped in speech and notes —'}
+            <br />
+            {lang === 'ko'
+              ? '이노하이가 자동으로 구조화하고 실행까지 이어드립니다.'
+              : 'INNO-HI automatically structures it and drives action.'}
+          </p>
+          <p className="mt-6 text-[#8B95A1]">
+            {lang === 'ko'
+              ? '이제 사람은 더 중요한 일에 집중할 수 있습니다.'
+              : 'Now people can focus on what truly matters.'}
+          </p>
+        </motion.div>
       </div>
     </div>
   );

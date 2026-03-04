@@ -51,8 +51,8 @@ export function Footer() {
             </p>
             <p>
               {lang === 'ko'
-                ? '서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호 · 010-8225-4024'
-                : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Chungmuro Image Center B257 · 010-8225-4024'}
+                ? '서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호'
+                : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Chungmuro Image Center B257'}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-5">

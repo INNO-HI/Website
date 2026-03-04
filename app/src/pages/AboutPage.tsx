@@ -211,9 +211,8 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
   const brightOpacity = useTransform(scrollYProgress, [0.42, 0.55], [0, 1]);
   // 텍스트 1 (어두운 배경 위 흰 글씨)
   const text1Opacity = useTransform(scrollYProgress, [0, 0.05, 0.38, 0.48], [0, 1, 1, 0]);
-  // 텍스트 2 (밝은 배경 위 진한 글씨, 플립)
+  // 텍스트 2 (밝은 배경 위 진한 글씨, 페이드인)
   const text2Opacity = useTransform(scrollYProgress, [0.5, 0.62], [0, 1]);
-  const text2RotateX = useTransform(scrollYProgress, [0.5, 0.62], [90, 0]);
 
   return (
     <section
@@ -254,11 +253,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
         {/* 텍스트 2: 플립 등장 */}
         <motion.div
           className="absolute inset-0 flex flex-col items-center justify-center px-6 z-10"
-          style={{
-            opacity: text2Opacity,
-            rotateX: text2RotateX,
-            perspective: 800,
-          }}
+          style={{ opacity: text2Opacity }}
         >
           <p
             className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight"
@@ -391,23 +386,13 @@ function ProblemCard({ p, i, lang }: {
   const cardRef = useRef(null);
   const cardInView = useInView(cardRef, { once: true, margin: '-60px' });
 
-  // 카드별 슬라이드 방향: 좌상, 우상, 좌하, 우하
-  const directions = [
-    { x: -60, y: 40 },
-    { x: 60, y: 40 },
-    { x: -60, y: 40 },
-    { x: 60, y: 40 },
-  ];
-  const dir = directions[i] || { x: 0, y: 40 };
-
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, x: dir.x, y: dir.y, scale: 0.95 }}
-      animate={cardInView ? { opacity: 1, x: 0, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.7, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -6, boxShadow: '0 12px 40px rgba(68,140,255,0.12)' }}
-      className="relative aspect-[2/1] rounded-2xl cursor-pointer overflow-hidden"
+      initial={{ opacity: 0, y: 30 }}
+      animate={cardInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      className="relative aspect-[2/1] rounded-2xl cursor-pointer overflow-hidden hover:-translate-y-1 transition-transform duration-300"
       style={{
         background: '#ffffff',
         border: '1px solid #E5E8EB',
@@ -416,14 +401,9 @@ function ProblemCard({ p, i, lang }: {
       onClick={() => setActive(!active)}
     >
       {/* 우측 일러스트 배경 */}
-      <motion.div
-        className="absolute right-3 lg:right-5 top-1/2 -translate-y-1/2 w-[38%] aspect-square pointer-events-none"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={cardInView ? { opacity: 0.7, scale: 1 } : {}}
-        transition={{ duration: 0.8, delay: i * 0.12 + 0.3 }}
-      >
+      <div className="absolute right-3 lg:right-5 top-1/2 -translate-y-1/2 w-[38%] aspect-square pointer-events-none opacity-70">
         {problemIllusts[i]}
-      </motion.div>
+      </div>
 
       {/* 기본 상태: from → to */}
       <motion.div
@@ -432,24 +412,14 @@ function ProblemCard({ p, i, lang }: {
         transition={{ duration: 0.3 }}
       >
         <div>
-          <motion.p
-            className="text-[14px] lg:text-[15px] text-[#595959] leading-relaxed mb-1"
-            initial={{ opacity: 0, y: 10 }}
-            animate={cardInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.12 + 0.2 }}
-          >
+          <p className="text-[14px] lg:text-[15px] text-[#595959] leading-relaxed mb-1">
             {lang === 'ko' ? p.fromKo : p.fromEn}
-          </motion.p>
-          <motion.h3
-            className="text-[20px] lg:text-[22px] font-bold text-[#595959] leading-snug"
-            initial={{ opacity: 0, y: 10 }}
-            animate={cardInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.12 + 0.3 }}
-          >
+          </p>
+          <h3 className="text-[20px] lg:text-[22px] font-bold text-[#595959] leading-snug">
             {lang === 'ko' ? p.toKo : p.toEn}
-          </motion.h3>
+          </h3>
         </div>
-        {/* 플러스 버튼: 클릭 시 45도 회전(X로 변환) */}
+        {/* 플러스 버튼 */}
         <motion.div
           className="w-8 h-8 rounded-full border-2 border-[#448CFF]/40 flex items-center justify-center"
           animate={{ rotate: active ? 45 : 0 }}
@@ -462,7 +432,7 @@ function ProblemCard({ p, i, lang }: {
         </motion.div>
       </motion.div>
 
-      {/* 클릭 시: 불투명 유리 질감 + 설명 */}
+      {/* 클릭 시: 유리 질감 + 설명 */}
       <motion.div
         className="absolute inset-0 flex flex-col justify-center p-6 lg:p-7 rounded-2xl"
         style={{
@@ -472,9 +442,9 @@ function ProblemCard({ p, i, lang }: {
           border: '1px solid rgba(255,255,255,0.45)',
           boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -1px 1px rgba(255,255,255,0.15), 0 8px 32px rgba(0,0,0,0.06)',
         }}
-        initial={{ opacity: 0, scale: 0.97 }}
-        animate={active ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.97 }}
-        transition={{ duration: 0.35 }}
+        initial={{ opacity: 0 }}
+        animate={active ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.3 }}
       >
         <p className="text-[14px] lg:text-[15px] text-[#595959] leading-[1.85] whitespace-pre-line">
           {lang === 'ko' ? p.descKo : p.descEn}
@@ -585,31 +555,8 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
     },
   ];
 
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  // 페이즈: hero 0~0.25 | 카드 등장 0.25~0.4 | 카드 펼침 0.4~0.7 | 유지 0.7~1
-  const gradientOpacity = useTransform(scrollYProgress, [0, 0.15, 0.28], [1, 0.4, 0]);
-  const heroTextOpacity = useTransform(scrollYProgress, [0, 0.12, 0.25], [1, 1, 0]);
-
-  // 카드 등장 (겹친 상태)
-  const cardsOpacity = useTransform(scrollYProgress, [0.22, 0.32], [0, 1]);
-  // 카드 펼침 진행도 (0=겹침, 1=3단 완전 펼침)
-  const spreadProgress = useTransform(scrollYProgress, [0.35, 0.6], [0, 1]);
-  // 카드 스케일 (겹쳤을 때 살짝 작게 → 펼치면 1)
-  const cardScale = useTransform(scrollYProgress, [0.35, 0.6], [0.92, 1]);
-
-  // 카드별 X 오프셋 (겹침 → 펼침)
-  const card0X = useTransform(spreadProgress, [0, 1], ['33.33%', '0%']);
-  const card1X = useTransform(spreadProgress, [0, 1], ['0%', '0%']);
-  const card2X = useTransform(spreadProgress, [0, 1], ['-33.33%', '0%']);
-  const cardXValues = [card0X, card1X, card2X];
-
-  const heroInRef = useRef(null);
-  const heroInView = useInView(heroInRef, { once: true, margin: '-15%' });
+  const sectionRef = useRef(null);
+  const sectionInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   const futureIllusts = [
     /* 01 지능 엔진 — 뇌+회로 */
@@ -670,95 +617,50 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   ];
 
   return (
-    <section
-      ref={containerRef}
-      className="relative bg-[#FAFBFF]"
-      style={{ height: '350vh' }}
-    >
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
-        {/* 그라데이션 — 서서히 페이드 */}
+    <section ref={sectionRef} className="bg-[#FAFBFF] py-28 lg:py-[140px]">
+      <div className="max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14">
+        {/* 헤더 */}
         <motion.div
-          className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[50%] w-[200%] aspect-square pointer-events-none blur-[80px]"
-          style={{
-            background: 'radial-gradient(ellipse at center, #1A5CD8 0%, #2568E6 8%, #2E7BF6 16%, #448CFF 24%, #6AA8FF 34%, #A8CEFF 44%, #FAFBFF 60%, transparent 75%)',
-            opacity: gradientOpacity,
-          }}
-        />
-
-        {/* NEXT FUTURE 텍스트 — 스크롤 시 페이드아웃 */}
-        <motion.div
-          ref={heroInRef}
-          style={{ opacity: heroTextOpacity }}
-          className="absolute inset-0 flex flex-col items-center justify-center px-6 gap-12 lg:gap-20 z-10"
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 20 }}
+          animate={sectionInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="select-none"
+          <h2
+            className="font-bold text-[#191F28] leading-[1.3] tracking-tight"
+            style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
           >
-            <span
-              className="block font-black leading-none whitespace-nowrap text-center text-white/20"
-              style={{ fontSize: 'clamp(44px, 10vw, 160px)', letterSpacing: '0.04em' }}
-            >
-              NEXT FUTURE
-            </span>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="font-bold text-white leading-snug tracking-tight text-center whitespace-nowrap"
-            style={{ fontSize: 'clamp(1.25rem, 3vw, 2.5rem)' }}
-          >
-            {lang === 'ko'
-              ? '사람을 향하는 기술만이 미래를 만듭니다.'
-              : 'Only technology that serves people creates the future.'}
-          </motion.h2>
+            {lang === 'ko' ? '이노하이가 만들 세상' : 'The World INNO-HI Creates'}
+          </h2>
+          <div className="mx-auto mt-6 w-px h-10 bg-gradient-to-b from-[#448CFF]/40 to-transparent" />
         </motion.div>
 
-        {/* 카드 3개 — 겹쳐서 등장 → 3단으로 펼침 */}
-        <motion.div
-          className="relative z-20 w-full max-w-[1360px] mx-auto px-6 sm:px-8 lg:px-14"
-          style={{ opacity: cardsOpacity }}
-        >
-          <motion.div className="text-center mb-14" style={{ opacity: cardsOpacity }}>
-            <motion.h2
-              className="font-bold text-[#191F28] leading-[1.3] tracking-tight"
-              style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
+        {/* 카드 3개 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {futureValues.map((v, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              animate={sectionInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-center text-center rounded-3xl bg-white border border-[#E5E8EB] p-8 lg:p-10"
+              style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}
             >
-              {lang === 'ko' ? '이노하이가 만들 세상' : 'The World INNO-HI Creates'}
-            </motion.h2>
-            {/* 카드와 연결하는 세로 라인 */}
-            <div className="mx-auto mt-6 w-px h-10 bg-gradient-to-b from-[#448CFF]/40 to-transparent" />
-          </motion.div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {futureValues.map((v, i) => (
-                <motion.div
-                  key={i}
-                  className="flex flex-col items-center text-center rounded-3xl bg-white border border-[#E5E8EB] p-8 lg:p-10"
-                  style={{
-                    x: cardXValues[i],
-                    scale: cardScale,
-                    boxShadow: '0 4px 32px rgba(0,0,0,0.06)',
-                  }}
-                >
-                  <div className="w-full h-[180px] flex items-center justify-center opacity-50 mb-8">
-                    {futureIllusts[i]}
-                  </div>
-                  <h3
-                    className="font-bold text-[#191F28] leading-snug tracking-tight mb-4"
-                    style={{ fontSize: 'clamp(1.25rem, 2vw, 1.5rem)' }}
-                  >
-                    {lang === 'ko' ? v.titleKo : v.titleEn}
-                  </h3>
-                  <p className="text-[15px] text-[#4E5968] leading-[1.85] whitespace-pre-line">
-                    {lang === 'ko' ? v.descKo : v.descEn}
-                  </p>
-                </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              <div className="w-full h-[180px] flex items-center justify-center opacity-50 mb-8">
+                {futureIllusts[i]}
+              </div>
+              <h3
+                className="font-bold text-[#191F28] leading-snug tracking-tight mb-4"
+                style={{ fontSize: 'clamp(1.25rem, 2vw, 1.5rem)' }}
+              >
+                {lang === 'ko' ? v.titleKo : v.titleEn}
+              </h3>
+              <p className="text-[15px] text-[#4E5968] leading-[1.85] whitespace-pre-line">
+                {lang === 'ko' ? v.descKo : v.descEn}
+              </p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1140,12 +1042,12 @@ function History({ lang }: { lang: 'ko' | 'en' }) {
 
   return (
     <Section bg="bg-[#F8F9FD]" className="pt-36 lg:pt-[180px]">
-      {/* 헤딩: blur → clear 페이드인 */}
+      {/* 헤딩 */}
       <motion.div
         ref={headingRef}
-        initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
-        animate={headingInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={headingInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="text-center mb-20 lg:mb-28"
       >
         <h2
@@ -1158,152 +1060,94 @@ function History({ lang }: { lang: 'ko' | 'en' }) {
         </h2>
       </motion.div>
 
-      {/* 카드: scale + 페이드인 */}
+      {/* 카드 */}
       <motion.div
         ref={cardRef}
-        initial={{ opacity: 0, y: 40, scale: 0.96 }}
-        animate={cardInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 30 }}
+        animate={cardInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="max-w-[1100px] mx-auto rounded-3xl bg-white px-14 py-16 lg:px-24 lg:py-20"
       >
-        {(() => {
-          // 개별 요소 캐스케이드 딜레이 계산
-          let step = 0;
-          const yearSteps = timeline.map(t => {
-            const s = step;
-            step += 2 + t.items.length + 1; // 연도 + 점 + 항목들 + 간격
-            return s;
-          });
-          const d = (s: number) => 0.15 + s * 0.12; // step → delay(초)
-          const ease = [0.16, 1, 0.3, 1] as const;
+        <div className="relative">
+          <div className="space-y-14">
+            {timeline.map((t, i) => {
+              const isActive = active === t.year;
+              const isCurrent = !!t.current;
+              const activeYearColor = isCurrent ? 'text-[#448CFF]' : 'text-[#6B7684]';
+              const activeDotColor = isCurrent ? 'bg-[#448CFF]' : 'bg-[#8B95A1]';
+              const activeDateColor = isCurrent ? 'text-[#448CFF]' : 'text-[#6B7684]';
 
-          return (
-            <div className="relative">
-              <div className="space-y-14">
-                {timeline.map((t, i) => {
-                  const isActive = active === t.year;
-                  const isCurrent = !!t.current;
-                  const activeYearColor = isCurrent ? 'text-[#448CFF]' : 'text-[#6B7684]';
-                  const activeDotColor = isCurrent ? 'bg-[#448CFF]' : 'bg-[#8B95A1]';
-                  const activeDateColor = isCurrent ? 'text-[#448CFF]' : 'text-[#6B7684]';
-                  const base = yearSteps[i];
+              return (
+                <div key={t.year} className="relative flex items-start">
+                  {/* 연결선 */}
+                  {i < timeline.length - 1 && (
+                    <div
+                      className="absolute left-[96px] lg:left-[116px]"
+                      style={{
+                        top: '20px',
+                        bottom: '-61px',
+                        ...(isCurrent
+                          ? { width: '1px', background: '#448CFF' }
+                          : { width: '0', borderLeft: '1px dashed #D1D6DB' }),
+                      }}
+                    />
+                  )}
 
-                  return (
-                    <div key={t.year} className="relative flex items-start">
-                      {/* 연결선 (항목 다 나온 뒤 드로우) */}
-                      {i < timeline.length - 1 && (
-                        <motion.div
-                          initial={{ scaleY: 0 }}
-                          animate={cardInView ? { scaleY: 1 } : {}}
-                          transition={{ duration: 0.8, delay: d(base + 2 + t.items.length), ease }}
-                          className="absolute left-[96px] lg:left-[116px] origin-top"
-                          style={{
-                            top: '20px',
-                            bottom: '-61px',
-                            ...(isCurrent
-                              ? { width: '1px', background: '#448CFF' }
-                              : { width: '0', borderLeft: '1px dashed #D1D6DB' }),
-                          }}
-                        />
-                      )}
+                  {/* 좌: 연도 */}
+                  <button
+                    onClick={() => setActive(t.year)}
+                    className="w-[80px] lg:w-[100px] flex-shrink-0 text-left cursor-pointer"
+                  >
+                    <span
+                      className={`text-[18px] lg:text-[20px] font-bold tabular-nums tracking-tight block transition-colors duration-300 ${
+                        isActive ? activeYearColor : (isCurrent ? 'text-[#A3C4FF] hover:text-[#7AB0FF]' : 'text-[#D1D6DB] hover:text-[#B0B8C1]')
+                      }`}
+                    >{t.year}</span>
+                  </button>
 
-                      {/* 좌: 연도 (좌→우 슬라이드) */}
-                      <motion.button
-                        onClick={() => setActive(t.year)}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={cardInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.5, delay: d(base), ease }}
-                        whileHover={{ x: 4 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-[80px] lg:w-[100px] flex-shrink-0 text-left cursor-pointer"
-                      >
-                        <motion.span
-                          animate={isActive ? { scale: 1.1 } : { scale: 1 }}
-                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                          className={`text-[18px] lg:text-[20px] font-bold tabular-nums tracking-tight block transition-colors duration-300 ${
-                            isActive ? activeYearColor : (isCurrent ? 'text-[#A3C4FF] hover:text-[#7AB0FF]' : 'text-[#D1D6DB] hover:text-[#B0B8C1]')
-                          }`}
-                        >{t.year}</motion.span>
-                      </motion.button>
+                  {/* 중앙: 점 */}
+                  <button
+                    onClick={() => setActive(t.year)}
+                    className="flex-shrink-0 w-8 flex justify-center relative z-10 pt-[4px] cursor-pointer"
+                  >
+                    <div className={`w-4 h-4 rounded-full ring-4 ring-white transition-colors duration-300 ${
+                      isActive ? activeDotColor : (isCurrent ? 'bg-[#A3C4FF]' : 'bg-[#D1D6DB]')
+                    }`} />
+                  </button>
 
-                      {/* 중앙: 점 (팝인) */}
-                      <button
-                        onClick={() => setActive(t.year)}
-                        className="flex-shrink-0 w-8 flex justify-center relative z-10 pt-[4px] cursor-pointer"
-                      >
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={cardInView ? { scale: 1 } : {}}
-                          transition={{ type: 'spring', stiffness: 300, damping: 15, delay: d(base + 1) }}
-                          className="relative"
-                        >
-                          {/* 이중 글로우 링 */}
-                          <motion.div
-                            animate={isActive && isCurrent
-                              ? { scale: [1, 2, 1], opacity: [0.4, 0, 0.4] }
-                              : { scale: 1, opacity: 0 }}
-                            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                            className="absolute inset-0 rounded-full bg-[#448CFF]"
-                          />
-                          <motion.div
-                            animate={isActive && isCurrent
-                              ? { scale: [1, 2.5, 1], opacity: [0.2, 0, 0.2] }
-                              : { scale: 1, opacity: 0 }}
-                            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-                            className="absolute inset-0 rounded-full bg-[#448CFF]"
-                          />
-                          <motion.div
-                            animate={isActive ? { scale: 1.15 } : { scale: 0.8 }}
-                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                            className={`w-4 h-4 rounded-full ring-4 ring-white relative transition-colors duration-300 ${
-                              isActive ? activeDotColor : (isCurrent ? 'bg-[#A3C4FF]' : 'bg-[#D1D6DB]')
-                            }`}
-                          />
-                        </motion.div>
-                      </button>
-
-                      {/* 우: 날짜 + 내용 (개별 항목 캐스케이드) */}
-                      <motion.div
-                        animate={{ opacity: isActive ? 1 : 0.35 }}
-                        transition={{ opacity: { duration: 0.4 } }}
-                        className="flex-1 pl-8 lg:pl-12 space-y-4"
-                      >
-                        {t.items.map((item, j) => (
-                          <motion.div
-                            key={j}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={cardInView ? { opacity: 1, x: 0 } : {}}
-                            transition={{ duration: 0.5, delay: d(base + 2 + j), ease }}
-                          >
-                            {item.date && (
-                              <p className={`text-[15px] font-semibold tabular-nums mb-2 transition-colors duration-300 ${
-                                isActive ? activeDateColor : 'text-[#D1D6DB]'
-                              }`}>{item.date}</p>
-                            )}
-                            <p className={`leading-relaxed transition-colors duration-300 ${
-                              item.date
-                                ? `text-[19px] lg:text-[20px] ${isActive ? (isCurrent ? 'text-[#191F28] font-extrabold' : 'text-[#4E5968] font-extrabold') : 'text-[#D1D6DB] font-medium'}`
-                                : `text-[16px] lg:text-[17px] ${isActive ? (isCurrent ? 'text-[#191F28]' : 'text-[#6B7684]') : 'text-[#D1D6DB]'}`
-                            }`}>
-                              {item.date ? (
-                                <span className="inline-flex items-center gap-2">
-                                  {item.text}
-                                  {'icon' in item && item.icon && (
-                                    <img src={govLogoSrc} alt="" className="inline-block w-5 h-5" />
-                                  )}
-                                </span>
-                              ) : `· ${item.text}`}
-                            </p>
-                          </motion.div>
-                        ))}
-                      </motion.div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })()}
+                  {/* 우: 날짜 + 내용 */}
+                  <div
+                    className={`flex-1 pl-8 lg:pl-12 space-y-4 transition-opacity duration-400 ${isActive ? 'opacity-100' : 'opacity-35'}`}
+                  >
+                    {t.items.map((item, j) => (
+                      <div key={j}>
+                        {item.date && (
+                          <p className={`text-[15px] font-semibold tabular-nums mb-2 transition-colors duration-300 ${
+                            isActive ? activeDateColor : 'text-[#D1D6DB]'
+                          }`}>{item.date}</p>
+                        )}
+                        <p className={`leading-relaxed transition-colors duration-300 ${
+                          item.date
+                            ? `text-[19px] lg:text-[20px] ${isActive ? (isCurrent ? 'text-[#191F28] font-extrabold' : 'text-[#4E5968] font-extrabold') : 'text-[#D1D6DB] font-medium'}`
+                            : `text-[16px] lg:text-[17px] ${isActive ? (isCurrent ? 'text-[#191F28]' : 'text-[#6B7684]') : 'text-[#D1D6DB]'}`
+                        }`}>
+                          {item.date ? (
+                            <span className="inline-flex items-center gap-2">
+                              {item.text}
+                              {'icon' in item && item.icon && (
+                                <img src={govLogoSrc} alt="" className="inline-block w-5 h-5" />
+                              )}
+                            </span>
+                          ) : `· ${item.text}`}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </motion.div>
     </Section>
   );
