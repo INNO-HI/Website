@@ -145,7 +145,7 @@ export function ContactPage() {
             </div>
 
             {/* Support */}
-            <div className="border-t border-[#F2F4F6] pt-10">
+            <div className="mt-6">
               <p className="text-sm font-semibold text-[#191F28] mb-2">Support</p>
               <a
                 href="mailto:contact@innohi.ai"
@@ -281,6 +281,7 @@ export function ContactPage() {
           </motion.div>
 
         </div>
+
 
       </div>
     </div>
