@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
 
 export function FloatingCTA() {
   const [visible, setVisible] = useState(false);
   const { lang } = useLanguage();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setVisible(window.scrollY > 200);
@@ -14,12 +16,7 @@ export function FloatingCTA() {
   }, []);
 
   const handleClick = () => {
-    const contact = document.getElementById('contact');
-    if (contact) {
-      contact.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.location.href = 'mailto:contact@inno-hi.com';
-    }
+    navigate('/contact');
   };
 
   return (

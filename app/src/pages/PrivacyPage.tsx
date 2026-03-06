@@ -10,7 +10,7 @@ export function PrivacyPage() {
 
   return (
     <main className="bg-white pt-32 pb-24">
-      <div className="max-w-3xl mx-auto px-6 sm:px-8">
+      <div className="max-w-[1024px] mx-auto px-6 sm:px-8">
         <h1
           className="font-bold text-[#191F28] mb-10"
           style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}
@@ -218,6 +218,21 @@ export function PrivacyPage() {
 
           <h2>제10조 (개인정보 자동 수집 장치)</h2>
           <p>회사는 웹사이트 및 모바일 앱을 통해 서비스를 제공하며, 쿠키(Cookie) 및 분석 SDK 등 자동 수집 기술을 사용합니다. 정보주체는 웹 브라우저 옵션 설정을 통해 쿠키 허용/차단 등의 설정을 할 수 있습니다.</p>
+
+          <hr />
+
+          <h2>제11조 (개인정보의 안전성 확보 조치)</h2>
+          <p>회사는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고 있습니다.</p>
+          <ul>
+            <li><strong>관리적 조치:</strong> 내부관리계획 수립·시행, 개인정보 취급 직원의 최소화 및 교육</li>
+            <li><strong>기술적 조치:</strong> 개인정보처리시스템 등의 접근권한 관리, 접근통제시스템 설치, 고유식별정보 등의 암호화, 보안프로그램 설치</li>
+            <li><strong>물리적 조치:</strong> 전산실, 자료보관실 등의 접근 통제</li>
+          </ul>
+
+          <hr />
+
+          <h2>제12조 (개인정보 처리방침의 변경에 관한 사항)</h2>
+          <p>이 개인정보 처리방침은 법령·정책 또는 보안기술의 변경에 따라 내용의 추가·삭제 및 수정이 있을 시에는 변경사항의 시행 7일 전부터 웹사이트의 공지사항을 통하여 고지할 것입니다.</p>
 
           <hr />
 

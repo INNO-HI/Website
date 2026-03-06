@@ -177,7 +177,7 @@ export function Infrastructure() {
       className="relative py-24 lg:py-32 bg-white"
       aria-labelledby="infra-heading"
     >
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-5 sm:px-8 lg:px-12">
         {/* 섹션 헤더 */}
         <motion.div
           ref={headerRef}
@@ -188,7 +188,7 @@ export function Infrastructure() {
         >
           <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#448CFF] mb-4">
             <Zap className="w-4 h-4" aria-hidden="true" />
-            {lang === 'ko' ? '기술' : 'Technology'}
+            Technology
           </span>
           <h2
             id="infra-heading"
@@ -196,15 +196,15 @@ export function Infrastructure() {
             style={{ fontSize: 'clamp(1.875rem, 4vw, 2.75rem)', letterSpacing: '-0.03em', lineHeight: 1.3 }}
           >
             {lang === 'ko' ? (
-              <>확장 가능하게 설계,<br /><span className="gradient-text">신뢰할 수 있게 구축</span></>
+              <>AI를 뒷받침하는<br /><span className="gradient-text">기술 인프라</span></>
             ) : (
-              <>Designed to scale,<br /><span className="gradient-text">built to trust</span></>
+              <>The technology<br /><span className="gradient-text">behind our AI</span></>
             )}
           </h2>
-          <p className="text-[#4B4E56] leading-relaxed text-[17px] font-medium">
+          <p className="text-[#4B4E56] leading-relaxed text-[17px] font-medium" style={{ wordBreak: 'keep-all' as const }}>
             {lang === 'ko'
-              ? '최첨단 AI와 엔터프라이즈급 보안, 유연한 배포 방식을 결합합니다.'
-              : 'Combining cutting-edge AI, enterprise-grade security, and flexible deployment.'}
+              ? '자체 AI 모델과 엔터프라이즈 보안, 유연한 배포 방식으로 현장에 맞는 인프라를 제공합니다.'
+              : 'Providing field-ready infrastructure with proprietary AI models, enterprise security, and flexible deployment.'}
           </p>
         </motion.div>
 

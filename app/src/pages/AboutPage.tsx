@@ -24,7 +24,7 @@ function Section({ children, className = '', bg = 'bg-white' }: { children: Reac
 
 function Hero({ lang }: { lang: 'ko' | 'en' }) {
   return (
-    <section className="relative overflow-hidden min-h-screen flex items-center justify-center">
+    <section className="relative overflow-hidden min-h-screen flex items-center justify-center snap-start">
       {/* 배경 이미지 */}
       <div
         className="absolute inset-0"
@@ -217,7 +217,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
   return (
     <section
       ref={containerRef}
-      className="relative"
+      className="relative snap-start"
       style={{ height: '300vh' }}
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
@@ -507,7 +507,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
   const headInView = useInView(headRef, { once: true, margin: '-80px' });
 
   return (
-    <section className="bg-white min-h-screen flex flex-col justify-center py-12 lg:py-16">
+    <section className="bg-white min-h-screen flex flex-col justify-center py-12 lg:py-16 snap-start">
       <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
         {/* 헤더 */}
         <motion.h2
@@ -619,8 +619,8 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   ];
 
   return (
-    <section ref={sectionRef} className="bg-[#FAFBFF] py-16 sm:py-24 lg:py-[140px]">
-      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-14">
+    <section ref={sectionRef} className="bg-[#FAFBFF] py-16 sm:py-24 lg:py-[140px] snap-start">
+      <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
         {/* 헤더 */}
         <motion.div
           className="text-center mb-14"
@@ -914,7 +914,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
     <section
       ref={containerRef}
       data-nav-dark
-      className="relative bg-[#0B0E14]"
+      className="relative bg-[#0B0E14] snap-start"
       style={{ height: `${count * 100}vh` }}
     >
       {/* 고정 레이아웃 */}
@@ -1043,7 +1043,7 @@ function History({ lang }: { lang: 'ko' | 'en' }) {
   ];
 
   return (
-    <Section bg="bg-[#F8F9FD]" className="pt-36 lg:pt-[180px]">
+    <Section bg="bg-[#F8F9FD]" className="pt-36 lg:pt-[180px] snap-start">
       {/* 헤딩 */}
       <motion.div
         ref={headingRef}
@@ -1398,7 +1398,7 @@ function Vision({ lang }: { lang: 'ko' | 'en' }) {
   const y2 = useTransform(scrollYProgress, [0.45, 0.6], [30, 0]);
 
   return (
-    <section ref={containerRef} data-nav-dark className="relative bg-[#0B0E14]" style={{ height: '250vh' }}>
+    <section ref={containerRef} data-nav-dark className="relative bg-[#0B0E14] snap-start" style={{ height: '250vh' }}>
       {/* 데이터 네트워크 배경 */}
       <div className="sticky top-0 h-screen z-0">
         <DataBackground />
@@ -1449,6 +1449,10 @@ export function AboutPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.documentElement.style.scrollSnapType = 'y proximity';
+    return () => {
+      document.documentElement.style.scrollSnapType = '';
+    };
   }, []);
 
   return (
