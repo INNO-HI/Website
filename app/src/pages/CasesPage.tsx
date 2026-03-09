@@ -268,9 +268,8 @@ export function CasesPage() {
   }, []);
 
   const scrollCarousel = useCallback((dir: number) => {
-    const next = Math.max(0, Math.min(caseStudyMeta.length - 1, carouselIdx + dir));
-    setCarouselIdx(next);
-  }, [carouselIdx]);
+    setCarouselIdx((prev) => (prev + dir + caseStudyMeta.length) % caseStudyMeta.length);
+  }, []);
 
   const filtered = caseStudyMeta.filter((cs) => {
     const matchCategory = activeCategory === 'all' || cs.category === activeCategory;
@@ -320,11 +319,11 @@ export function CasesPage() {
         </div>
 
         {/* ─── Featured Carousel ─── */}
-        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 lg:pb-24">
-          <div ref={carouselRef} className="relative overflow-hidden rounded-3xl">
+        <div className="relative mx-auto pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
+          <div ref={carouselRef} className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              className="flex"
-              animate={{ x: `-${carouselIdx * 100}%` }}
+              className="flex gap-2"
+              animate={{ x: `calc(-${carouselIdx * 100}% - ${carouselIdx * 8}px)` }}
               transition={{ type: 'spring', stiffness: 300, damping: 35 }}
             >
               {caseStudyMeta.map((cs) => {
@@ -335,16 +334,11 @@ export function CasesPage() {
                     className="w-full flex-shrink-0 cursor-pointer group"
                     onClick={() => navigate(`/cases/${cs.id}`)}
                   >
-                    <div className="relative h-[520px] sm:h-[620px] lg:h-[700px] rounded-3xl overflow-hidden" style={{ background: `color-mix(in srgb, ${cs.brandColor} 85%, black)` }}>
-                      {/* 사진 — mask로 왼쪽을 자연스럽게 페이드 */}
+                    <div className="relative rounded-3xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
                       <img
                         src={ref_.image}
                         alt={lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.85]"
-                        style={{
-                          WebkitMaskImage: 'linear-gradient(to right, transparent 5%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.8) 45%, black 60%)',
-                          maskImage: 'linear-gradient(to right, transparent 5%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.8) 45%, black 60%)',
-                        }}
+                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       {/* 자세히 보기 버튼 */}
                       <div className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 z-10">
@@ -377,22 +371,18 @@ export function CasesPage() {
             </div>
 
             {/* 좌우 화살표 */}
-            {carouselIdx > 0 && (
-              <button
-                onClick={(e) => { e.stopPropagation(); scrollCarousel(-1); }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-20"
-              >
-                <ChevronLeft className="w-5 h-5 text-white" />
-              </button>
-            )}
-            {carouselIdx < caseStudyMeta.length - 1 && (
-              <button
-                onClick={(e) => { e.stopPropagation(); scrollCarousel(1); }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-20"
-              >
-                <ChevronRight className="w-5 h-5 text-white" />
-              </button>
-            )}
+            <button
+              onClick={(e) => { e.stopPropagation(); scrollCarousel(-1); }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-20"
+            >
+              <ChevronLeft className="w-5 h-5 text-white" />
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); scrollCarousel(1); }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-20"
+            >
+              <ChevronRight className="w-5 h-5 text-white" />
+            </button>
           </div>
         </div>
       </section>
