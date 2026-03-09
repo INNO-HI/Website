@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Mic, BookOpen, Workflow, Search, FileText, CheckCircle2, AlertTriangle } from 'lucide-react';
@@ -7,19 +7,38 @@ import { useLanguage } from '@/hooks/useLanguage';
 /* ── 목업: Voice AI — 음성 → 텍스트 변환 화면 ────────────────────── */
 
 function MockVoice() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const t = [
+      setTimeout(() => setStep(1), 600),
+      setTimeout(() => setStep(2), 1800),
+      setTimeout(() => setStep(3), 3000),
+      setTimeout(() => setStep(4), 4200),
+    ];
+    return () => t.forEach(clearTimeout);
+  }, [isInView]);
+
+  const msgs = [
+    { speaker: '상담사', color: '#448CFF', text: '안녕하세요, 오늘 어떤 부분이 불편하셨나요?' },
+    { speaker: '대상자', color: '#6B7280', text: '최근에 수면이 어려워서 상담 받으러 왔습니다.' },
+    { speaker: '상담사', color: '#448CFF', text: '언제부터 그런 증상이 있으셨나요?' },
+  ];
+
   return (
-    <div className="h-full flex items-end justify-center -mb-16">
+    <div ref={ref} className="h-full flex items-end justify-center -mb-16">
+      <style>{`@keyframes solWave{0%,100%{transform:scaleY(0.4)}50%{transform:scaleY(1)}}`}</style>
       <div className="w-[260px]">
         <div className="bg-[#1A1A1A] rounded-[30px] p-[7px] shadow-2xl">
-          {/* 다이나믹 아일랜드 */}
           <div className="relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-[16px] bg-[#1A1A1A] rounded-b-xl z-10 flex items-center justify-center">
               <div className="w-10 h-[5px] bg-[#333] rounded-full" />
             </div>
           </div>
-          {/* 스크린 */}
           <div className="bg-white rounded-[24px] overflow-hidden">
-            {/* 상태 바 */}
             <div className="h-8 bg-white flex items-end justify-between px-5 pb-0.5">
               <span className="text-[9px] font-semibold text-[#1A1A1A]">9:41</span>
               <div className="flex items-center gap-1">
@@ -27,14 +46,12 @@ function MockVoice() {
                 <svg width="18" height="9" viewBox="0 0 16 8" fill="none"><rect x="0.5" y="0.5" width="14" height="7" rx="1.5" stroke="#1A1A1A" strokeWidth="0.8"/><rect x="15" y="2.5" width="1" height="3" rx="0.5" fill="#1A1A1A"/><rect x="1.5" y="1.5" width="10" height="5" rx="1" fill="#1A1A1A"/></svg>
               </div>
             </div>
-            {/* 앱 헤더 */}
             <div className="px-4 py-2.5 border-b border-[#F1F3F5] flex items-center gap-2.5">
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#448CFF] to-[#5B9FFF] flex items-center justify-center">
                 <Mic className="w-3.5 h-3.5 text-white" />
               </div>
               <span className="text-[11px] font-semibold text-[#191F28]">INNOHI Voice</span>
             </div>
-            {/* 녹음 상태 */}
             <div className="px-4 pt-4 pb-3">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-9 h-9 rounded-full bg-[#448CFF] flex items-center justify-center">
@@ -45,37 +62,43 @@ function MockVoice() {
                     <span className="text-[11px] font-semibold text-[#448CFF]">녹음 중</span>
                     <div className="flex gap-[3px]">
                       {[10, 18, 8, 16, 10, 14, 8].map((h, j) => (
-                        <div key={j} className="w-[3px] rounded-full bg-[#448CFF]" style={{ height: h, opacity: 0.35 + j * 0.09 }} />
+                        <div
+                          key={j}
+                          className="w-[3px] rounded-full bg-[#448CFF]"
+                          style={{
+                            height: h,
+                            opacity: 0.35 + j * 0.09,
+                            animation: isInView ? `solWave 1.2s ease-in-out ${j * 0.1}s infinite alternate` : 'none',
+                          }}
+                        />
                       ))}
                     </div>
                   </div>
                   <span className="text-[9px] text-[#8B95A1]">00:03:24</span>
                 </div>
               </div>
-              {/* 변환된 텍스트 */}
               <div className="rounded-xl bg-[#F8F9FA] p-3.5 space-y-2.5">
-                <div className="flex gap-2">
-                  <span className="text-[9px] font-semibold text-[#448CFF] shrink-0 mt-0.5">상담사</span>
-                  <p className="text-[10px] text-[#4E5968] leading-[1.6]">안녕하세요, 오늘 어떤 부분이 불편하셨나요?</p>
-                </div>
-                <div className="flex gap-2">
-                  <span className="text-[9px] font-semibold text-[#6B7280] shrink-0 mt-0.5">대상자</span>
-                  <p className="text-[10px] text-[#4E5968] leading-[1.6]">최근에 수면이 어려워서 상담 받으러 왔습니다.</p>
-                </div>
-                <div className="flex gap-2">
-                  <span className="text-[9px] font-semibold text-[#448CFF] shrink-0 mt-0.5">상담사</span>
-                  <p className="text-[10px] text-[#4E5968] leading-[1.6]">언제부터 그런 증상이 있으셨나요?</p>
-                </div>
+                {msgs.map((m, idx) => (
+                  <div
+                    key={idx}
+                    className="flex gap-2 transition-all duration-500"
+                    style={{ opacity: step >= idx + 1 ? 1 : 0, transform: step >= idx + 1 ? 'translateY(0)' : 'translateY(8px)' }}
+                  >
+                    <span className="text-[9px] font-semibold shrink-0 mt-0.5" style={{ color: m.color }}>{m.speaker}</span>
+                    <p className="text-[10px] text-[#4E5968] leading-[1.6]">{m.text}</p>
+                  </div>
+                ))}
               </div>
-              {/* 태그 */}
-              <div className="flex gap-1.5 flex-wrap mt-3">
+              <div
+                className="flex gap-1.5 flex-wrap mt-3 transition-all duration-500"
+                style={{ opacity: step >= 4 ? 1 : 0, transform: step >= 4 ? 'translateY(0)' : 'translateY(8px)' }}
+              >
                 {['수면 장애', '상담 요청', '초기 면담'].map((tag) => (
                   <span key={tag} className="text-[8px] px-2.5 py-1 rounded-full bg-[#448CFF]/10 text-[#448CFF] font-medium">{tag}</span>
                 ))}
               </div>
             </div>
           </div>
-          {/* 홈 인디케이터 */}
           <div className="flex justify-center pt-2 pb-1">
             <div className="w-12 h-[4px] bg-[#555] rounded-full" />
           </div>
@@ -88,8 +111,30 @@ function MockVoice() {
 /* ── 목업: Knowledge AI — 문서 검색 화면 ──────────────────────────── */
 
 function MockKnowledge() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const [step, setStep] = useState(0);
+  const fullQuery = '긴급복지지원 신청 자격 기준이 뭔가요?';
+  const [typed, setTyped] = useState('');
+
+  useEffect(() => {
+    if (!isInView) return;
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      i++;
+      setTyped(fullQuery.slice(0, i));
+      if (i >= fullQuery.length) clearInterval(typeInterval);
+    }, 80);
+    const t = [
+      setTimeout(() => setStep(1), fullQuery.length * 80 + 400),
+      setTimeout(() => setStep(2), fullQuery.length * 80 + 1200),
+      setTimeout(() => setStep(3), fullQuery.length * 80 + 2000),
+    ];
+    return () => { clearInterval(typeInterval); t.forEach(clearTimeout); };
+  }, [isInView]);
+
   return (
-    <div className="bg-white rounded-xl border border-[#E5E8EB] overflow-hidden shadow-sm h-full flex flex-col">
+    <div ref={ref} className="bg-white rounded-xl border border-[#E5E8EB] overflow-hidden shadow-sm h-full flex flex-col">
       <div className="flex items-center gap-1.5 px-4 py-2.5 bg-[#F8F9FA] border-b border-[#E5E8EB]">
         <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
         <div className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
@@ -97,13 +142,14 @@ function MockKnowledge() {
         <span className="ml-3 text-[10px] text-[#8B95A1] font-medium">INNOHI Knowledge</span>
       </div>
       <div className="flex-1 p-4 flex flex-col gap-3">
-        {/* 검색창 */}
         <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-[#E5E8EB] bg-[#F8F9FA]">
           <Search className="w-3.5 h-3.5 text-[#8B95A1]" />
-          <span className="text-[11px] text-[#4E5968]">긴급복지지원 신청 자격 기준이 뭔가요?</span>
+          <span className="text-[11px] text-[#4E5968]">{typed}<span className="animate-pulse">|</span></span>
         </div>
-        {/* AI 답변 */}
-        <div className="flex-1 rounded-lg bg-[#EFF6FF] p-3">
+        <div
+          className="flex-1 rounded-lg bg-[#EFF6FF] p-3 transition-all duration-600"
+          style={{ opacity: step >= 1 ? 1 : 0, transform: step >= 1 ? 'translateY(0)' : 'translateY(12px)' }}
+        >
           <div className="flex items-center gap-1.5 mb-2">
             <BookOpen className="w-3.5 h-3.5 text-[#3B82F6]" />
             <span className="text-[10px] font-semibold text-[#3B82F6]">AI 답변</span>
@@ -111,13 +157,18 @@ function MockKnowledge() {
           <p className="text-[11px] text-[#4E5968] leading-[1.7] mb-2">
             긴급복지지원법 제5조에 따르면, 생계곤란 등의 위기 상황에 처한 자로서 소득·재산 기준을 충족하는 경우 신청 가능합니다.
           </p>
-          <div className="flex items-center gap-1.5 pt-2 border-t border-[#3B82F6]/10">
+          <div
+            className="flex items-center gap-1.5 pt-2 border-t border-[#3B82F6]/10 transition-all duration-500"
+            style={{ opacity: step >= 2 ? 1 : 0 }}
+          >
             <FileText className="w-3 h-3 text-[#3B82F6]" />
             <span className="text-[9px] text-[#3B82F6]">출처: 긴급복지지원법 제5조, 시행령 제2조</span>
           </div>
         </div>
-        {/* 관련 문서 */}
-        <div className="flex gap-1.5">
+        <div
+          className="flex gap-1.5 transition-all duration-500"
+          style={{ opacity: step >= 3 ? 1 : 0, transform: step >= 3 ? 'translateY(0)' : 'translateY(8px)' }}
+        >
           {['긴급복지지원법', '시행령', '업무매뉴얼'].map((doc) => (
             <span key={doc} className="text-[9px] px-2 py-0.5 rounded-full bg-[#3B82F6]/10 text-[#3B82F6] font-medium">{doc}</span>
           ))}
@@ -130,12 +181,36 @@ function MockKnowledge() {
 /* ── 목업: Decision AI — 풀 대시보드 화면 ─────────────────────── */
 
 function MockDecision() {
-  const bars = [28, 42, 35, 55, 48, 62, 72, 58, 80, 65];
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const targetBars = [28, 42, 35, 55, 48, 62, 72, 58, 80, 65];
+  const [progress, setProgress] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let frame = 0;
+    const total = 50;
+    const interval = setInterval(() => {
+      frame++;
+      const t = frame / total;
+      setProgress(t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+      if (frame >= total) clearInterval(interval);
+    }, 35);
+    const alertTimer = setTimeout(() => setShowAlert(true), 2200);
+    return () => { clearInterval(interval); clearTimeout(alertTimer); };
+  }, [isInView]);
+
+  const kpis = [
+    { label: '위험 감지', target: 24, unit: '건', color: '#EF4444', bg: '#FEF2F2' },
+    { label: '분석 완료', target: 1284, unit: '건', color: '#38BDF8', bg: '#F0F9FF' },
+    { label: '정확도', target: 94.2, unit: '%', color: '#22C55E', bg: '#F0FDF4', decimal: true },
+  ];
+
   return (
-    <div className="h-full flex items-end justify-center -mb-12">
+    <div ref={ref} className="h-full flex items-end justify-center -mb-12">
       <div className="w-[320px] transform scale-110 origin-bottom">
         <div className="bg-white rounded-2xl shadow-2xl border border-[#38BDF8]/15 overflow-hidden">
-          {/* 대시보드 헤더 */}
           <div className="px-5 py-3 bg-gradient-to-r from-[#0F172A] to-[#1E293B] flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-5 h-5 rounded-md bg-[#38BDF8] flex items-center justify-center">
@@ -145,23 +220,21 @@ function MockDecision() {
             </div>
             <span className="text-[9px] text-[#94A3B8]">실시간</span>
           </div>
-          {/* KPI 카드 */}
           <div className="grid grid-cols-3 gap-2 px-4 pt-4 pb-2">
-            {[
-              { label: '위험 감지', value: '24', unit: '건', color: '#EF4444', bg: '#FEF2F2' },
-              { label: '분석 완료', value: '1,284', unit: '건', color: '#38BDF8', bg: '#F0F9FF' },
-              { label: '정확도', value: '94.2', unit: '%', color: '#22C55E', bg: '#F0FDF4' },
-            ].map((m) => (
-              <div key={m.label} className="rounded-xl p-2.5 text-center" style={{ background: m.bg }}>
-                <div className="flex items-baseline justify-center gap-0.5">
-                  <span className="text-[18px] font-extrabold" style={{ color: m.color }}>{m.value}</span>
-                  <span className="text-[10px] font-semibold" style={{ color: m.color }}>{m.unit}</span>
+            {kpis.map((m) => {
+              const val = m.target * progress;
+              const display = m.decimal ? val.toFixed(1) : Math.round(val).toLocaleString();
+              return (
+                <div key={m.label} className="rounded-xl p-2.5 text-center" style={{ background: m.bg }}>
+                  <div className="flex items-baseline justify-center gap-0.5">
+                    <span className="text-[18px] font-extrabold" style={{ color: m.color }}>{display}</span>
+                    <span className="text-[10px] font-semibold" style={{ color: m.color }}>{m.unit}</span>
+                  </div>
+                  <div className="text-[9px] text-[#8B95A1] mt-0.5">{m.label}</div>
                 </div>
-                <div className="text-[9px] text-[#8B95A1] mt-0.5">{m.label}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-          {/* 차트 영역 */}
           <div className="px-4 py-3">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] font-semibold text-[#334155]">주간 분석 추이</span>
@@ -171,19 +244,26 @@ function MockDecision() {
               </div>
             </div>
             <div className="h-[80px] flex items-end gap-[5px] px-1 bg-[#F8FAFC] rounded-lg p-2">
-              {bars.map((h, j) => (
-                <div key={j} className="flex-1 rounded-t-sm transition-all" style={{
-                  height: `${h}%`,
-                  background: j >= bars.length - 2
-                    ? 'linear-gradient(180deg, #38BDF8, #0EA5E9)'
-                    : 'linear-gradient(180deg, #38BDF8' + '50, #38BDF8' + '20)',
-                }} />
+              {targetBars.map((h, j) => (
+                <div
+                  key={j}
+                  className="flex-1 rounded-t-sm"
+                  style={{
+                    height: `${h * progress}%`,
+                    transition: 'height 0.3s ease',
+                    background: j >= targetBars.length - 2
+                      ? 'linear-gradient(180deg, #38BDF8, #0EA5E9)'
+                      : 'linear-gradient(180deg, #38BDF850, #38BDF820)',
+                  }}
+                />
               ))}
             </div>
           </div>
-          {/* 경고 알림 */}
           <div className="px-4 pb-4">
-            <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#FEF2F2] border border-[#FECACA]">
+            <div
+              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-[#FEF2F2] border border-[#FECACA] transition-all duration-500"
+              style={{ opacity: showAlert ? 1 : 0, transform: showAlert ? 'translateY(0)' : 'translateY(12px)' }}
+            >
               <div className="w-5 h-5 rounded-full bg-[#EF4444] flex items-center justify-center shrink-0">
                 <AlertTriangle className="w-3 h-3 text-white" />
               </div>
@@ -202,31 +282,40 @@ function MockDecision() {
 /* ── 목업: Workflow AI — 노트북/컴퓨터 스타일 ─────────────────────── */
 
 function MockWorkflow() {
-  const steps = [
-    { label: '상담 기록 수신', done: true },
-    { label: '서식 자동 작성', done: true },
-    { label: '보고서 생성', done: true },
-    { label: '후속 일정 등록', done: false },
-  ];
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const [doneCount, setDoneCount] = useState(0);
+  const [showFiles, setShowFiles] = useState(false);
+
+  const stepLabels = ['상담 기록 수신', '서식 자동 작성', '보고서 생성', '후속 일정 등록'];
+
+  useEffect(() => {
+    if (!isInView) return;
+    const t = [
+      setTimeout(() => setDoneCount(1), 800),
+      setTimeout(() => setDoneCount(2), 1800),
+      setTimeout(() => setDoneCount(3), 2800),
+      setTimeout(() => setShowFiles(true), 3600),
+    ];
+    return () => t.forEach(clearTimeout);
+  }, [isInView]);
+
+  const pct = Math.round((doneCount / stepLabels.length) * 100);
+
   return (
-    <div className="h-full flex items-end justify-center -mb-14">
+    <div ref={ref} className="h-full flex items-end justify-center -mb-14">
       <div className="w-[330px] transform scale-105 origin-bottom">
-        {/* 노트북 스크린 */}
         <div className="bg-[#1A1A1A] rounded-t-xl p-[6px]">
-          {/* 카메라 */}
           <div className="flex justify-center mb-[3px]">
             <div className="w-[5px] h-[5px] rounded-full bg-[#333]" />
           </div>
-          {/* 스크린 내용 */}
           <div className="bg-white rounded-lg overflow-hidden">
-            {/* 브라우저 바 */}
             <div className="flex items-center gap-1.5 px-3 py-2 bg-[#F8F9FA] border-b border-[#E5E8EB]">
               <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
               <div className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
               <div className="w-2 h-2 rounded-full bg-[#28C840]" />
               <div className="flex-1 mx-2 px-2.5 py-1 rounded-md bg-white border border-[#E5E8EB] text-[8px] text-[#8B95A1]">app.innohi.ai/workflow</div>
             </div>
-            {/* 앱 헤더 */}
             <div className="px-4 py-2.5 flex items-center justify-between border-b border-[#F1F3F5]">
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center">
@@ -236,35 +325,44 @@ function MockWorkflow() {
               </div>
               <span className="text-[9px] text-[#6366F1] font-semibold">자동 처리 중</span>
             </div>
-            {/* 진행률 */}
             <div className="px-4 pt-3 pb-2">
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-[10px] font-semibold text-[#334155]">전체 진행률</span>
-                <span className="text-[12px] font-bold text-[#6366F1]">75%</span>
+                <span className="text-[12px] font-bold text-[#6366F1]">{pct}%</span>
               </div>
               <div className="h-2 rounded-full bg-[#F1F3F5] overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6]" style={{ width: '75%' }} />
+                <div className="h-full rounded-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] transition-all duration-700" style={{ width: `${pct}%` }} />
               </div>
             </div>
-            {/* 스텝 리스트 */}
             <div className="px-4 py-2 space-y-2">
-              {steps.map((s, j) => (
-                <div key={j} className="flex items-center gap-2.5 px-3 py-2 rounded-lg" style={{ background: s.done ? '#F5F3FF' : '#F8F9FA' }}>
-                  {s.done ? (
-                    <CheckCircle2 className="w-4 h-4 text-[#6366F1] shrink-0" />
-                  ) : (
-                    <div className="w-4 h-4 rounded-full border-2 border-[#D1D5DB] shrink-0 flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#6366F1] animate-pulse" />
-                    </div>
-                  )}
-                  <span className={`text-[11px] font-medium ${s.done ? 'text-[#191F28]' : 'text-[#8B95A1]'}`}>{s.label}</span>
-                  {s.done && <span className="text-[9px] text-[#22C55E] ml-auto font-semibold">완료</span>}
-                  {!s.done && <span className="text-[9px] text-[#6366F1] ml-auto font-semibold animate-pulse">처리 중...</span>}
-                </div>
-              ))}
+              {stepLabels.map((label, j) => {
+                const done = j < doneCount;
+                const active = j === doneCount && doneCount < stepLabels.length;
+                return (
+                  <div
+                    key={j}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-400"
+                    style={{ background: done ? '#F5F3FF' : '#F8F9FA' }}
+                  >
+                    {done ? (
+                      <CheckCircle2 className="w-4 h-4 text-[#6366F1] shrink-0" />
+                    ) : (
+                      <div className="w-4 h-4 rounded-full border-2 border-[#D1D5DB] shrink-0 flex items-center justify-center">
+                        {active && <div className="w-1.5 h-1.5 rounded-full bg-[#6366F1] animate-pulse" />}
+                      </div>
+                    )}
+                    <span className={`text-[11px] font-medium ${done ? 'text-[#191F28]' : 'text-[#8B95A1]'}`}>{label}</span>
+                    {done && <span className="text-[9px] text-[#22C55E] ml-auto font-semibold">완료</span>}
+                    {active && <span className="text-[9px] text-[#6366F1] ml-auto font-semibold animate-pulse">처리 중...</span>}
+                    {!done && !active && <span className="text-[9px] text-[#B0B8C1] ml-auto font-medium">대기</span>}
+                  </div>
+                );
+              })}
             </div>
-            {/* 생성된 문서 */}
-            <div className="px-4 pb-3 flex gap-2">
+            <div
+              className="px-4 pb-3 flex gap-2 transition-all duration-500"
+              style={{ opacity: showFiles ? 1 : 0, transform: showFiles ? 'translateY(0)' : 'translateY(8px)' }}
+            >
               {['상담기록.pdf', '보고서.xlsx'].map((f) => (
                 <span key={f} className="text-[9px] px-2.5 py-1 rounded-lg bg-[#6366F1]/8 text-[#6366F1] font-medium flex items-center gap-1 border border-[#6366F1]/10">
                   <FileText className="w-3 h-3" />{f}
@@ -273,7 +371,6 @@ function MockWorkflow() {
             </div>
           </div>
         </div>
-        {/* 노트북 바닥/힌지 */}
         <div className="relative">
           <div className="h-[10px] bg-gradient-to-b from-[#C0C0C0] to-[#D4D4D4] rounded-b-[4px] mx-[-8px]" />
           <div className="h-[4px] bg-[#E5E5E5] rounded-b-lg mx-[-14px]" />
@@ -326,11 +423,13 @@ export function Solution() {
     <section id="solution" ref={sectionRef}>
 
       {/* ── 다크 히어로 ────────────────────────────────────────── */}
-      <div className="relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #0A1628 0%, #0F1D35 50%, #0A1628 100%)' }}>
-        {/* 도트 그리드 패턴 */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-        {/* 글로우 */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full opacity-[0.08] blur-[100px]" style={{ background: 'linear-gradient(135deg, #448CFF, #7C5CFC)' }} />
+      <div className="relative overflow-hidden" style={{ background: 'linear-gradient(160deg, #0C1222 0%, #111827 50%, #0E1424 100%)' }}>
+        {/* Mesh gradient orbs */}
+        <div className="absolute -top-32 -left-32 w-[600px] h-[500px] rounded-full opacity-[0.12] blur-[120px]" style={{ background: '#448CFF' }} />
+        <div className="absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full opacity-[0.08] blur-[120px]" style={{ background: '#7C5CFC' }} />
+        <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full opacity-[0.05] blur-[100px]" style={{ background: '#22D3EE' }} />
+        {/* Subtle grid */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
 
         <div className="relative max-w-[1300px] mx-auto px-5 sm:px-8 lg:px-14 py-20 sm:py-28 lg:py-32">
           <motion.div
