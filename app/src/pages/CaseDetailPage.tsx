@@ -2,9 +2,54 @@ import { useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
-import { ArrowLeft, AlertTriangle, Lightbulb, TrendingUp, Quote } from 'lucide-react';
-import { references, parseDetail } from '@/sections/UseCases';
+import { ArrowLeft, ArrowRight, Quote } from 'lucide-react';
+import { references } from '@/sections/UseCases';
 import { caseStudyMeta } from '@/pages/CasesPage';
+
+// ── 스토리 섹션 컴포넌트 ──
+
+function StorySection({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2
+      className="font-bold text-[#0F172A] mb-6"
+      style={{ fontSize: 'clamp(1.25rem, 2.5vw, 1.75rem)', lineHeight: 1.35, wordBreak: 'keep-all' }}
+    >
+      {children}
+    </h2>
+  );
+}
+
+function BodyText({ children }: { children: React.ReactNode }) {
+  if (typeof children !== 'string') {
+    return <p className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.9]" style={{ wordBreak: 'keep-all' }}>{children}</p>;
+  }
+  const paragraphs = children.split('\n\n');
+  return (
+    <div className="space-y-4">
+      {paragraphs.map((p, i) => (
+        <p key={i} className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.9]" style={{ wordBreak: 'keep-all' }}>
+          {p}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 // ── Detail Page ──────────────────────────────────────────────────────
 
@@ -12,10 +57,6 @@ export function CaseDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { lang } = useLanguage();
-  const csrRef = useRef(null);
-  const csrInView = useInView(csrRef, { once: true, margin: '-40px' });
-  const resultRef = useRef(null);
-  const resultInView = useInView(resultRef, { once: true, margin: '-40px' });
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior });
@@ -34,15 +75,14 @@ export function CaseDetailPage() {
   }
 
   const ref_ = references[cs.ref];
-  const detail = lang === 'ko' ? ref_.detailKo : ref_.detailEn;
-  const { intro } = parseDetail(detail, lang);
+  const t = (ko: string, en: string) => lang === 'ko' ? ko : en;
 
   return (
-    <main id="main-content" className="bg-[#FAFBFC]">
+    <main id="main-content" className="bg-white">
 
-      {/* ─── 상단 헤더 ─── */}
-      <section className="bg-white border-b border-[#F0F1F3]">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 sm:pt-36 pb-10 sm:pb-14">
+      {/* ─── 1. Hero ─── */}
+      <section className="bg-white">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8 pt-28 sm:pt-36 pb-8 sm:pb-10">
 
           {/* 뒤로가기 */}
           <motion.button
@@ -50,10 +90,10 @@ export function CaseDetailPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             onClick={() => navigate('/cases')}
-            className="inline-flex items-center gap-1.5 text-[13px] text-[#9CA3AF] font-medium mb-8 hover:text-[#6B7280] transition-colors"
+            className="inline-flex items-center gap-1.5 text-[13px] text-[#9CA3AF] font-medium mb-10 hover:text-[#6B7280] transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            {lang === 'ko' ? '도입 사례 목록' : 'Case Studies'}
+            {t('도입 사례 목록', 'Case Studies')}
           </motion.button>
 
           <motion.div
@@ -66,15 +106,15 @@ export function CaseDetailPage() {
 
             {/* 제목 */}
             <h1
-              className="font-bold text-[#0F172A] mb-3"
-              style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.4rem)', letterSpacing: '-0.02em', lineHeight: 1.3, wordBreak: 'keep-all' }}
+              className="font-bold text-[#0F172A] mb-4"
+              style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)', letterSpacing: '-0.02em', lineHeight: 1.3, wordBreak: 'keep-all' }}
             >
-              {lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
+              {t(cs.heroTitleKo, cs.heroTitleEn)}
             </h1>
 
             {/* 부제목 */}
-            <p className="text-[15px] sm:text-[16px] text-[#6B7280] leading-relaxed max-w-2xl" style={{ wordBreak: 'keep-all' }}>
-              {lang === 'ko' ? cs.heroDescKo : cs.heroDescEn}
+            <p className="text-[16px] sm:text-[18px] text-[#6B7280] leading-relaxed max-w-2xl" style={{ wordBreak: 'keep-all' }}>
+              {t(cs.heroDescKo, cs.heroDescEn)}
             </p>
           </motion.div>
         </div>
@@ -82,7 +122,7 @@ export function CaseDetailPage() {
 
       {/* ─── 사진 ─── */}
       <section className="bg-white">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-14">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8 pb-6">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -91,7 +131,7 @@ export function CaseDetailPage() {
             <div className="rounded-2xl overflow-hidden">
               <img
                 src={ref_.image}
-                alt={lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
+                alt={t(cs.heroTitleKo, cs.heroTitleEn)}
                 className="w-full h-auto object-cover"
                 style={{ aspectRatio: '16/9' }}
               />
@@ -114,148 +154,152 @@ export function CaseDetailPage() {
         </div>
       </section>
 
-      {/* ─── 내용 ─── */}
-      <section className="bg-white border-b border-[#F0F1F3]">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <p className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.85] whitespace-pre-line" style={{ wordBreak: 'keep-all' }}>
-              {intro}
-            </p>
-          </motion.div>
+      {/* ─── 구분선 ─── */}
+      <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="border-b border-[#F0F1F3]" />
+      </div>
+
+      {/* ─── 2. 현장에서 발견된 문제 ─── */}
+      <section className="py-14 sm:py-20">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection>
+            <SectionTitle>{t(cs.storyProblemTitleKo, cs.storyProblemTitleEn)}</SectionTitle>
+            <BodyText>{t(cs.storyProblemKo, cs.storyProblemEn)}</BodyText>
+          </StorySection>
         </div>
       </section>
 
-      {/* ─── 관계자 한마디 ─── */}
-      <section className="bg-[#F9FAFB] border-b border-[#F0F1F3] py-12 sm:py-16">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="relative"
-          >
-            <Quote className="w-8 h-8 text-[#448CFF] opacity-20 mb-5" />
-            <p
-              className="text-[17px] sm:text-[20px] text-[#383838] leading-[1.8] font-medium whitespace-pre-line mb-5"
-              style={{ fontStyle: 'italic', wordBreak: 'keep-all' }}
-            >
-              {lang === 'ko' ? cs.quoteKo : cs.quoteEn}
-            </p>
-            <p className="text-[14px] text-[#9CA3AF] font-medium">
-              — {lang === 'ko' ? cs.quoteAuthorKo : cs.quoteAuthorEn}
-            </p>
-          </motion.div>
+      {/* ─── 핵심 강조 문장 ─── */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection>
+            <div className="border-l-4 border-[#448CFF] pl-6 sm:pl-8">
+              <p
+                className="text-[20px] sm:text-[26px] font-semibold text-[#0F172A] leading-[1.6] whitespace-pre-line"
+                style={{ wordBreak: 'keep-all' }}
+              >
+                {t(cs.storyHighlightKo, cs.storyHighlightEn)}
+              </p>
+            </div>
+          </StorySection>
         </div>
       </section>
 
-      {/* ─── 문제 & 솔루션 ─── */}
-      <section ref={csrRef} className="bg-white py-12 sm:py-16 border-b border-[#F0F1F3]">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={csrInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          >
-            {/* Challenge */}
-            <div className="rounded-2xl border border-[#E5E8EB] p-6 sm:p-7">
-              <div className="flex items-center gap-2.5 mb-5">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-[#FEF2F2]">
-                  <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
-                </div>
-                <h4 className="text-[15px] font-bold text-[#383838] tracking-wide uppercase">Challenge</h4>
-              </div>
-              <ul className="space-y-3">
-                {(lang === 'ko' ? cs.challengeKo : cs.challengeEn).map((item, i) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <div className="w-1.5 h-1.5 rounded-full mt-[8px] shrink-0 bg-[#EF4444]" />
-                    <span className="text-[14px] text-[#4E5968] leading-[1.75]" style={{ wordBreak: 'keep-all' }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Solution */}
-            <div className="rounded-2xl border border-[#E5E8EB] p-6 sm:p-7">
-              <div className="flex items-center gap-2.5 mb-5">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-[#EFF6FF]">
-                  <Lightbulb className="w-4 h-4 text-[#448CFF]" />
-                </div>
-                <h4 className="text-[15px] font-bold text-[#383838] tracking-wide uppercase">Solution</h4>
-              </div>
-              <ul className="space-y-3">
-                {(lang === 'ko' ? cs.solutionKo : cs.solutionEn).map((item, i) => (
-                  <li key={i} className="flex items-start gap-2.5">
-                    <div className="w-1.5 h-1.5 rounded-full mt-[8px] shrink-0 bg-[#448CFF]" />
-                    <span className="text-[14px] text-[#4E5968] leading-[1.75]" style={{ wordBreak: 'keep-all' }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
+      {/* ─── 3. AI 접근 ─── */}
+      <section className="bg-[#F9FAFB] py-14 sm:py-20">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection>
+            <SectionTitle>{t(cs.storyApproachTitleKo, cs.storyApproachTitleEn)}</SectionTitle>
+            <BodyText>{t(cs.storyApproachKo, cs.storyApproachEn)}</BodyText>
+          </StorySection>
         </div>
       </section>
 
-      {/* ─── 결과 효과 ─── */}
-      <section ref={resultRef} className="bg-[#F9FAFB] py-12 sm:py-16">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={resultInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-2.5 mb-8">
-              <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-[#ECFDF5]">
-                <TrendingUp className="w-4 h-4 text-[#10B981]" />
-              </div>
-              <h4 className="text-[15px] font-bold text-[#383838] tracking-wide uppercase">Results</h4>
-            </div>
+      {/* ─── 4. 현장 중심 설계 ─── */}
+      <section className="py-14 sm:py-20">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection>
+            <SectionTitle>{t(cs.storySystemTitleKo, cs.storySystemTitleEn)}</SectionTitle>
+            <BodyText>{t(cs.storySystemKo, cs.storySystemEn)}</BodyText>
 
-            {/* 성과 지표 */}
-            <div className="flex flex-wrap gap-8 mb-8">
+            <ul className="mt-6 space-y-3">
+              {(lang === 'ko' ? cs.storySystemPointsKo : cs.storySystemPointsEn).map((point: string, i: number) => (
+                <li key={i} className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full mt-[10px] shrink-0 bg-[#448CFF]" />
+                  <span className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.8]" style={{ wordBreak: 'keep-all' }}>{point}</span>
+                </li>
+              ))}
+            </ul>
+
+            <p className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.9] mt-6" style={{ wordBreak: 'keep-all' }}>
+              {t(cs.storySystemOutroKo, cs.storySystemOutroEn)}
+            </p>
+          </StorySection>
+        </div>
+      </section>
+
+      {/* ─── 5. 실제 현장 변화 + 성과 지표 ─── */}
+      <section className="bg-[#F9FAFB] py-14 sm:py-20">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection>
+            <SectionTitle>{t(cs.storyChangeTitleKo, cs.storyChangeTitleEn)}</SectionTitle>
+            <BodyText>{t(cs.storyChangeKo, cs.storyChangeEn)}</BodyText>
+          </StorySection>
+
+          {/* 성과 숫자 카드 */}
+          <StorySection className="mt-12">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-8">
               {cs.metrics.map((m, i) => (
-                <div key={i}>
-                  <span className="text-[32px] sm:text-[40px] font-bold text-[#448CFF]">
-                    {lang === 'ko' ? m.valueKo : m.valueEn}
+                <div key={i} className="bg-white rounded-2xl border border-[#E5E8EB] p-6 sm:p-8 text-center">
+                  <span className="text-[36px] sm:text-[48px] font-bold text-[#448CFF]" style={{ lineHeight: 1.1 }}>
+                    {t(m.valueKo, m.valueEn)}
                   </span>
-                  <p className="text-[13px] text-[#6B7280] font-medium mt-1">
-                    {lang === 'ko' ? m.labelKo : m.labelEn}
+                  <p className="text-[13px] sm:text-[14px] text-[#6B7280] font-medium mt-2">
+                    {t(m.labelKo, m.labelEn)}
                   </p>
                 </div>
               ))}
             </div>
-
-            {/* 결과 항목 */}
-            <ul className="space-y-3">
-              {(lang === 'ko' ? cs.resultsKo : cs.resultsEn).map((item, i) => (
-                <li key={i} className="flex items-start gap-2.5">
-                  <div className="w-1.5 h-1.5 rounded-full mt-[8px] shrink-0 bg-[#10B981]" />
-                  <span className="text-[14px] text-[#4E5968] leading-[1.75]" style={{ wordBreak: 'keep-all' }}>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+            <p className="text-[15px] sm:text-[16px] text-[#4E5968] leading-[1.9]" style={{ wordBreak: 'keep-all' }}>
+              {t(cs.storyMetricsOutroKo, cs.storyMetricsOutroEn)}
+            </p>
+          </StorySection>
         </div>
       </section>
 
-      {/* ─── 다른 사례 보기 ─── */}
-      <section className="bg-white border-t border-[#F0F1F3] py-12 lg:py-16">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[15px] text-[#6B7280] mb-5">
-            {lang === 'ko' ? '더 많은 도입 사례를 확인하세요' : 'Explore more case studies'}
-          </p>
-          <button
-            onClick={() => navigate('/cases')}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold text-white transition-all hover:scale-[1.03] active:scale-[0.97]"
-            style={{ background: 'linear-gradient(135deg, #448CFF 0%, #7C5CFC 100%)' }}
-          >
-            {lang === 'ko' ? '전체 사례 보기' : 'View All Cases'}
-            <ArrowLeft className="w-4 h-4 rotate-180" />
-          </button>
+      {/* ─── 관계자 의견 ─── */}
+      <section className="bg-[#F9FAFB] py-14 sm:py-20">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection>
+            <Quote className="w-8 h-8 text-[#448CFF] opacity-20 mb-6" />
+            <p
+              className="text-[18px] sm:text-[22px] text-[#383838] leading-[1.8] font-medium whitespace-pre-line mb-6"
+              style={{ fontStyle: 'italic', wordBreak: 'keep-all' }}
+            >
+              {t(cs.quoteKo, cs.quoteEn)}
+            </p>
+            <p className="text-[14px] text-[#9CA3AF] font-medium">
+              — {t(cs.quoteAuthorKo, cs.quoteAuthorEn)}
+            </p>
+          </StorySection>
+        </div>
+      </section>
+
+      {/* ─── 마무리 ─── */}
+      <section className="py-14 sm:py-20">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection>
+            <SectionTitle>{t(cs.storyClosingTitleKo, cs.storyClosingTitleEn)}</SectionTitle>
+            <BodyText>{t(cs.storyClosingKo, cs.storyClosingEn)}</BodyText>
+          </StorySection>
+        </div>
+      </section>
+
+      {/* ─── CTA ─── */}
+      <section className="border-t border-[#F0F1F3] py-14 sm:py-20">
+        <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
+          <StorySection className="text-center">
+            <p className="text-[15px] text-[#6B7280] mb-4">
+              {t('더 많은 도입 사례를 확인하세요', 'Explore more case studies')}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                onClick={() => navigate('/cases')}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold text-white transition-all hover:scale-[1.03] active:scale-[0.97]"
+                style={{ background: 'linear-gradient(135deg, #448CFF 0%, #7C5CFC 100%)' }}
+              >
+                {t('전체 사례 보기', 'View All Cases')}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => navigate('/contact')}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold text-[#383838] border border-[#E5E8EB] hover:border-[#D1D5DB] transition-all hover:scale-[1.03] active:scale-[0.97]"
+              >
+                {t('도입 문의하기', 'Contact Us')}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </StorySection>
         </div>
       </section>
 
