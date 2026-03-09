@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Hero } from '@/sections/Hero';
+import { AIConsulting } from '@/sections/AIConsulting';
 import { Solution } from '@/sections/Solution';
 import { UseCases } from '@/sections/UseCases';
 import { PartnerLogos } from '@/sections/SocialProof';
@@ -19,6 +20,7 @@ export function MainPage() {
       <main id="main-content">
         <Hero />
         <PartnerLogos />
+        <AIConsulting />
         <Solution />
         <UseCases />
         <CTA />
