@@ -10,6 +10,7 @@ import donggukLogo from '@/assets/partners/dongguk.png';
 import bodymapLogo from '@/assets/partners/bodymap.png';
 import seoulAiLogo from '@/assets/partners/seoul-ai.jpg';
 import yangcheonLogo from '@/assets/partners/yangcheon.jpg';
+import ssisLogo from '@/assets/partners/ssis.svg';
 
 // ── Case Study 메타 데이터 ────────────────────────────────────────────
 
@@ -143,7 +144,8 @@ export type CaseStudyMeta = typeof caseStudyMeta[number];
 
 const clientLogos = [
   { src: kepcoMcsLogo, alt: '한전MCS', altEn: 'KEPCO MCS', h: 'h-8 sm:h-10' },
-{ src: seoulAiLogo, alt: '서울AI재단', altEn: 'Seoul AI', h: 'h-8 sm:h-10' },
+  { src: ssisLogo, alt: '한국사회보장정보원', altEn: 'SSIS', h: 'h-8 sm:h-10' },
+  { src: seoulAiLogo, alt: '서울AI재단', altEn: 'Seoul AI', h: 'h-8 sm:h-10' },
   { src: yangcheonLogo, alt: '양천구청', altEn: 'Yangcheon', h: 'h-12 sm:h-16' },
   { src: donggukLogo, alt: '동국대학교', altEn: 'Dongguk Univ.', h: 'h-8 sm:h-10' },
   { src: bodymapLogo, alt: '바디맵', altEn: 'Bodymap', h: 'h-8 sm:h-10' },

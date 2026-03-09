@@ -30,23 +30,27 @@ export function Navigation() {
 
   const lastScrollYRef = useRef(0);
 
+  const checkDarkSection = () => {
+    const darkSections = document.querySelectorAll('[data-nav-dark]');
+    let dark = false;
+    darkSections.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < 84 && rect.bottom > 0) dark = true;
+    });
+    setIsDarkSection(dark);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setIsScrolled(currentScrollY > 50);
       setIsHidden(currentScrollY > 20 && currentScrollY > lastScrollYRef.current);
       lastScrollYRef.current = currentScrollY;
-
-      // 다크 섹션 감지 (네비 영역과 겹치는지 확인)
-      const darkSections = document.querySelectorAll('[data-nav-dark]');
-      let dark = false;
-      darkSections.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < 84 && rect.bottom > 0) dark = true;
-      });
-      setIsDarkSection(dark);
+      checkDarkSection();
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
+    // 초기 로드 시 다크 섹션 감지
+    requestAnimationFrame(checkDarkSection);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -54,8 +58,9 @@ export function Navigation() {
     setIsMobileMenuOpen(false);
     setIsScrolled(false);
     setIsHidden(false);
-    setIsDarkSection(false);
     lastScrollYRef.current = 0;
+    // 페이지 전환 후 다크 섹션 재감지
+    requestAnimationFrame(checkDarkSection);
   }, [location.pathname]);
 
   const handleNavClick = (item: NavItem) => {
