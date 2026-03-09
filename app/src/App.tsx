@@ -11,7 +11,8 @@ import { NoticePage } from '@/pages/NoticePage';
 import { ServicesPage } from '@/pages/ServicesPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { PrivacyPage } from '@/pages/PrivacyPage';
-// import { CasesPage } from '@/pages/CasesPage';
+import { CasesPage } from '@/pages/CasesPage';
+import { CaseDetailPage } from '@/pages/CaseDetailPage';
 import './App.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -43,7 +44,8 @@ function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
-          {/* <Route path="/cases" element={<CasesPage />} /> */}
+          <Route path="/cases" element={<CasesPage />} />
+          <Route path="/cases/:id" element={<CaseDetailPage />} />
         </Routes>
         <Footer />
       </div>

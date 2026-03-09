@@ -8,7 +8,7 @@ import heroBgSrc from '@/assets/hero-bg.jpg';
 
 function Section({ children, className = '', bg = 'bg-white' }: { children: React.ReactNode; className?: string; bg?: string }) {
   return (
-    <section className={`py-16 sm:py-24 lg:py-[140px] ${bg} ${className}`}>
+    <section className={`py-16 sm:py-24 lg:py-[140px] min-h-screen ${bg} ${className}`}>
       <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
         <div className="max-w-[1360px] mx-auto">
           {children}
@@ -77,121 +77,93 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
 
 // ── A-2. Mission (이미지 줌 → 배경 밝아지며 텍스트 플립) ─────────────
 
-/* 떠다니는 데이터 대시보드 SVG 배경 */
+/* 떠다니는 3D 아이소메트릭 데이터 패널 배경 */
 function DataPanelsBg() {
   return (
     <svg viewBox="0 0 1440 900" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
       <defs>
         <linearGradient id="mBg" x1="0" y1="0" x2="1440" y2="900" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#E4EDFC" />
-          <stop offset="40%" stopColor="#EBF1FF" />
-          <stop offset="100%" stopColor="#F5F8FF" />
+          <stop offset="0%" stopColor="#0B1628" />
+          <stop offset="40%" stopColor="#0F1D33" />
+          <stop offset="100%" stopColor="#111E36" />
         </linearGradient>
-        <linearGradient id="panelFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#448CFF" stopOpacity="0.08" />
-          <stop offset="100%" stopColor="#448CFF" stopOpacity="0.03" />
-        </linearGradient>
-        {/* 글로우 */}
-        <filter id="glow"><feGaussianBlur stdDeviation="18" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+        <linearGradient id="iso-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#B8D4FF" /><stop offset="100%" stopColor="#6DA6FF" /></linearGradient>
+        <linearGradient id="iso-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#1D4ED8" /></linearGradient>
+        <linearGradient id="iso-right" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6DA6FF" /><stop offset="100%" stopColor="#3B82F6" /></linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="12" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
       </defs>
       <rect width="1440" height="900" fill="url(#mBg)" />
 
-      {/* 그리드 라인 (원근감) */}
-      {Array.from({ length: 12 }).map((_, i) => (
-        <line key={`vl${i}`} x1={120 * i} y1="0" x2={120 * i} y2="900" stroke="#448CFF" strokeWidth="0.4" strokeOpacity="0.06" />
+      {/* 원근 그리드 (아이소메트릭) */}
+      {Array.from({ length: 10 }).map((_, i) => (
+        <line key={`ig${i}`} x1={-200 + i * 200} y1="900" x2={520 + i * 200} y2="0" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.12" />
       ))}
-      {Array.from({ length: 8 }).map((_, i) => (
-        <line key={`hl${i}`} x1="0" y1={112.5 * i} x2="1440" y2={112.5 * i} stroke="#448CFF" strokeWidth="0.4" strokeOpacity="0.06" />
+      {Array.from({ length: 10 }).map((_, i) => (
+        <line key={`igr${i}`} x1={1640 - i * 200} y1="900" x2={920 - i * 200} y2="0" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.12" />
       ))}
 
-      {/* 패널 1: 메인 대시보드 (중앙 크게) */}
-      <g transform="translate(440, 220) rotate(-3)" opacity="0.85">
-        <rect width="360" height="240" rx="12" fill="url(#panelFill)" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.25" />
-        <rect x="16" y="16" width="200" height="10" rx="5" fill="#448CFF" fillOpacity="0.2" />
-        <rect x="16" y="36" width="120" height="6" rx="3" fill="#448CFF" fillOpacity="0.1" />
-        {/* 바 차트 */}
-        <rect x="24" y="160" width="28" height="55" rx="3" fill="#448CFF" fillOpacity="0.18" />
-        <rect x="62" y="130" width="28" height="85" rx="3" fill="#448CFF" fillOpacity="0.25" />
-        <rect x="100" y="100" width="28" height="115" rx="3" fill="#448CFF" fillOpacity="0.32" />
-        <rect x="138" y="120" width="28" height="95" rx="3" fill="#448CFF" fillOpacity="0.22" />
-        <rect x="176" y="80" width="28" height="135" rx="3" fill="#448CFF" fillOpacity="0.35" />
-        {/* 라인 차트 */}
-        <polyline points="230,180 260,140 290,155 320,110 340,125" stroke="#448CFF" strokeWidth="2" strokeOpacity="0.4" fill="none" strokeLinejoin="round" />
-        <circle cx="320" cy="110" r="4" fill="#448CFF" fillOpacity="0.5" />
-        {/* 도넛 */}
-        <circle cx="300" cy="68" r="22" stroke="#448CFF" strokeWidth="5" strokeOpacity="0.15" fill="none" />
-        <circle cx="300" cy="68" r="22" stroke="#448CFF" strokeWidth="5" strokeOpacity="0.4" fill="none" strokeDasharray="50 88" strokeLinecap="round" />
+      {/* 3D 큐브 1: 중앙 대형 (대시보드) */}
+      <g opacity="0.7">
+        <polygon points="620,280 780,200 780,380 620,460" fill="url(#iso-left)" opacity="0.5" />
+        <polygon points="780,200 940,280 940,460 780,380" fill="url(#iso-right)" opacity="0.4" />
+        <polygon points="620,280 780,200 940,280 780,360" fill="url(#iso-top)" opacity="0.55" />
+        {/* 면 위 차트 요소 */}
+        <polygon points="660,310 730,275 730,320 660,355" fill="#448CFF" opacity="0.15" />
+        <polygon points="660,355 730,320 730,340 660,375" fill="#448CFF" opacity="0.1" />
+        <polygon points="740,270 780,250 780,350 740,370" fill="#6DA6FF" opacity="0.12" />
+        {/* 발광 코어 */}
+        <circle cx="780" cy="320" r="15" fill="#448CFF" opacity="0.15" filter="url(#glow)" />
+        <circle cx="780" cy="320" r="5" fill="white" opacity="0.6" />
       </g>
 
-      {/* 패널 2: 우상단 작은 차트 */}
-      <g transform="translate(920, 100) rotate(5)" opacity="0.7">
-        <rect width="200" height="140" rx="10" fill="url(#panelFill)" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-        <rect x="12" y="12" width="80" height="8" rx="4" fill="#448CFF" fillOpacity="0.18" />
-        <rect x="12" y="28" width="50" height="5" rx="2.5" fill="#448CFF" fillOpacity="0.08" />
-        {/* 에어리어 차트 */}
-        <path d="M12,120 L50,90 L90,100 L130,65 L170,80 L188,60 L188,120 Z" fill="#448CFF" fillOpacity="0.1" />
-        <polyline points="12,120 50,90 90,100 130,65 170,80 188,60" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.35" fill="none" />
+      {/* 3D 큐브 2: 좌상단 (작은) */}
+      <g opacity="0.5">
+        <polygon points="140,200 230,155 230,260 140,305" fill="url(#iso-left)" opacity="0.45" />
+        <polygon points="230,155 320,200 320,305 230,260" fill="url(#iso-right)" opacity="0.35" />
+        <polygon points="140,200 230,155 320,200 230,245" fill="url(#iso-top)" opacity="0.5" />
       </g>
 
-      {/* 패널 3: 좌상단 캘린더 */}
-      <g transform="translate(80, 120) rotate(-6)" opacity="0.6">
-        <rect width="180" height="150" rx="10" fill="url(#panelFill)" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-        <rect x="12" y="12" width="60" height="8" rx="4" fill="#448CFF" fillOpacity="0.2" />
-        <text x="140" y="22" fill="#448CFF" fillOpacity="0.3" fontSize="14" fontWeight="bold">21</text>
-        {/* 그리드 셀 */}
-        {Array.from({ length: 20 }).map((_, i) => (
-          <rect key={`cal${i}`} x={12 + (i % 5) * 32} y={38 + Math.floor(i / 5) * 26} width="26" height="20" rx="3" fill="#448CFF" fillOpacity={i === 7 ? 0.25 : 0.05} stroke="#448CFF" strokeWidth="0.4" strokeOpacity="0.08" />
-        ))}
+      {/* 3D 큐브 3: 우상단 */}
+      <g opacity="0.55">
+        <polygon points="1050,130 1130,90 1130,190 1050,230" fill="url(#iso-left)" opacity="0.4" />
+        <polygon points="1130,90 1210,130 1210,230 1130,190" fill="url(#iso-right)" opacity="0.3" />
+        <polygon points="1050,130 1130,90 1210,130 1130,170" fill="url(#iso-top)" opacity="0.45" />
       </g>
 
-      {/* 패널 4: 좌하단 파이 */}
-      <g transform="translate(120, 550) rotate(4)" opacity="0.55">
-        <rect width="190" height="160" rx="10" fill="url(#panelFill)" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.18" />
-        <circle cx="95" cy="90" r="40" stroke="#448CFF" strokeWidth="6" strokeOpacity="0.12" fill="none" />
-        <circle cx="95" cy="90" r="40" stroke="#448CFF" strokeWidth="6" strokeOpacity="0.35" fill="none" strokeDasharray="75 176" strokeLinecap="round" />
-        <circle cx="95" cy="90" r="40" stroke="#6AA8FF" strokeWidth="6" strokeOpacity="0.25" fill="none" strokeDasharray="45 206" strokeDashoffset="-75" strokeLinecap="round" />
-        <rect x="14" y="14" width="70" height="7" rx="3.5" fill="#448CFF" fillOpacity="0.15" />
+      {/* 3D 실린더: 좌하단 (DB) */}
+      <g opacity="0.45">
+        <rect x="180" y="560" width="120" height="100" fill="url(#iso-left)" opacity="0.4" />
+        <ellipse cx="240" cy="560" rx="60" ry="22" fill="url(#iso-top)" opacity="0.55" />
+        <ellipse cx="240" cy="660" rx="60" ry="22" fill="url(#iso-left)" opacity="0.5" />
+        <ellipse cx="240" cy="610" rx="60" ry="22" fill="none" stroke="#A0C4FF" strokeWidth="0.8" opacity="0.3" />
       </g>
 
-      {/* 패널 5: 우하단 테이블 */}
-      <g transform="translate(1000, 520) rotate(-4)" opacity="0.6">
-        <rect width="220" height="170" rx="10" fill="url(#panelFill)" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-        <rect x="12" y="12" width="90" height="8" rx="4" fill="#448CFF" fillOpacity="0.18" />
-        {Array.from({ length: 5 }).map((_, i) => (
-          <g key={`row${i}`}>
-            <rect x="12" y={38 + i * 24} width="196" height="18" rx="3" fill="#448CFF" fillOpacity={i === 0 ? 0.08 : 0.03} />
-            <rect x="16" y={42 + i * 24} width={60 + Math.sin(i) * 20} height="6" rx="3" fill="#448CFF" fillOpacity="0.12" />
-            <rect x="140" y={42 + i * 24} width={40 + Math.cos(i) * 10} height="6" rx="3" fill="#448CFF" fillOpacity="0.08" />
-          </g>
-        ))}
+      {/* 3D 큐브 4: 우하단 */}
+      <g opacity="0.5">
+        <polygon points="1080,520 1160,480 1160,580 1080,620" fill="url(#iso-left)" opacity="0.4" />
+        <polygon points="1160,480 1240,520 1240,620 1160,580" fill="url(#iso-right)" opacity="0.3" />
+        <polygon points="1080,520 1160,480 1240,520 1160,560" fill="url(#iso-top)" opacity="0.45" />
       </g>
 
-      {/* 패널 6: 우측 중간 KPI */}
-      <g transform="translate(1160, 300) rotate(3)" opacity="0.5">
-        <rect width="160" height="120" rx="10" fill="url(#panelFill)" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.18" />
-        <rect x="12" y="12" width="50" height="6" rx="3" fill="#448CFF" fillOpacity="0.12" />
-        <text x="14" y="56" fill="#448CFF" fillOpacity="0.35" fontSize="28" fontWeight="bold">87%</text>
-        <rect x="12" y="78" width="136" height="8" rx="4" fill="#448CFF" fillOpacity="0.06" />
-        <rect x="12" y="78" width="118" height="8" rx="4" fill="#448CFF" fillOpacity="0.2" />
-        <rect x="12" y="96" width="136" height="8" rx="4" fill="#448CFF" fillOpacity="0.06" />
-        <rect x="12" y="96" width="82" height="8" rx="4" fill="#448CFF" fillOpacity="0.15" />
-      </g>
+      {/* 연결선 (3D 느낌 점선) */}
+      <line x1="320" y1="260" x2="620" y2="320" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.1" strokeDasharray="6 4" />
+      <line x1="940" y1="350" x2="1080" y2="520" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.08" strokeDasharray="6 4" />
+      <line x1="300" y1="560" x2="620" y2="420" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.07" strokeDasharray="5 4" />
+      <line x1="940" y1="280" x2="1050" y2="180" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.08" strokeDasharray="5 4" />
 
-      {/* 연결선 + 노드 */}
-      <line x1="620" y1="460" x2="720" y2="550" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.12" />
-      <line x1="800" y1="460" x2="900" y2="540" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.1" />
-      <line x1="260" y1="270" x2="440" y2="280" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.08" />
-      <line x1="800" y1="240" x2="920" y2="180" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.08" />
+      {/* 3D 구체 노드 */}
+      <circle cx="620" cy="320" r="6" fill="url(#iso-left)" opacity="0.5" />
+      <ellipse cx="619" cy="318" rx="2" ry="1.5" fill="white" opacity="0.4" />
+      <circle cx="940" cy="350" r="5" fill="url(#iso-right)" opacity="0.45" />
+      <circle cx="480" cy="600" r="4" fill="#A0C4FF" opacity="0.35" />
+      <circle cx="1000" cy="400" r="4" fill="#6DA6FF" opacity="0.3" />
 
-      {/* 빛나는 점들 */}
-      <circle cx="100" cy="800" r="3" fill="#448CFF" fillOpacity="0.3" filter="url(#glow)" />
-      <circle cx="1350" cy="100" r="4" fill="#6AA8FF" fillOpacity="0.25" filter="url(#glow)" />
-      <circle cx="720" cy="750" r="2.5" fill="#448CFF" fillOpacity="0.2" />
-      <circle cx="1300" cy="650" r="2" fill="#448CFF" fillOpacity="0.15" />
-      <circle cx="50" cy="450" r="2" fill="#6AA8FF" fillOpacity="0.2" />
-
-      {/* 좌상단 광선 */}
-      <ellipse cx="0" cy="0" rx="400" ry="300" fill="#ffffff" fillOpacity="0.03" />
+      {/* 빛나는 파티클 */}
+      <circle cx="100" cy="800" r="3" fill="#448CFF" fillOpacity="0.2" filter="url(#glow)" />
+      <circle cx="1350" cy="100" r="4" fill="#6DA6FF" fillOpacity="0.2" filter="url(#glow)" />
+      <circle cx="720" cy="750" r="2.5" fill="#448CFF" fillOpacity="0.15" />
+      <circle cx="400" cy="150" r="2" fill="#A0C4FF" fillOpacity="0.2" />
+      <circle cx="1300" cy="700" r="2" fill="#448CFF" fillOpacity="0.12" />
     </svg>
   );
 }
@@ -229,11 +201,22 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
           <DataPanelsBg />
         </motion.div>
 
-        {/* 밝은 배경 */}
+        {/* 밝은 배경 + 지평선 */}
         <motion.div
-          className="absolute inset-0 bg-[#F5F8FF]"
-          style={{ opacity: brightOpacity }}
-        />
+          className="absolute inset-0"
+          style={{ opacity: brightOpacity, background: 'linear-gradient(180deg, #E8F0FE 0%, #F0F4FF 35%, #F5F8FF 50%, #F0F4FF 65%, #E4EDFC 100%)' }}
+        >
+          {/* 지평선 글로우 */}
+          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px]"
+            style={{ background: 'linear-gradient(90deg, transparent 5%, rgba(68,140,255,0.15) 25%, rgba(68,140,255,0.35) 50%, rgba(68,140,255,0.15) 75%, transparent 95%)' }} />
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[900px] h-[300px]"
+            style={{ background: 'radial-gradient(ellipse 100% 100% at 50% 50%, rgba(68,140,255,0.08) 0%, transparent 70%)' }} />
+          {/* 떠오르는 구체 */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-[42%] w-[140px] h-[140px] rounded-full"
+            style={{ background: 'radial-gradient(circle, rgba(68,140,255,0.18) 0%, rgba(109,166,255,0.08) 50%, transparent 75%)' }} />
+          <div className="absolute left-1/2 -translate-x-1/2 top-[44%] w-[60px] h-[60px] rounded-full"
+            style={{ background: 'radial-gradient(circle, rgba(68,140,255,0.25) 0%, transparent 70%)' }} />
+        </motion.div>
 
         {/* 텍스트 1 */}
         <motion.div
@@ -241,7 +224,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
           style={{ opacity: text1Opacity }}
         >
           <p
-            className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight whitespace-pre-line"
+            className="text-white font-bold text-center leading-[1.5] tracking-tight whitespace-pre-line"
             style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
@@ -281,94 +264,112 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
 
 /* 카드별 일러스트 — 우측 배경 장식 */
 const problemIllusts = [
-  /* 0: 데이터 활성화 — 허브 + 연결 노드 */
+  /* 0: 데이터 활성화 — 3D 데이터베이스 실린더 + 발광 노드 */
   <svg key="pi0" viewBox="0 0 140 140" fill="none">
-    <circle cx="70" cy="70" r="14" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.3" fill="#448CFF" fillOpacity="0.06" />
-    <circle cx="70" cy="70" r="5" fill="#448CFF" fillOpacity="0.45" />
-    <circle cx="70" cy="70" r="28" stroke="#448CFF" strokeWidth="0.7" strokeOpacity="0.1" />
-    <circle cx="70" cy="70" r="44" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.07" strokeDasharray="3 4" />
-    {/* 노드 6개 */}
-    <circle cx="70" cy="26" r="5" fill="#448CFF" fillOpacity="0.35" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-    <circle cx="108" cy="48" r="4" fill="#448CFF" fillOpacity="0.25" />
-    <circle cx="108" cy="92" r="4.5" fill="#448CFF" fillOpacity="0.3" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.15" />
-    <circle cx="70" cy="114" r="5" fill="#448CFF" fillOpacity="0.35" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
-    <circle cx="32" cy="92" r="3.5" fill="#448CFF" fillOpacity="0.2" />
-    <circle cx="32" cy="48" r="4" fill="#448CFF" fillOpacity="0.25" />
-    {/* 연결선 */}
-    <line x1="70" y1="56" x2="70" y2="31" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.18" />
-    <line x1="82" y1="62" x2="104" y2="50" stroke="#448CFF" strokeWidth="0.7" strokeOpacity="0.14" />
-    <line x1="82" y1="78" x2="104" y2="90" stroke="#448CFF" strokeWidth="0.7" strokeOpacity="0.14" />
-    <line x1="70" y1="84" x2="70" y2="109" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.18" />
-    <line x1="58" y1="78" x2="36" y2="90" stroke="#448CFF" strokeWidth="0.7" strokeOpacity="0.14" />
-    <line x1="58" y1="62" x2="36" y2="50" stroke="#448CFF" strokeWidth="0.7" strokeOpacity="0.14" />
-    {/* 활성 펄스 */}
-    <circle cx="70" cy="26" r="9" fill="none" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.1" />
-    <circle cx="108" cy="92" r="8" fill="none" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.08" />
+    <defs>
+      <linearGradient id="p0-side" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#1D4ED8" /></linearGradient>
+      <linearGradient id="p0-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#A0C4FF" /><stop offset="100%" stopColor="#6DA6FF" /></linearGradient>
+      <filter id="p0-g"><feGaussianBlur stdDeviation="4" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+    </defs>
+    {/* 실린더 몸체 */}
+    <rect x="44" y="50" width="52" height="40" fill="url(#p0-side)" opacity="0.55" />
+    <ellipse cx="70" cy="50" rx="26" ry="10" fill="url(#p0-top)" opacity="0.8" />
+    <ellipse cx="70" cy="90" rx="26" ry="10" fill="url(#p0-side)" opacity="0.65" />
+    <ellipse cx="70" cy="70" rx="26" ry="10" fill="none" stroke="#A0C4FF" strokeWidth="0.8" opacity="0.4" />
+    {/* 글로우 코어 */}
+    <circle cx="70" cy="65" r="8" fill="#448CFF" opacity="0.2" filter="url(#p0-g)" />
+    <circle cx="70" cy="65" r="3" fill="white" opacity="0.8" />
+    {/* 데이터 파티클 상승 */}
+    <circle cx="60" cy="40" r="2" fill="#A0C4FF" opacity="0.6" />
+    <circle cx="78" cy="35" r="1.5" fill="#6DA6FF" opacity="0.5" />
+    <circle cx="68" cy="30" r="2" fill="#448CFF" opacity="0.4" />
+    <line x1="60" y1="48" x2="60" y2="42" stroke="#A0C4FF" strokeWidth="0.8" opacity="0.3" />
+    <line x1="78" y1="48" x2="78" y2="37" stroke="#6DA6FF" strokeWidth="0.8" opacity="0.3" />
+    {/* 궤도 */}
+    <ellipse cx="70" cy="65" rx="40" ry="14" fill="none" stroke="#448CFF" strokeWidth="0.6" opacity="0.15" strokeDasharray="3 3" />
   </svg>,
 
-  /* 1: 보고서→통찰 — 문서 → 차트 변환 */
+  /* 1: 보고서→통찰 — 3D 문서→그래프 큐브 */
   <svg key="pi1" viewBox="0 0 140 140" fill="none">
-    {/* 문서 스택 */}
-    <rect x="14" y="38" width="36" height="48" rx="3" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.18" fill="#448CFF" fillOpacity="0.03" />
-    <rect x="10" y="42" width="36" height="48" rx="3" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.12" fill="#448CFF" fillOpacity="0.02" />
-    <line x1="20" y1="50" x2="44" y2="50" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.12" />
-    <line x1="20" y1="57" x2="40" y2="57" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.1" />
-    <line x1="20" y1="64" x2="42" y2="64" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.08" />
-    <line x1="20" y1="71" x2="38" y2="71" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.06" />
+    <defs>
+      <linearGradient id="p1-face" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6DA6FF" /><stop offset="100%" stopColor="#2563EB" /></linearGradient>
+      <linearGradient id="p1-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#B8D4FF" /><stop offset="100%" stopColor="#6DA6FF" /></linearGradient>
+    </defs>
+    {/* 3D 문서 (아이소메트릭) */}
+    <polygon points="20,55 45,42 45,85 20,98" fill="url(#p1-face)" opacity="0.5" />
+    <polygon points="20,55 45,42 55,48 30,61" fill="url(#p1-top)" opacity="0.55" />
+    <polygon points="30,61 55,48 55,91 30,104" fill="#448CFF" opacity="0.35" />
+    {/* 문서 라인 */}
+    <line x1="25" y1="65" x2="40" y2="57" stroke="white" strokeWidth="0.8" opacity="0.35" />
+    <line x1="25" y1="72" x2="38" y2="65" stroke="white" strokeWidth="0.8" opacity="0.25" />
+    <line x1="25" y1="79" x2="36" y2="73" stroke="white" strokeWidth="0.8" opacity="0.2" />
     {/* 변환 화살표 */}
-    <path d="M54 65 L72 65" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.2" />
-    <path d="M68 61 L73 65 L68 69" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.2" strokeLinecap="round" strokeLinejoin="round" />
-    {/* 상승 바 차트 */}
-    <rect x="82" y="78" width="10" height="18" rx="2" fill="#448CFF" fillOpacity="0.15" />
-    <rect x="96" y="60" width="10" height="36" rx="2" fill="#448CFF" fillOpacity="0.22" />
-    <rect x="110" y="42" width="10" height="54" rx="2" fill="#448CFF" fillOpacity="0.32" />
-    {/* 인사이트 스파크 */}
-    <circle cx="115" cy="34" r="2.5" fill="#448CFF" fillOpacity="0.4" />
-    <line x1="115" y1="28" x2="115" y2="40" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.15" />
-    <line x1="109" y1="34" x2="121" y2="34" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.15" />
+    <path d="M60 70 L75 70" stroke="#448CFF" strokeWidth="1.5" opacity="0.4" strokeLinecap="round" />
+    <path d="M72 67 L76 70 L72 73" stroke="#448CFF" strokeWidth="1.2" opacity="0.4" strokeLinecap="round" strokeLinejoin="round" />
+    {/* 3D 바 차트 */}
+    <polygon points="88,90 98,85 98,75 88,80" fill="#448CFF" opacity="0.55" />
+    <polygon points="98,85 108,90 108,80 98,75" fill="#6DA6FF" opacity="0.4" />
+    <polygon points="88,80 98,75 108,80 98,85" fill="url(#p1-top)" opacity="0.7" />
+    <polygon points="100,80 110,75 110,60 100,65" fill="#448CFF" opacity="0.65" />
+    <polygon points="110,75 120,80 120,65 110,60" fill="#6DA6FF" opacity="0.5" />
+    <polygon points="100,65 110,60 120,65 110,70" fill="url(#p1-top)" opacity="0.8" />
+    {/* 스파크 */}
+    <circle cx="115" cy="52" r="3" fill="#448CFF" opacity="0.3" />
+    <circle cx="115" cy="52" r="1.5" fill="white" opacity="0.7" />
   </svg>,
 
-  /* 2: 핵심 집중 — 산만→타겟 수렴 */
+  /* 2: 핵심 집중 — 3D 타겟+수렴 화살표 */
   <svg key="pi2" viewBox="0 0 140 140" fill="none">
-    {/* 타겟 */}
-    <circle cx="90" cy="70" r="26" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.15" />
-    <circle cx="90" cy="70" r="16" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.12" />
-    <circle cx="90" cy="70" r="6" fill="#448CFF" fillOpacity="0.35" />
-    {/* 산만한 점들 (좌측) */}
-    <circle cx="20" cy="28" r="3.5" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.1" />
-    <circle cx="15" cy="65" r="3" fill="#448CFF" fillOpacity="0.1" />
-    <circle cx="25" cy="105" r="3.5" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.1" />
-    <circle cx="42" cy="42" r="2.5" fill="#448CFF" fillOpacity="0.1" />
-    <circle cx="38" cy="88" r="3" fill="#448CFF" fillOpacity="0.1" />
-    {/* 수렴 경로 */}
-    <path d="M23 30 L68 58" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.1" strokeDasharray="3 3" />
-    <path d="M18 65 L64 68" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.08" strokeDasharray="3 3" />
-    <path d="M28 103 L68 80" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.1" strokeDasharray="3 3" />
-    <path d="M44 43 L70 60" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.08" strokeDasharray="3 3" />
-    <path d="M41 87 L70 76" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.08" strokeDasharray="3 3" />
-    {/* 수렴 화살표 헤드 */}
-    <path d="M64 56 L68 58 L64 61" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.12" />
-    <path d="M64 78 L68 80 L65 83" stroke="#448CFF" strokeWidth="0.6" strokeOpacity="0.12" />
+    <defs>
+      <linearGradient id="p2-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#A0C4FF" /><stop offset="100%" stopColor="#448CFF" /></linearGradient>
+      <filter id="p2-g"><feGaussianBlur stdDeviation="5" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+    </defs>
+    {/* 3D 타겟 디스크 (아이소메트릭 원반) */}
+    <ellipse cx="80" cy="75" rx="35" ry="14" fill="#448CFF" opacity="0.08" />
+    <ellipse cx="80" cy="75" rx="35" ry="14" fill="none" stroke="#448CFF" strokeWidth="1" opacity="0.2" />
+    <ellipse cx="80" cy="75" rx="22" ry="9" fill="#448CFF" opacity="0.1" />
+    <ellipse cx="80" cy="75" rx="22" ry="9" fill="none" stroke="#6DA6FF" strokeWidth="0.8" opacity="0.25" />
+    <ellipse cx="80" cy="75" rx="10" ry="4" fill="url(#p2-ring)" opacity="0.35" />
+    {/* 중심 발광 */}
+    <circle cx="80" cy="75" r="5" fill="#448CFF" opacity="0.25" filter="url(#p2-g)" />
+    <circle cx="80" cy="75" r="2.5" fill="white" opacity="0.85" />
+    {/* 3D 수렴 화살표 */}
+    <path d="M18 35 L60 65" stroke="#448CFF" strokeWidth="1.2" opacity="0.3" />
+    <polygon points="60,65 54,60 56,66" fill="#448CFF" opacity="0.4" />
+    <path d="M15 80 L55 77" stroke="#448CFF" strokeWidth="1" opacity="0.25" />
+    <polygon points="55,77 49,74 50,79" fill="#448CFF" opacity="0.35" />
+    <path d="M25 115 L60 85" stroke="#448CFF" strokeWidth="1.2" opacity="0.3" />
+    <polygon points="60,85 54,84 56,89" fill="#448CFF" opacity="0.4" />
+    {/* 산만 노드 */}
+    <circle cx="18" cy="35" r="3.5" fill="#A0C4FF" opacity="0.45" />
+    <circle cx="15" cy="80" r="3" fill="#6DA6FF" opacity="0.35" />
+    <circle cx="25" cy="115" r="3.5" fill="#A0C4FF" opacity="0.45" />
   </svg>,
 
-  /* 3: 즉시 전환 — 토글 스위치 ON */
+  /* 3: 즉시 전환 — 3D 토글/전원 큐브 */
   <svg key="pi3" viewBox="0 0 140 140" fill="none">
-    {/* 토글 트랙 */}
-    <rect x="25" y="50" width="70" height="36" rx="18" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.2" fill="#448CFF" fillOpacity="0.04" />
-    {/* 토글 놉 (ON 위치) */}
-    <circle cx="77" cy="68" r="13" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.35" />
-    <circle cx="77" cy="68" r="5" fill="#448CFF" fillOpacity="0.5" />
+    <defs>
+      <linearGradient id="p3-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#1D4ED8" /></linearGradient>
+      <linearGradient id="p3-right" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6DA6FF" /><stop offset="100%" stopColor="#3B82F6" /></linearGradient>
+      <linearGradient id="p3-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#B8D4FF" /><stop offset="100%" stopColor="#448CFF" /></linearGradient>
+      <filter id="p3-g"><feGaussianBlur stdDeviation="4" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+    </defs>
+    {/* 3D 큐브 베이스 */}
+    <polygon points="70,50 110,70 70,90 30,70" fill="url(#p3-top)" opacity="0.6" />
+    <polygon points="30,70 70,90 70,115 30,95" fill="url(#p3-left)" opacity="0.6" />
+    <polygon points="70,90 110,70 110,95 70,115" fill="url(#p3-right)" opacity="0.5" />
     {/* 전원 심볼 */}
-    <line x1="77" y1="60" x2="77" y2="64" stroke="white" strokeWidth="1.2" strokeOpacity="0.5" strokeLinecap="round" />
-    <path d="M72 62.5 A6.5 6.5 0 1 0 82 62.5" stroke="white" strokeWidth="1" strokeOpacity="0.35" fill="none" />
-    {/* 활성 방사선 */}
-    <line x1="98" y1="56" x2="106" y2="50" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.18" strokeLinecap="round" />
-    <line x1="100" y1="68" x2="110" y2="68" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.18" strokeLinecap="round" />
-    <line x1="98" y1="80" x2="106" y2="86" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.18" strokeLinecap="round" />
+    <line x1="70" y1="62" x2="70" y2="72" stroke="white" strokeWidth="2" opacity="0.7" strokeLinecap="round" />
+    <path d="M60 67 A12 12 0 1 0 80 67" stroke="white" strokeWidth="1.5" opacity="0.5" fill="none" />
+    {/* 발광 */}
+    <circle cx="70" cy="75" r="10" fill="#448CFF" opacity="0.15" filter="url(#p3-g)" />
+    {/* 에너지 방사 */}
+    <line x1="115" y1="60" x2="122" y2="55" stroke="#448CFF" strokeWidth="1.2" opacity="0.35" strokeLinecap="round" />
+    <line x1="117" y1="72" x2="125" y2="72" stroke="#6DA6FF" strokeWidth="1.2" opacity="0.3" strokeLinecap="round" />
+    <line x1="115" y1="84" x2="122" y2="89" stroke="#448CFF" strokeWidth="1.2" opacity="0.35" strokeLinecap="round" />
     {/* 번개 */}
-    <path d="M58 28 L52 44 L58 44 L53 56" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.18" strokeLinecap="round" strokeLinejoin="round" />
-    {/* ON 텍스트 힌트 */}
-    <circle cx="43" cy="68" r="2" fill="#448CFF" fillOpacity="0.08" />
+    <path d="M50 28 L44 42 L50 42 L45 52" stroke="#A0C4FF" strokeWidth="1.5" opacity="0.4" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="47" cy="25" r="2" fill="#6DA6FF" opacity="0.35" />
   </svg>,
 ];
 
@@ -534,6 +535,54 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
   );
 }
 
+// ── Intelligent Future (장면 전환) ───────────────────────────────────
+
+function IntelligentFuture() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-100px' });
+
+  return (
+    <section
+      ref={ref}
+      className="relative flex items-center justify-center overflow-hidden snap-start"
+      style={{
+        height: '100vh',
+        background: 'linear-gradient(180deg, #448CFF 0%, #5A9BFF 20%, #7AB4FF 45%, #A8CFFF 65%, #D6E6FF 82%, #EDF3FF 100%)',
+      }}
+    >
+      {/* 배경 오브 */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute w-[500px] h-[500px] rounded-full top-[10%] left-[15%] opacity-20"
+          style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)' }} />
+        <div className="absolute w-[600px] h-[600px] rounded-full bottom-[5%] right-[10%] opacity-15"
+          style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.35) 0%, transparent 70%)' }} />
+      </div>
+
+      {/* 글라스모피즘 텍스트 */}
+      <motion.h2
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={inView ? { opacity: 1, scale: 1 } : {}}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className="relative z-10 font-black text-center select-none uppercase"
+        style={{
+          fontSize: 'clamp(1.8rem, 8vw, 7.5rem)',
+          letterSpacing: '0.05em',
+          lineHeight: 1,
+          whiteSpace: 'nowrap' as const,
+          color: 'transparent',
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.15) 100%)',
+          WebkitBackgroundClip: 'text',
+          backgroundClip: 'text',
+          WebkitTextStroke: '1px rgba(255,255,255,0.25)',
+          filter: 'drop-shadow(0 4px 60px rgba(255,255,255,0.3))',
+        }}
+      >
+        INTELLIGENT FUTURE
+      </motion.h2>
+    </section>
+  );
+}
+
 // ── D. Next Move ─────────────────────────────────────────────────────
 
 function NextMove({ lang }: { lang: 'ko' | 'en' }) {
@@ -559,68 +608,124 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   const sectionInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   const futureIllusts = [
-    /* 01 지능 엔진 — 뇌+회로 */
+    /* 01 지능 엔진 — 아이소메트릭 3D 큐브 브레인 */
     <svg key="il1" viewBox="0 0 400 300" fill="none" className="w-full h-full">
-      <path d="M200 60c-50 0-90 35-90 80 0 30 18 56 45 70l-5 40h100l-5-40c27-14 45-40 45-70 0-45-40-80-90-80z" fill="rgba(68,140,255,0.15)" stroke="#448CFF" strokeWidth="2" strokeOpacity="0.7" />
-      <line x1="160" y1="130" x2="200" y2="110" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.8" />
-      <line x1="200" y1="110" x2="240" y2="130" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.8" />
-      <line x1="200" y1="110" x2="200" y2="80" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
-      <line x1="170" y1="150" x2="200" y2="140" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
-      <line x1="200" y1="140" x2="230" y2="150" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
-      <line x1="200" y1="140" x2="200" y2="170" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.6" />
-      <circle cx="200" cy="110" r="5" fill="#448CFF" fillOpacity="0.85" />
-      <circle cx="160" cy="130" r="4" fill="#448CFF" fillOpacity="0.7" />
-      <circle cx="240" cy="130" r="4" fill="#448CFF" fillOpacity="0.7" />
-      <circle cx="200" cy="140" r="4" fill="#448CFF" fillOpacity="0.75" />
-      <circle cx="200" cy="80" r="3.5" fill="#448CFF" fillOpacity="0.65" />
-      <circle cx="200" cy="110" r="12" fill="none" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.35" />
-      <circle cx="200" cy="110" r="22" fill="none" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.2" />
+      <defs>
+        <linearGradient id="eng-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#A0C4FF" /><stop offset="100%" stopColor="#448CFF" /></linearGradient>
+        <linearGradient id="eng-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#2563EB" /></linearGradient>
+        <linearGradient id="eng-right" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6DA6FF" /><stop offset="100%" stopColor="#3B82F6" /></linearGradient>
+        <filter id="eng-glow"><feGaussianBlur stdDeviation="8" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+      </defs>
+      {/* 중앙 큐브 */}
+      <polygon points="200,90 260,120 200,150 140,120" fill="url(#eng-top)" opacity="0.9" />
+      <polygon points="140,120 200,150 200,210 140,180" fill="url(#eng-left)" opacity="0.85" />
+      <polygon points="200,150 260,120 260,180 200,210" fill="url(#eng-right)" opacity="0.75" />
+      {/* 글로우 코어 */}
+      <circle cx="200" cy="150" r="18" fill="#448CFF" opacity="0.25" filter="url(#eng-glow)" />
+      <circle cx="200" cy="150" r="6" fill="#FFFFFF" opacity="0.9" />
+      {/* 궤도 링 */}
+      <ellipse cx="200" cy="148" rx="55" ry="18" fill="none" stroke="#A0C4FF" strokeWidth="1.2" opacity="0.5" strokeDasharray="4 3" />
+      <ellipse cx="200" cy="148" rx="80" ry="28" fill="none" stroke="#448CFF" strokeWidth="0.8" opacity="0.3" strokeDasharray="5 4" />
+      {/* 노드 */}
+      <circle cx="145" cy="145" r="4" fill="#A0C4FF" opacity="0.8" />
+      <circle cx="255" cy="145" r="4" fill="#A0C4FF" opacity="0.8" />
+      <circle cx="200" cy="120" r="3" fill="#6DA6FF" opacity="0.7" />
+      {/* 연결선 */}
+      <line x1="145" y1="145" x2="190" y2="150" stroke="#A0C4FF" strokeWidth="1" opacity="0.4" />
+      <line x1="255" y1="145" x2="210" y2="150" stroke="#A0C4FF" strokeWidth="1" opacity="0.4" />
+      <line x1="200" y1="120" x2="200" y2="144" stroke="#6DA6FF" strokeWidth="1" opacity="0.4" />
+      {/* 작은 파티클 */}
+      <circle cx="165" cy="105" r="2" fill="#448CFF" opacity="0.5" />
+      <circle cx="240" cy="100" r="2.5" fill="#6DA6FF" opacity="0.4" />
+      <circle cx="155" cy="185" r="2" fill="#A0C4FF" opacity="0.45" />
+      <circle cx="250" cy="190" r="1.5" fill="#448CFF" opacity="0.4" />
     </svg>,
-    /* 02 데이터 네트워크 — 연결 그래프 */
+    /* 02 데이터 네트워크 — 아이소메트릭 3D 노드 메시 */
     <svg key="il2" viewBox="0 0 400 300" fill="none" className="w-full h-full">
-      <line x1="200" y1="80" x2="120" y2="140" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.6" />
-      <line x1="200" y1="80" x2="280" y2="140" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.6" />
-      <line x1="120" y1="140" x2="200" y2="180" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
-      <line x1="280" y1="140" x2="200" y2="180" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
-      <line x1="200" y1="180" x2="140" y2="240" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
-      <line x1="200" y1="180" x2="260" y2="240" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
-      <circle cx="200" cy="80" r="10" fill="#448CFF" fillOpacity="0.25" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.7" />
-      <circle cx="200" cy="80" r="4" fill="#448CFF" fillOpacity="0.85" />
-      <circle cx="120" cy="140" r="7" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
-      <circle cx="120" cy="140" r="3" fill="#448CFF" fillOpacity="0.7" />
-      <circle cx="280" cy="140" r="7" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.65" />
-      <circle cx="280" cy="140" r="3" fill="#448CFF" fillOpacity="0.7" />
-      <circle cx="200" cy="180" r="12" fill="#448CFF" fillOpacity="0.18" stroke="#448CFF" strokeWidth="2" strokeOpacity="0.7" />
-      <circle cx="200" cy="180" r="5" fill="#448CFF" fillOpacity="0.85" />
-      <circle cx="140" cy="240" r="5" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
-      <circle cx="260" cy="240" r="5" fill="#448CFF" fillOpacity="0.2" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.5" />
-      <line x1="200" y1="80" x2="200" y2="180" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" strokeDasharray="4 4" />
+      <defs>
+        <linearGradient id="net-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#B8D4FF" /><stop offset="100%" stopColor="#448CFF" /></linearGradient>
+        <linearGradient id="net-side" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#1D4ED8" /></linearGradient>
+        <filter id="net-glow"><feGaussianBlur stdDeviation="6" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+      </defs>
+      {/* 베이스 플랫폼 (아이소메트릭) */}
+      <polygon points="200,200 310,145 200,90 90,145" fill="url(#net-top)" opacity="0.12" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.3" />
+      {/* 3D 연결선 (파이프) */}
+      <line x1="140" y1="168" x2="200" y2="130" stroke="#448CFF" strokeWidth="2.5" opacity="0.35" strokeLinecap="round" />
+      <line x1="260" y1="168" x2="200" y2="130" stroke="#448CFF" strokeWidth="2.5" opacity="0.35" strokeLinecap="round" />
+      <line x1="140" y1="168" x2="260" y2="168" stroke="#448CFF" strokeWidth="2" opacity="0.25" strokeLinecap="round" />
+      <line x1="200" y1="130" x2="200" y2="82" stroke="#6DA6FF" strokeWidth="2" opacity="0.4" strokeLinecap="round" />
+      <line x1="140" y1="168" x2="95" y2="205" stroke="#A0C4FF" strokeWidth="1.5" opacity="0.3" strokeLinecap="round" />
+      <line x1="260" y1="168" x2="305" y2="205" stroke="#A0C4FF" strokeWidth="1.5" opacity="0.3" strokeLinecap="round" />
+      {/* 3D 구체 노드 */}
+      <circle cx="200" cy="130" r="16" fill="#448CFF" opacity="0.2" filter="url(#net-glow)" />
+      <circle cx="200" cy="130" r="10" fill="url(#net-side)" opacity="0.85" />
+      <ellipse cx="198" cy="127" rx="4" ry="3" fill="white" opacity="0.4" />
+      <circle cx="140" cy="168" r="12" fill="#448CFF" opacity="0.15" filter="url(#net-glow)" />
+      <circle cx="140" cy="168" r="8" fill="url(#net-side)" opacity="0.75" />
+      <ellipse cx="138" cy="166" rx="3" ry="2.5" fill="white" opacity="0.35" />
+      <circle cx="260" cy="168" r="12" fill="#448CFF" opacity="0.15" filter="url(#net-glow)" />
+      <circle cx="260" cy="168" r="8" fill="url(#net-side)" opacity="0.75" />
+      <ellipse cx="258" cy="166" rx="3" ry="2.5" fill="white" opacity="0.35" />
+      {/* 상단 노드 */}
+      <circle cx="200" cy="82" r="7" fill="#6DA6FF" opacity="0.8" />
+      <ellipse cx="199" cy="80" rx="2.5" ry="2" fill="white" opacity="0.45" />
+      {/* 하단 리프 노드 */}
+      <circle cx="95" cy="205" r="5" fill="#A0C4FF" opacity="0.65" />
+      <circle cx="305" cy="205" r="5" fill="#A0C4FF" opacity="0.65" />
+      {/* 데이터 플로우 점 */}
+      <circle cx="170" cy="149" r="2" fill="#A0C4FF" opacity="0.7" />
+      <circle cx="230" cy="149" r="2" fill="#A0C4FF" opacity="0.7" />
+      <circle cx="200" cy="106" r="2" fill="#6DA6FF" opacity="0.6" />
     </svg>,
-    /* 03 Physical AI — 디바이스+공간 */
+    /* 03 Physical AI — 아이소메트릭 3D 빌딩+디바이스 */
     <svg key="il3" viewBox="0 0 400 300" fill="none" className="w-full h-full">
-      <rect x="60" y="120" width="80" height="120" rx="4" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.5" />
-      <rect x="75" y="140" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
-      <rect x="105" y="140" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
-      <rect x="75" y="170" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
-      <rect x="105" y="170" width="20" height="20" rx="2" fill="#448CFF" fillOpacity="0.2" />
-      <rect x="260" y="100" width="80" height="55" rx="6" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.55" />
-      <rect x="268" y="108" width="64" height="36" rx="3" fill="#448CFF" fillOpacity="0.18" />
-      <rect x="270" y="190" width="60" height="45" rx="8" fill="#448CFF" fillOpacity="0.12" stroke="#448CFF" strokeWidth="1.5" strokeOpacity="0.5" />
-      <circle cx="288" cy="208" r="5" fill="#448CFF" fillOpacity="0.35" />
-      <circle cx="312" cy="208" r="5" fill="#448CFF" fillOpacity="0.35" />
-      <circle cx="200" cy="150" r="7" fill="#448CFF" fillOpacity="0.3" />
-      <circle cx="200" cy="150" r="3.5" fill="#448CFF" fillOpacity="0.8" />
-      <circle cx="200" cy="150" r="20" fill="none" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.35" strokeDasharray="3 3" />
-      <circle cx="200" cy="150" r="40" fill="none" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.2" strokeDasharray="4 4" />
-      <line x1="200" y1="150" x2="140" y2="160" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.45" strokeDasharray="3 3" />
-      <line x1="200" y1="150" x2="270" y2="130" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.45" strokeDasharray="3 3" />
-      <line x1="200" y1="150" x2="280" y2="210" stroke="#448CFF" strokeWidth="1.2" strokeOpacity="0.45" strokeDasharray="3 3" />
+      <defs>
+        <linearGradient id="phy-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#B8D4FF" /><stop offset="100%" stopColor="#6DA6FF" /></linearGradient>
+        <linearGradient id="phy-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#1E40AF" /></linearGradient>
+        <linearGradient id="phy-right" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6DA6FF" /><stop offset="100%" stopColor="#2563EB" /></linearGradient>
+        <filter id="phy-glow"><feGaussianBlur stdDeviation="6" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+      </defs>
+      {/* 빌딩 — 아이소메트릭 큐브 타워 */}
+      <polygon points="140,80 185,58 185,170 140,192" fill="url(#phy-left)" opacity="0.8" />
+      <polygon points="185,58 230,80 230,192 185,170" fill="url(#phy-right)" opacity="0.7" />
+      <polygon points="140,80 185,58 230,80 185,102" fill="url(#phy-top)" opacity="0.85" />
+      {/* 빌딩 창문 */}
+      <rect x="152" y="100" width="12" height="10" rx="1" fill="white" opacity="0.25" transform="skewY(-12)" />
+      <rect x="152" y="122" width="12" height="10" rx="1" fill="white" opacity="0.2" transform="skewY(-12)" />
+      <rect x="152" y="144" width="12" height="10" rx="1" fill="#A0C4FF" opacity="0.35" transform="skewY(-12)" />
+      <rect x="198" y="95" width="12" height="10" rx="1" fill="white" opacity="0.2" transform="skewY(12)" />
+      <rect x="198" y="117" width="12" height="10" rx="1" fill="white" opacity="0.18" transform="skewY(12)" />
+      <rect x="198" y="139" width="12" height="10" rx="1" fill="#A0C4FF" opacity="0.3" transform="skewY(12)" />
+      {/* 디바이스 — 작은 큐브 */}
+      <polygon points="290,140 320,125 320,170 290,185" fill="url(#phy-left)" opacity="0.65" />
+      <polygon points="320,125 350,140 350,185 320,170" fill="url(#phy-right)" opacity="0.55" />
+      <polygon points="290,140 320,125 350,140 320,155" fill="url(#phy-top)" opacity="0.7" />
+      {/* 디바이스 화면 */}
+      <polygon points="295,150 315,140 315,165 295,175" fill="#A0C4FF" opacity="0.4" />
+      {/* 센서 — 캡슐 */}
+      <ellipse cx="80" cy="170" rx="20" ry="12" fill="url(#phy-top)" opacity="0.6" />
+      <ellipse cx="80" cy="170" rx="20" ry="12" fill="none" stroke="#448CFF" strokeWidth="1.5" opacity="0.5" />
+      <rect x="60" y="170" width="40" height="30" rx="0" fill="url(#phy-left)" opacity="0.5" />
+      <ellipse cx="80" cy="200" rx="20" ry="12" fill="url(#phy-left)" opacity="0.6" />
+      <circle cx="80" cy="178" r="4" fill="#448CFF" opacity="0.6" />
+      <circle cx="80" cy="178" r="2" fill="white" opacity="0.7" />
+      {/* AI 코어 — 중앙 발광 */}
+      <circle cx="200" cy="220" r="10" fill="#448CFF" opacity="0.2" filter="url(#phy-glow)" />
+      <circle cx="200" cy="220" r="5" fill="#448CFF" opacity="0.7" />
+      <circle cx="200" cy="220" r="2.5" fill="white" opacity="0.8" />
+      {/* 연결선 — 점선 */}
+      <line x1="140" y1="192" x2="195" y2="220" stroke="#448CFF" strokeWidth="1.2" opacity="0.4" strokeDasharray="4 3" />
+      <line x1="290" y1="185" x2="210" y2="220" stroke="#448CFF" strokeWidth="1.2" opacity="0.4" strokeDasharray="4 3" />
+      <line x1="80" y1="200" x2="190" y2="220" stroke="#448CFF" strokeWidth="1.2" opacity="0.4" strokeDasharray="4 3" />
+      {/* 신호 웨이브 */}
+      <circle cx="200" cy="220" r="22" fill="none" stroke="#A0C4FF" strokeWidth="0.8" opacity="0.3" strokeDasharray="3 3" />
+      <circle cx="200" cy="220" r="35" fill="none" stroke="#A0C4FF" strokeWidth="0.6" opacity="0.2" strokeDasharray="4 4" />
     </svg>,
   ];
 
   return (
-    <section ref={sectionRef} className="bg-[#FAFBFF] min-h-screen flex items-center py-16 sm:py-24 lg:py-[140px] snap-start">
-      <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
+    <section ref={sectionRef} className="min-h-screen flex items-center py-16 sm:py-24 lg:py-[140px] snap-start" style={{ background: 'linear-gradient(180deg, #EDF3FF 0%, #F5F8FF 40%, #FAFBFF 100%)' }}>
+      <div className="max-w-[1100px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
         {/* 헤더 */}
         <motion.div
           className="text-center mb-14"
@@ -645,10 +750,10 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
               initial={{ opacity: 0, y: 30 }}
               animate={sectionInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center text-center rounded-3xl bg-white border border-[#E5E8EB] p-8 lg:p-10"
-              style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}
+              className="flex flex-col items-center text-center rounded-3xl bg-white border border-[#E5E8EB] p-6 lg:p-8"
+              style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.06)', aspectRatio: '3/4' }}
             >
-              <div className="w-full h-[180px] flex items-center justify-center mb-8">
+              <div className="w-full flex-1 min-h-0 flex items-center justify-center mb-6">
                 {futureIllusts[i]}
               </div>
               <h3
@@ -1450,8 +1555,10 @@ export function AboutPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
     document.documentElement.style.scrollSnapType = 'y proximity';
+    document.documentElement.style.scrollBehavior = 'smooth';
     return () => {
       document.documentElement.style.scrollSnapType = '';
+      document.documentElement.style.scrollBehavior = '';
     };
   }, []);
 
@@ -1460,6 +1567,7 @@ export function AboutPage() {
       <Hero lang={lang} />
       <Mission lang={lang} />
       <Problem lang={lang} />
+      <IntelligentFuture />
       <NextMove lang={lang} />
       <Vision lang={lang} />
       <Technology lang={lang} />

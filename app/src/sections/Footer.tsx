@@ -5,7 +5,7 @@ import logoSrc from '@/assets/logo.png';
 const siteLinks = [
   { labelKo: '회사 소개', labelEn: 'About', href: '/about' },
   { labelKo: '서비스 소개', labelEn: 'Services', href: '/services' },
-  // { labelKo: '도입 사례', labelEn: 'Case Studies', href: '/cases' },
+  { labelKo: '도입 사례', labelEn: 'Case Studies', href: '/cases' },
   { labelKo: '공고사항', labelEn: 'Announcements', href: '/notice' },
 ];
 
@@ -51,8 +51,8 @@ export function Footer() {
             </p>
             <p>
               {lang === 'ko'
-                ? '서울특별시 중구 퇴계로36길 2 충무로영상센터 신관 B257호'
-                : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Chungmuro Image Center B257'}
+                ? '서울특별시 중구 퇴계로36길 2, 동국대학교 충무로관 신관 비257호'
+                : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Dongguk Univ. Chungmuro Hall B257'}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mt-5">

@@ -12,13 +12,13 @@ export function PrivacyPage() {
     <main className="bg-white pt-32 pb-24">
       <div className="max-w-[1024px] mx-auto px-6 sm:px-8">
         <h1
-          className="font-bold text-[#191F28] mb-10"
+          className="font-bold text-[#383838] mb-10"
           style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}
         >
           {lang === 'ko' ? '개인정보 처리방침' : 'Privacy Policy'}
         </h1>
 
-        <div className="prose prose-sm max-w-none text-[#4E5968] leading-relaxed [&_h2]:text-[#191F28] [&_h2]:font-bold [&_h2]:text-lg [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-[#191F28] [&_h3]:font-semibold [&_h3]:text-base [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mb-4 [&_table]:w-full [&_table]:text-[13px] [&_table]:border-collapse [&_th]:text-left [&_th]:bg-[#F8F9FD] [&_th]:text-[#191F28] [&_th]:font-semibold [&_th]:p-3 [&_th]:border [&_th]:border-[#EAEDF2] [&_td]:p-3 [&_td]:border [&_td]:border-[#EAEDF2] [&_td]:align-top [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-1.5 [&_hr]:my-8 [&_hr]:border-[#EAEDF2] [&_strong]:text-[#191F28]">
+        <div className="prose prose-sm max-w-none text-[#4E5968] leading-relaxed [&_h2]:text-[#383838] [&_h2]:font-bold [&_h2]:text-lg [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-[#383838] [&_h3]:font-semibold [&_h3]:text-base [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mb-4 [&_table]:w-full [&_table]:text-[13px] [&_table]:border-collapse [&_th]:text-left [&_th]:bg-[#F8F9FD] [&_th]:text-[#383838] [&_th]:font-semibold [&_th]:p-3 [&_th]:border [&_th]:border-[#EAEDF2] [&_td]:p-3 [&_td]:border [&_td]:border-[#EAEDF2] [&_td]:align-top [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-1.5 [&_hr]:my-8 [&_hr]:border-[#EAEDF2] [&_strong]:text-[#383838]">
 
           <p>
             주식회사 이노하이(이하 "회사")는 정보주체의 자유와 권리 보호를 위해 「개인정보 보호법」 및 관계 법령이 정한 바를 준수하여, 적법하게 개인정보를 처리하고 안전하게 관리하고 있습니다. 이에 「개인정보 보호법」 제30조에 따라 정보주체에게 개인정보의 처리와 보호에 관한 절차 및 기준을 안내하고, 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.

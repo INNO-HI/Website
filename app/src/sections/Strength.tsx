@@ -194,7 +194,7 @@ export function Strength() {
           className="text-center max-w-2xl mx-auto mb-14 sm:mb-16"
         >
           <h2
-            className="font-bold text-[#191F28] leading-[1.3] tracking-tight mb-4"
+            className="font-bold text-[#383838] leading-[1.3] tracking-tight mb-4"
             style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)', wordBreak: 'keep-all' }}
           >
             {lang === 'ko' ? (
@@ -225,7 +225,7 @@ export function Strength() {
                 <div className="w-11 h-11 flex items-center justify-center mb-5">
                   <AnimIcon color={item.color} />
                 </div>
-                <h3 className="text-[16px] sm:text-[17px] font-bold text-[#191F28] mb-3" style={{ wordBreak: 'keep-all' }}>
+                <h3 className="text-[16px] sm:text-[17px] font-bold text-[#383838] mb-3" style={{ wordBreak: 'keep-all' }}>
                   {lang === 'ko' ? item.titleKo : item.titleEn}
                 </h3>
                 <p className="text-[13px] sm:text-[14px] text-[#8B95A1] leading-[1.7] whitespace-pre-line">

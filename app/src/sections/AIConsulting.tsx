@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Bot, User, Search, FileText, CheckCircle2, Mic } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -6,6 +6,10 @@ import { useLanguage } from '@/hooks/useLanguage';
 /* ── 채팅 목업 (메신저 스타일) ────────────────────────────────────── */
 
 function ChatMockup() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const [visibleCount, setVisibleCount] = useState(0);
+
   const messages = [
     { role: 'user', text: '오늘 방문한 대상자 상담 기록 정리해줘' },
     { role: 'ai', text: '네, 오늘 14시에 진행된 김OO님 상담 기록을 정리했습니다. 주요 내용은 수면 장애 호소, 복지 서비스 연계 요청입니다.' },
@@ -13,22 +17,30 @@ function ChatMockup() {
     { role: 'ai', text: '상담 보고서를 생성했습니다. 확인 후 제출하시겠습니까?' },
   ];
 
+  useEffect(() => {
+    if (!isInView) return;
+    const t = messages.map((_, i) => setTimeout(() => setVisibleCount(i + 1), 800 + i * 1200));
+    return () => t.forEach(clearTimeout);
+  }, [isInView]);
+
   return (
-    <div className="bg-white rounded-2xl border border-[#E5E8EB] overflow-hidden shadow-sm h-full flex flex-col">
-      {/* 헤더 */}
+    <div ref={ref} className="bg-white rounded-2xl border border-[#E5E8EB] overflow-hidden shadow-sm h-full flex flex-col">
       <div className="flex items-center gap-2.5 px-5 py-3.5 bg-[#F8F9FA] border-b border-[#E5E8EB]">
         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#448CFF] to-[#7C5CFC] flex items-center justify-center">
           <Bot className="w-4 h-4 text-white" />
         </div>
         <div>
-          <span className="text-[12px] font-semibold text-[#191F28] block leading-tight">INNOHI AI</span>
+          <span className="text-[12px] font-semibold text-[#383838] block leading-tight">INNOHI AI</span>
           <span className="text-[10px] text-[#22C55E] font-medium">온라인</span>
         </div>
       </div>
-      {/* 메시지 */}
       <div className="flex-1 p-4 space-y-3 overflow-hidden">
         {messages.map((msg, i) => (
-          <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} gap-2`}>
+          <div
+            key={i}
+            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} gap-2 transition-all duration-500`}
+            style={{ opacity: i < visibleCount ? 1 : 0, transform: i < visibleCount ? 'translateY(0)' : 'translateY(12px)' }}
+          >
             {msg.role === 'ai' && (
               <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#448CFF] to-[#7C5CFC] flex items-center justify-center shrink-0 mt-0.5">
                 <Bot className="w-3 h-3 text-white" />
@@ -52,7 +64,6 @@ function ChatMockup() {
           </div>
         ))}
       </div>
-      {/* 입력창 */}
       <div className="px-4 pb-4">
         <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-[#E5E8EB] bg-[#F8F9FA]">
           <Mic className="w-4 h-4 text-[#8B95A1]" />
@@ -83,7 +94,7 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
         <div className="bg-white rounded-[22px] overflow-hidden">
           {/* 상태 바 */}
           <div className="h-7 bg-white flex items-end justify-between px-4 pb-0.5">
-            <span className="text-[8px] font-semibold text-[#1A1A1A]">9:41</span>
+            <span className="text-[8px] font-semibold text-[#383838]">9:41</span>
             <div className="flex items-center gap-1">
               <svg width="12" height="8" viewBox="0 0 12 8" fill="#1A1A1A"><rect x="0" y="5" width="2" height="3" rx="0.5"/><rect x="3" y="3" width="2" height="5" rx="0.5"/><rect x="6" y="1" width="2" height="7" rx="0.5"/><rect x="9" y="0" width="2" height="8" rx="0.5" opacity="0.3"/></svg>
               <svg width="16" height="8" viewBox="0 0 16 8" fill="none"><rect x="0.5" y="0.5" width="14" height="7" rx="1.5" stroke="#1A1A1A" strokeWidth="0.8"/><rect x="15" y="2.5" width="1" height="3" rx="0.5" fill="#1A1A1A"/><rect x="1.5" y="1.5" width="10" height="5" rx="1" fill="#1A1A1A"/></svg>
@@ -101,60 +112,117 @@ function PhoneFrame({ children }: { children: React.ReactNode }) {
 }
 
 function MobileChatMockup() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const fullQuery = '긴급복지 신청 자격은?';
+  const [typed, setTyped] = useState('');
+  const [showResult, setShowResult] = useState(false);
+  const [showSource, setShowSource] = useState(false);
+
+  useEffect(() => {
+    if (!isInView) return;
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      i++;
+      setTyped(fullQuery.slice(0, i));
+      if (i >= fullQuery.length) clearInterval(typeInterval);
+    }, 100);
+    const t1 = setTimeout(() => setShowResult(true), fullQuery.length * 100 + 600);
+    const t2 = setTimeout(() => setShowSource(true), fullQuery.length * 100 + 1200);
+    return () => { clearInterval(typeInterval); clearTimeout(t1); clearTimeout(t2); };
+  }, [isInView]);
+
   return (
-    <PhoneFrame>
-      {/* 앱 헤더 */}
-      <div className="px-3 py-2 border-b border-[#F1F3F5] flex items-center gap-2">
-        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#448CFF] to-[#7C5CFC] flex items-center justify-center">
-          <Search className="w-2.5 h-2.5 text-white" />
+    <div ref={ref}>
+      <PhoneFrame>
+        <div className="px-3 py-2 border-b border-[#F1F3F5] flex items-center gap-2">
+          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#448CFF] to-[#7C5CFC] flex items-center justify-center">
+            <Search className="w-2.5 h-2.5 text-white" />
+          </div>
+          <span className="text-[9px] font-semibold text-[#383838]">INNOHI Knowledge</span>
         </div>
-        <span className="text-[9px] font-semibold text-[#191F28]">INNOHI Knowledge</span>
-      </div>
-      <div className="p-3 space-y-2">
-        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#E5E8EB] bg-[#F8F9FA]">
-          <Search className="w-3 h-3 text-[#8B95A1]" />
-          <span className="text-[9px] text-[#4E5968]">긴급복지 신청 자격은?</span>
-        </div>
-        <div className="rounded-lg bg-[#EFF6FF] p-2.5">
-          <p className="text-[9px] text-[#4E5968] leading-[1.6]">긴급복지지원법 제5조에 따라 위기 상황 시 신청 가능합니다.</p>
-          <div className="flex items-center gap-1 mt-1.5">
-            <CheckCircle2 className="w-2.5 h-2.5 text-[#3B82F6]" />
-            <span className="text-[8px] text-[#3B82F6]">출처 확인됨</span>
+        <div className="p-3 space-y-2">
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[#E5E8EB] bg-[#F8F9FA]">
+            <Search className="w-3 h-3 text-[#8B95A1]" />
+            <span className="text-[9px] text-[#4E5968]">{typed}<span className="animate-pulse">|</span></span>
+          </div>
+          <div
+            className="rounded-lg bg-[#EFF6FF] p-2.5 transition-all duration-500"
+            style={{ opacity: showResult ? 1 : 0, transform: showResult ? 'translateY(0)' : 'translateY(8px)' }}
+          >
+            <p className="text-[9px] text-[#4E5968] leading-[1.6]">긴급복지지원법 제5조에 따라 위기 상황 시 신청 가능합니다.</p>
+            <div
+              className="flex items-center gap-1 mt-1.5 transition-all duration-400"
+              style={{ opacity: showSource ? 1 : 0 }}
+            >
+              <CheckCircle2 className="w-2.5 h-2.5 text-[#3B82F6]" />
+              <span className="text-[8px] text-[#3B82F6]">출처 확인됨</span>
+            </div>
           </div>
         </div>
-      </div>
-    </PhoneFrame>
+      </PhoneFrame>
+    </div>
   );
 }
 
 function MobileWorkflowMockup() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const [doneCount, setDoneCount] = useState(0);
+  const [showFile, setShowFile] = useState(false);
+
+  const steps = ['상담 기록 완료', '보고서 생성', '서식 자동 작성', '후속 일정 등록'];
+
+  useEffect(() => {
+    if (!isInView) return;
+    const t = [
+      setTimeout(() => setDoneCount(1), 800),
+      setTimeout(() => setDoneCount(2), 1800),
+      setTimeout(() => setDoneCount(3), 2800),
+      setTimeout(() => setShowFile(true), 3600),
+    ];
+    return () => t.forEach(clearTimeout);
+  }, [isInView]);
+
   return (
-    <PhoneFrame>
-      {/* 앱 헤더 */}
-      <div className="px-3 py-2 border-b border-[#F1F3F5] flex items-center gap-2">
-        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center">
-          <FileText className="w-2.5 h-2.5 text-white" />
-        </div>
-        <span className="text-[9px] font-semibold text-[#191F28]">INNOHI Workflow</span>
-      </div>
-      <div className="p-3 space-y-2">
-        {['상담 기록 완료', '보고서 생성', '서식 자동 작성'].map((s, j) => (
-          <div key={j} className="flex items-center gap-2">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#6366F1] shrink-0" />
-            <span className="text-[9px] text-[#191F28] font-medium">{s}</span>
+    <div ref={ref}>
+      <PhoneFrame>
+        <div className="px-3 py-2 border-b border-[#F1F3F5] flex items-center gap-2">
+          <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center">
+            <FileText className="w-2.5 h-2.5 text-white" />
           </div>
-        ))}
-        <div className="flex items-center gap-2 opacity-50">
-          <div className="w-3.5 h-3.5 rounded-full border-2 border-[#D1D5DB] shrink-0" />
-          <span className="text-[9px] text-[#8B95A1]">후속 일정 등록</span>
+          <span className="text-[9px] font-semibold text-[#383838]">INNOHI Workflow</span>
         </div>
-        <div className="flex gap-1.5 mt-1">
-          <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#6366F1]/10 text-[#6366F1] font-medium flex items-center gap-0.5">
-            <FileText className="w-2 h-2" />보고서.pdf
-          </span>
+        <div className="p-3 space-y-2">
+          {steps.map((s, j) => {
+            const done = j < doneCount;
+            const active = j === doneCount && doneCount < steps.length;
+            return (
+              <div key={j} className="flex items-center gap-2 transition-all duration-400">
+                {done ? (
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#6366F1] shrink-0" />
+                ) : (
+                  <div className="w-3.5 h-3.5 rounded-full border-2 border-[#D1D5DB] shrink-0 flex items-center justify-center">
+                    {active && <div className="w-1 h-1 rounded-full bg-[#6366F1] animate-pulse" />}
+                  </div>
+                )}
+                <span className={`text-[9px] font-medium ${done ? 'text-[#383838]' : 'text-[#8B95A1]'}`}>{s}</span>
+                {done && <span className="text-[7px] text-[#22C55E] ml-auto font-semibold">완료</span>}
+                {active && <span className="text-[7px] text-[#6366F1] ml-auto font-semibold animate-pulse">처리 중</span>}
+              </div>
+            );
+          })}
+          <div
+            className="flex gap-1.5 mt-1 transition-all duration-500"
+            style={{ opacity: showFile ? 1 : 0, transform: showFile ? 'translateY(0)' : 'translateY(6px)' }}
+          >
+            <span className="text-[8px] px-1.5 py-0.5 rounded bg-[#6366F1]/10 text-[#6366F1] font-medium flex items-center gap-0.5">
+              <FileText className="w-2 h-2" />보고서.pdf
+            </span>
+          </div>
         </div>
-      </div>
-    </PhoneFrame>
+      </PhoneFrame>
+    </div>
   );
 }
 
@@ -181,7 +249,7 @@ export function AIConsulting() {
           className="text-center mb-10 sm:mb-12"
         >
           <h2
-            className="font-bold text-[#191F28] tracking-tight"
+            className="font-bold text-[#383838] tracking-tight"
             style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)', lineHeight: 1.3 }}
           >
             {lang === 'ko' ? 'AI로 현장 업무를 효율적으로' : 'Streamline field work with AI'}
@@ -222,7 +290,7 @@ export function AIConsulting() {
               className="flex-1 min-w-0"
             >
               <h3
-                className="text-[22px] sm:text-[28px] font-bold text-[#191F28] tracking-tight mb-5"
+                className="text-[22px] sm:text-[28px] font-bold text-[#383838] tracking-tight mb-5"
                 style={{ wordBreak: 'keep-all' }}
               >
                 {lang === 'ko' ? '사람과 대화하듯이 편하게' : 'As easy as talking to a person'}
@@ -252,7 +320,7 @@ export function AIConsulting() {
             <div className="flex flex-col sm:flex-row items-stretch sm:min-h-[300px]">
               <div className="flex-1 p-6 sm:p-8 sm:pt-10 flex flex-col">
                 <h3
-                  className="text-[18px] sm:text-[22px] font-bold text-[#191F28] tracking-tight mb-3"
+                  className="text-[18px] sm:text-[22px] font-bold text-[#383838] tracking-tight mb-3"
                   style={{ wordBreak: 'keep-all' }}
                 >
                   {lang === 'ko' ? '무엇을 물어봐도 정확하게' : 'Accurate answers to any question'}
@@ -288,7 +356,7 @@ export function AIConsulting() {
             <div className="flex flex-col sm:flex-row items-stretch sm:min-h-[300px]">
               <div className="flex-1 p-6 sm:p-8 sm:pt-10 flex flex-col">
                 <h3
-                  className="text-[18px] sm:text-[22px] font-bold text-[#191F28] tracking-tight mb-3 whitespace-nowrap"
+                  className="text-[18px] sm:text-[22px] font-bold text-[#383838] tracking-tight mb-3 whitespace-nowrap"
                   style={{ wordBreak: 'keep-all' }}
                 >
                   {lang === 'ko' ? '현장 업무를 자동으로 정리' : 'Auto-organize field work'}

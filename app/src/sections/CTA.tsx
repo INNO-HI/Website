@@ -53,7 +53,7 @@ export function CTA() {
           className="flex-1 min-w-0"
         >
           <p
-            className="text-[#191F28] leading-[1.5] tracking-tight"
+            className="text-[#383838] leading-[1.5] tracking-tight"
             style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)' }}
           >
             {lang === 'ko' ? (

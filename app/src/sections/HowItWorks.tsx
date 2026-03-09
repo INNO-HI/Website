@@ -186,7 +186,7 @@ function SolutionBlock({ item, index, lang }: { item: typeof solutions[number]; 
         </div>
 
         <h2
-          className="font-bold text-[#191F28] leading-[1.25] mb-4 tracking-tight"
+          className="font-bold text-[#383838] leading-[1.25] mb-4 tracking-tight"
           style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', wordBreak: 'keep-all' }}
         >
           {lang === 'ko' ? item.titleKo : item.titleEn}
@@ -241,7 +241,7 @@ function SolutionBlock({ item, index, lang }: { item: typeof solutions[number]; 
         </div>
 
         {/* 주요 기능 2x2 그리드 */}
-        <p className="text-[13px] font-semibold text-[#191F28] mb-4">
+        <p className="text-[13px] font-semibold text-[#383838] mb-4">
           {lang === 'ko' ? '주요 기능' : 'Key Features'}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
@@ -255,7 +255,7 @@ function SolutionBlock({ item, index, lang }: { item: typeof solutions[number]; 
             >
               <div className="flex items-center gap-2.5 mb-2">
                 <div className="w-2 h-2 rounded-full" style={{ background: item.color }} />
-                <h4 className="text-[14px] font-bold text-[#191F28]">{f.title}</h4>
+                <h4 className="text-[14px] font-bold text-[#383838]">{f.title}</h4>
               </div>
               <p className="text-[13px] text-[#8B95A1] leading-relaxed" style={{ wordBreak: 'keep-all' }}>
                 {f.desc}
@@ -266,7 +266,7 @@ function SolutionBlock({ item, index, lang }: { item: typeof solutions[number]; 
 
         {/* 활용 사례 */}
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-[13px] font-semibold text-[#191F28]">
+          <span className="text-[13px] font-semibold text-[#383838]">
             {lang === 'ko' ? '활용 사례' : 'Use Cases'}
           </span>
           {useCases.map((uc, i) => (

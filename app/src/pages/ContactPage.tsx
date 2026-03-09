@@ -109,7 +109,7 @@ export function ContactPage() {
             transition={{ duration: 0.6 }}
           >
             <h1
-              className="font-bold text-[#191F28] tracking-tight mb-4"
+              className="font-bold text-[#383838] tracking-tight mb-4"
               style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', lineHeight: 1.2 }}
             >
               {lang === 'ko' ? '문의하기' : 'Contact Us'}
@@ -122,7 +122,7 @@ export function ContactPage() {
 
             {/* 파트너 — 마키 슬라이드 */}
             <div className="border-t border-[#F2F4F6] pt-10 mb-10">
-              <p className="text-sm font-semibold text-[#191F28] mb-5">
+              <p className="text-sm font-semibold text-[#383838] mb-5">
                 {lang === 'ko' ? 'INNO-HI와 함께하는 파트너' : 'Partners with INNO-HI'}
               </p>
               <div className="relative overflow-hidden">
@@ -146,7 +146,7 @@ export function ContactPage() {
 
             {/* Support */}
             <div className="mt-6">
-              <p className="text-sm font-semibold text-[#191F28] mb-2">Support</p>
+              <p className="text-sm font-semibold text-[#383838] mb-2">Support</p>
               <a
                 href="mailto:contact@innohi.ai"
                 className="text-[15px] text-[#448CFF] hover:underline font-medium"
@@ -163,7 +163,7 @@ export function ContactPage() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.15 }}
           >
-            <h2 className="text-lg font-semibold text-[#191F28] mb-6">
+            <h2 className="text-lg font-semibold text-[#383838] mb-6">
               {lang === 'ko' ? '문의 양식' : 'Inquiry Form'}
             </h2>
 
@@ -229,7 +229,7 @@ export function ContactPage() {
                     type="tel"
                     value={form.phone}
                     onChange={e => update('phone', e.target.value)}
-                    className="flex-1 px-4 py-2.5 rounded-lg border border-[#E5E8EB] text-[14px] text-[#191F28] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] focus:ring-1 focus:ring-[#448CFF]/20 transition-colors"
+                    className="flex-1 px-4 py-2.5 rounded-lg border border-[#E5E8EB] text-[14px] text-[#383838] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] focus:ring-1 focus:ring-[#448CFF]/20 transition-colors"
                     placeholder="10-1234-5678"
                   />
                 </div>
@@ -245,7 +245,7 @@ export function ContactPage() {
                   onChange={e => update('message', e.target.value)}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-[#E5E8EB] text-[14px] text-[#191F28] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] focus:ring-1 focus:ring-[#448CFF]/20 transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-lg border border-[#E5E8EB] text-[14px] text-[#383838] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] focus:ring-1 focus:ring-[#448CFF]/20 transition-colors resize-none"
                   placeholder={
                     lang === 'ko'
                       ? 'AI로 해결하고자 하는 과제나 협업 문의 내용을 작성해 주세요.'
@@ -312,7 +312,7 @@ function Field({
         value={value}
         onChange={e => onChange(e.target.value)}
         required={required}
-        className="w-full px-4 py-2.5 rounded-lg border border-[#E5E8EB] text-[14px] text-[#191F28] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] focus:ring-1 focus:ring-[#448CFF]/20 transition-colors"
+        className="w-full px-4 py-2.5 rounded-lg border border-[#E5E8EB] text-[14px] text-[#383838] placeholder:text-[#B0B8C1] focus:outline-none focus:border-[#448CFF] focus:ring-1 focus:ring-[#448CFF]/20 transition-colors"
       />
     </div>
   );

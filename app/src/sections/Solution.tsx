@@ -40,7 +40,7 @@ function MockVoice() {
           </div>
           <div className="bg-white rounded-[24px] overflow-hidden">
             <div className="h-8 bg-white flex items-end justify-between px-5 pb-0.5">
-              <span className="text-[9px] font-semibold text-[#1A1A1A]">9:41</span>
+              <span className="text-[9px] font-semibold text-[#383838]">9:41</span>
               <div className="flex items-center gap-1">
                 <svg width="14" height="9" viewBox="0 0 12 8" fill="#1A1A1A"><rect x="0" y="5" width="2" height="3" rx="0.5"/><rect x="3" y="3" width="2" height="5" rx="0.5"/><rect x="6" y="1" width="2" height="7" rx="0.5"/><rect x="9" y="0" width="2" height="8" rx="0.5" opacity="0.3"/></svg>
                 <svg width="18" height="9" viewBox="0 0 16 8" fill="none"><rect x="0.5" y="0.5" width="14" height="7" rx="1.5" stroke="#1A1A1A" strokeWidth="0.8"/><rect x="15" y="2.5" width="1" height="3" rx="0.5" fill="#1A1A1A"/><rect x="1.5" y="1.5" width="10" height="5" rx="1" fill="#1A1A1A"/></svg>
@@ -50,7 +50,7 @@ function MockVoice() {
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#448CFF] to-[#5B9FFF] flex items-center justify-center">
                 <Mic className="w-3.5 h-3.5 text-white" />
               </div>
-              <span className="text-[11px] font-semibold text-[#191F28]">INNOHI Voice</span>
+              <span className="text-[11px] font-semibold text-[#383838]">INNOHI Voice</span>
             </div>
             <div className="px-4 pt-4 pb-3">
               <div className="flex items-center gap-3 mb-3">
@@ -237,7 +237,7 @@ function MockDecision() {
           </div>
           <div className="px-4 py-3">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-semibold text-[#334155]">주간 분석 추이</span>
+              <span className="text-[10px] font-semibold text-[#383838]">주간 분석 추이</span>
               <div className="flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#38BDF8]" />
                 <span className="text-[8px] text-[#8B95A1]">처리량</span>
@@ -321,13 +321,13 @@ function MockWorkflow() {
                 <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center">
                   <Workflow className="w-3 h-3 text-white" />
                 </div>
-                <span className="text-[11px] font-bold text-[#191F28]">INNOHI Workflow</span>
+                <span className="text-[11px] font-bold text-[#383838]">INNOHI Workflow</span>
               </div>
               <span className="text-[9px] text-[#6366F1] font-semibold">자동 처리 중</span>
             </div>
             <div className="px-4 pt-3 pb-2">
               <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[10px] font-semibold text-[#334155]">전체 진행률</span>
+                <span className="text-[10px] font-semibold text-[#383838]">전체 진행률</span>
                 <span className="text-[12px] font-bold text-[#6366F1]">{pct}%</span>
               </div>
               <div className="h-2 rounded-full bg-[#F1F3F5] overflow-hidden">
@@ -351,7 +351,7 @@ function MockWorkflow() {
                         {active && <div className="w-1.5 h-1.5 rounded-full bg-[#6366F1] animate-pulse" />}
                       </div>
                     )}
-                    <span className={`text-[11px] font-medium ${done ? 'text-[#191F28]' : 'text-[#8B95A1]'}`}>{label}</span>
+                    <span className={`text-[11px] font-medium ${done ? 'text-[#383838]' : 'text-[#8B95A1]'}`}>{label}</span>
                     {done && <span className="text-[9px] text-[#22C55E] ml-auto font-semibold">완료</span>}
                     {active && <span className="text-[9px] text-[#6366F1] ml-auto font-semibold animate-pulse">처리 중...</span>}
                     {!done && !active && <span className="text-[9px] text-[#B0B8C1] ml-auto font-medium">대기</span>}
@@ -496,7 +496,7 @@ export function Solution() {
           >
             <div>
               <h3
-                className="font-bold text-[#191F28] tracking-tight"
+                className="font-bold text-[#383838] tracking-tight"
                 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)', lineHeight: 1.3 }}
               >
                 {lang === 'ko' ? '이노하이 제품' : 'INNOHI Products'}
@@ -531,11 +531,12 @@ export function Solution() {
                 initial={{ opacity: 0, y: 32 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.55, delay: 0.2 + i * 0.12 }}
-                className={`group flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-14`}
+                className={`group flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-14 rounded-3xl p-6 lg:p-8 transition-all duration-300 hover:shadow-[0_8px_40px_rgba(68,140,255,0.1)] hover:bg-[#FAFBFF] cursor-pointer`}
+                onClick={() => navigate('/services')}
               >
                 {/* 목업 */}
                 <div className="w-full lg:w-[480px] shrink-0">
-                  <div className="relative h-[320px] sm:h-[360px] rounded-2xl p-5 overflow-hidden" style={{
+                  <div className="relative h-[320px] sm:h-[360px] rounded-2xl p-5 overflow-hidden transition-transform duration-300 group-hover:scale-[1.02]" style={{
                     background: 'linear-gradient(135deg, #448CFF12 0%, #7C5CFC08 40%, #448CFF18 100%)',
                   }}>
                     {/* 배경 글로우 효과 */}
@@ -550,7 +551,7 @@ export function Solution() {
                 {/* 텍스트 */}
                 <div className="flex-1 min-w-0">
                   <h3
-                    className="text-[22px] sm:text-[26px] font-bold text-[#191F28] tracking-tight mb-3"
+                    className="text-[22px] sm:text-[26px] font-bold text-[#383838] tracking-tight mb-3"
                     style={{ wordBreak: 'keep-all' }}
                   >
                     {product.name}

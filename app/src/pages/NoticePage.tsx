@@ -28,7 +28,7 @@ const notices: Notice[] = [
 서울특별시 강남구 영동대로 602, 6층 티288
 
 **변경 주소**
-서울특별시 중구 퇴계로36길 2, 신관동 지하2층 비257호
+서울특별시 중구 퇴계로36길 2, 동국대학교 충무로관 신관 비257호
 
 **적용일자**
 2026년 3월 1일
@@ -86,7 +86,7 @@ function NoticeDetail({ noticeId, lang }: { noticeId: number; lang: 'ko' | 'en' 
         <div className="mb-10">
           <p className="text-[16px] text-[#8B95A1] mb-5 tabular-nums">{notice.date}</p>
           <div className="flex items-start justify-between gap-6">
-            <h1 className="text-[1.5rem] sm:text-[1.75rem] font-bold text-[#191F28] leading-snug tracking-tight">
+            <h1 className="text-[1.5rem] sm:text-[1.75rem] font-bold text-[#383838] leading-snug tracking-tight">
               {lang === 'ko' ? notice.title : notice.titleEn}
             </h1>
             <button
@@ -175,7 +175,7 @@ function NoticeList({ lang }: { lang: 'ko' | 'en' }) {
         {/* 헤더 */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10">
           <div>
-            <h1 className="text-[1.75rem] sm:text-[2rem] font-bold text-[#191F28] tracking-tight">
+            <h1 className="text-[1.75rem] sm:text-[2rem] font-bold text-[#383838] tracking-tight">
               {lang === 'ko' ? '공고사항' : 'Announcements'}
             </h1>
             <p className="text-[15px] text-[#777A86] mt-3 leading-relaxed">

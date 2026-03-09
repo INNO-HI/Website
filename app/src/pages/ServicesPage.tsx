@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Mic, ArrowRight, Search, BarChart3, FileText, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Mic, ArrowRight, Search, BarChart3, FileText, CheckCircle2, AlertTriangle, Zap, Languages, Tag, BookOpen, Link2, Brain, Activity, ShieldAlert, TrendingUp, FileSignature, Settings, CalendarCheck } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -34,7 +34,7 @@ function HeroLaptopMockup() {
               <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#448CFF] to-[#6366F1] flex items-center justify-center">
                 <Mic className="w-3 h-3 text-white" />
               </div>
-              <span className="text-[11px] font-bold text-[#191F28]">INNOHI Voice Platform</span>
+              <span className="text-[11px] font-bold text-[#383838]">INNOHI Voice Platform</span>
             </div>
             <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
@@ -61,7 +61,7 @@ function HeroLaptopMockup() {
             {/* 파형 시각화 */}
             <div className="rounded-lg bg-[#F8F9FA] p-2.5 mb-3">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[9px] font-semibold text-[#334155]">실시간 음성 파형</span>
+                <span className="text-[9px] font-semibold text-[#383838]">실시간 음성 파형</span>
                 <span className="text-[8px] text-[#448CFF] font-semibold">녹음 중</span>
               </div>
               <div className="flex items-center gap-[2px] h-[32px]">
@@ -80,7 +80,7 @@ function HeroLaptopMockup() {
 
             {/* 트랜스크립트 */}
             <div className="rounded-lg bg-[#F8F9FA] p-2.5">
-              <span className="text-[9px] font-semibold text-[#334155] block mb-2">음성 변환 결과</span>
+              <span className="text-[9px] font-semibold text-[#383838] block mb-2">음성 변환 결과</span>
               <div className="space-y-1.5">
                 <div className="flex gap-2">
                   <span className="text-[8px] font-semibold text-[#448CFF] shrink-0">상담사</span>
@@ -136,7 +136,7 @@ function MockVoice() {
           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#448CFF] to-[#6366F1] flex items-center justify-center">
             <Mic className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Voice</span>
+          <span className="text-[12px] font-bold text-[#383838]">INNOHI Voice</span>
           <div className="ml-auto flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-[#EF4444] animate-pulse" />
             <span className="text-[9px] text-[#EF4444] font-semibold">REC</span>
@@ -233,13 +233,13 @@ function MockKnowledge() {
           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#6366F1] to-[#4F46E5] flex items-center justify-center">
             <Search className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Knowledge</span>
+          <span className="text-[12px] font-bold text-[#383838]">INNOHI Knowledge</span>
         </div>
 
         <div className="px-4 pt-3 pb-2">
           <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#F8F9FA] border border-[#E5E8EB]">
             <Search className="w-3.5 h-3.5 text-[#8B95A1]" />
-            <span className="text-[10px] text-[#191F28] flex-1">
+            <span className="text-[10px] text-[#383838] flex-1">
               {typed}
               {typed.length < fullQuery.length && (
                 <span className="inline-block w-[1px] h-[12px] bg-[#191F28] ml-[1px] animate-pulse align-middle" />
@@ -336,7 +336,7 @@ function MockDecision() {
           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB] flex items-center justify-center">
             <BarChart3 className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Decision</span>
+          <span className="text-[12px] font-bold text-[#383838]">INNOHI Decision</span>
         </div>
 
         <div className="grid grid-cols-3 gap-2 px-4 pt-3 pb-2">
@@ -358,7 +358,7 @@ function MockDecision() {
 
         <div className="flex-1 px-4 py-3">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-semibold text-[#334155]">주간 분석 추이</span>
+            <span className="text-[10px] font-semibold text-[#383838]">주간 분석 추이</span>
             <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
               <span className="text-[8px] text-[#8B95A1]">처리량</span>
@@ -430,13 +430,13 @@ function MockWorkflow() {
           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#6D28D9] flex items-center justify-center">
             <FileText className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Workflow</span>
+          <span className="text-[12px] font-bold text-[#383838]">INNOHI Workflow</span>
           <span className="ml-auto text-[9px] text-[#8B5CF6] font-semibold">자동 처리 중</span>
         </div>
 
         <div className="px-4 pt-3">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[9px] font-semibold text-[#334155]">전체 진행률</span>
+            <span className="text-[9px] font-semibold text-[#383838]">전체 진행률</span>
             <span className="text-[10px] font-bold text-[#8B5CF6]">{percent}%</span>
           </div>
           <div className="h-1.5 rounded-full bg-[#F3F4F6] overflow-hidden">
@@ -469,7 +469,7 @@ function MockWorkflow() {
                 ) : (
                   <div className="w-4 h-4 rounded-full border-2 border-[#E5E8EB] shrink-0" />
                 )}
-                <span className="text-[10px] text-[#191F28] flex-1">{label}</span>
+                <span className="text-[10px] text-[#383838] flex-1">{label}</span>
                 <span className={`text-[8px] font-semibold ${done ? 'text-[#8B5CF6]' : processing ? 'text-[#F59E0B]' : 'text-[#D1D6DB]'}`}>
                   {done ? '완료' : processing ? '처리 중...' : '대기'}
                 </span>
@@ -513,9 +513,9 @@ const tabs = [
     Mockup: MockVoice,
     color: '#448CFF',
     features: [
-      { ko: '실시간 음성 변환', en: 'Real-time Transcription' },
-      { ko: '한국어 특화 모델', en: 'Korean-Specialized Model' },
-      { ko: '자동 키워드 태깅', en: 'Auto Keyword Tagging' },
+      { icon: Zap, ko: '실시간 음성 변환', en: 'Real-time Transcription', descKo: '상담이 진행되는 동시에 음성을 텍스트로 변환합니다. 1초 단위 처리로 기록 누락 없이 현장 대화를 실시간으로 저장하고 검토할 수 있습니다.', descEn: 'Converts speech to text as consultations happen. Sub-second processing ensures no conversation is missed, with real-time storage and review.' },
+      { icon: Languages, ko: '한국어 특화 모델', en: 'Korean-Specialized Model', descKo: '한국어 고유의 문맥, 존칭, 복합 발화 패턴을 정밀하게 처리하는 AI 모델을 적용합니다. 공공 상담 도메인에 최적화된 어휘 사전을 활용합니다.', descEn: 'AI model precisely handles Korean-specific context, honorifics, and complex speech patterns. Utilizes vocabularies optimized for public consultation domains.' },
+      { icon: Tag, ko: '자동 키워드 태깅', en: 'Auto Keyword Tagging', descKo: '대화 내용에서 민원 유형, 핵심 주제, 감정 키워드를 자동으로 추출하고 분류합니다. 상담 이력 검색과 통계 분석에 바로 활용할 수 있습니다.', descEn: 'Automatically extracts and classifies complaint types, key topics, and sentiment from conversations. Ready for consultation history search and statistical analysis.' },
     ],
   },
   {
@@ -530,9 +530,9 @@ const tabs = [
     Mockup: MockKnowledge,
     color: '#6366F1',
     features: [
-      { ko: '문서 기반 답변', en: 'Document-Based Answers' },
-      { ko: '출처 자동 표시', en: 'Auto Source Citation' },
-      { ko: '질문 의도 분석', en: 'Intent Analysis' },
+      { icon: BookOpen, ko: '문서 기반 답변', en: 'Document-Based Answers', descKo: '내부 법령, 매뉴얼, 업무 지침 등에서 질문과 관련된 근거를 찾아 정확한 답변을 생성합니다. 추측이 아닌 문서 기반의 신뢰할 수 있는 정보를 제공합니다.', descEn: 'Finds evidence from internal regulations, manuals, and guidelines to generate accurate answers. Provides reliable, document-based information — not guesswork.' },
+      { icon: Link2, ko: '출처 자동 표시', en: 'Auto Source Citation', descKo: '답변과 함께 관련 법률 조항, 매뉴얼 페이지, 정책 문서의 출처를 자동으로 표시합니다. 담당자가 원문을 즉시 확인하고 검증할 수 있습니다.', descEn: 'Automatically displays source references including law articles, manual pages, and policy documents alongside answers. Enables instant verification by staff.' },
+      { icon: Brain, ko: '질문 의도 분석', en: 'Intent Analysis', descKo: '단순 키워드 매칭이 아닌, 질문의 맥락과 의도를 AI가 분석하여 가장 적절한 답변을 제공합니다. 비슷한 질문도 상황에 맞게 다르게 응답합니다.', descEn: 'Beyond keyword matching — AI analyzes question context and intent for optimal answers. Even similar questions receive context-appropriate responses.' },
     ],
   },
   {
@@ -547,9 +547,9 @@ const tabs = [
     Mockup: MockDecision,
     color: '#3B82F6',
     features: [
-      { ko: '실시간 데이터 분석', en: 'Real-time Data Analysis' },
-      { ko: '위험 신호 탐지', en: 'Risk Signal Detection' },
-      { ko: '패턴 자동 감지', en: 'Auto Pattern Detection' },
+      { icon: Activity, ko: '실시간 데이터 분석', en: 'Real-time Data Analysis', descKo: '수만 건의 데이터를 실시간으로 수집·처리하고 대시보드로 시각화합니다. 현장 상황을 즉시 파악하고 데이터에 기반한 빠른 의사결정을 지원합니다.', descEn: 'Collects and processes tens of thousands of data points in real-time, visualized through dashboards. Enables instant situational awareness and data-driven decisions.' },
+      { icon: ShieldAlert, ko: '위험 신호 탐지', en: 'Risk Signal Detection', descKo: '과거 사례 데이터를 학습한 AI가 이상 패턴을 조기에 감지하여 위험 상황을 사전에 알립니다. 설명 가능한 AI(XAI)로 판단 근거를 함께 제공합니다.', descEn: 'AI trained on historical cases detects anomalous patterns early to warn of risks. Provides decision rationale through explainable AI (XAI).' },
+      { icon: TrendingUp, ko: '패턴 자동 감지', en: 'Auto Pattern Detection', descKo: '대규모 데이터에서 의미 있는 패턴, 추세, 상관관계를 자동으로 발견합니다. 사람이 놓칠 수 있는 숨겨진 인사이트를 AI가 도출합니다.', descEn: 'Automatically discovers meaningful patterns, trends, and correlations in large datasets. AI uncovers hidden insights humans might miss.' },
     ],
   },
   {
@@ -564,9 +564,9 @@ const tabs = [
     Mockup: MockWorkflow,
     color: '#8B5CF6',
     features: [
-      { ko: '자동 문서 작성', en: 'Auto Document Generation' },
-      { ko: '업무 프로세스 자동화', en: 'Process Automation' },
-      { ko: '후속 조치 관리', en: 'Follow-up Management' },
+      { icon: FileSignature, ko: '자동 문서 작성', en: 'Auto Document Generation', descKo: '상담 내용을 분석하여 행정 서식에 맞는 보고서와 문서를 자동으로 생성합니다. 수작업 문서 작성 시간을 대폭 줄이고 양식 오류를 방지합니다.', descEn: 'Analyzes consultation content to auto-generate reports and documents in administrative formats. Dramatically reduces manual writing time and prevents formatting errors.' },
+      { icon: Settings, ko: '업무 프로세스 자동화', en: 'Process Automation', descKo: '기록 수신부터 서식 작성, 보고서 생성까지 반복되는 행정 업무 절차를 AI가 자동으로 처리합니다. 담당자는 핵심 업무에만 집중할 수 있습니다.', descEn: 'AI automatically handles repetitive administrative procedures from record intake to form filling and report generation. Staff can focus on core responsibilities.' },
+      { icon: CalendarCheck, ko: '후속 조치 관리', en: 'Follow-up Management', descKo: '상담 결과에 따라 필요한 후속 업무를 자동으로 생성하고, 일정과 담당자를 배정합니다. 누락 없는 체계적인 업무 관리가 가능합니다.', descEn: 'Auto-creates follow-up tasks based on consultation results, assigning schedules and staff. Enables systematic task management with zero oversights.' },
     ],
   },
 ];
@@ -768,7 +768,7 @@ export function ServicesPage() {
                 AI Speech Platform
               </span>
               <h1
-                className="font-bold text-[#191F28] leading-[1.25] tracking-tight mb-6"
+                className="font-bold text-[#383838] leading-[1.25] tracking-tight mb-6"
                 style={{ fontSize: 'clamp(2rem, 4.5vw, 3rem)', wordBreak: 'keep-all' }}
               >
                 {lang === 'ko' ? (
@@ -855,7 +855,7 @@ export function ServicesPage() {
               {/* 텍스트 (오른쪽) */}
               <div className="order-2">
                 <h2
-                  className="font-bold text-[#191F28] leading-[1.3] tracking-tight mb-5"
+                  className="font-bold text-[#383838] leading-[1.3] tracking-tight mb-5"
                   style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', wordBreak: 'keep-all' }}
                 >
                   {lang === 'ko' ? activeProduct.titleKo : activeProduct.titleEn}
@@ -870,27 +870,35 @@ export function ServicesPage() {
 
               {/* 특징 박스 3개 — 목업 아래 */}
               <div className="order-3 lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
-                {activeProduct.features.map((feat) => (
-                  <div
-                    key={feat.ko}
-                    className="flex items-center gap-3 rounded-2xl border px-5 py-5"
-                    style={{
-                      background: `${activeProduct.color}06`,
-                      borderColor: `${activeProduct.color}15`,
-                    }}
-                  >
-                    <CheckCircle2
-                      className="w-5 h-5 flex-shrink-0"
-                      style={{ color: activeProduct.color }}
-                    />
-                    <span
-                      className="text-[15px] font-semibold"
-                      style={{ color: activeProduct.color }}
+                {activeProduct.features.map((feat) => {
+                  const Icon = feat.icon;
+                  return (
+                    <div
+                      key={feat.ko}
+                      className="rounded-2xl border px-5 py-6"
+                      style={{
+                        background: `${activeProduct.color}06`,
+                        borderColor: `${activeProduct.color}15`,
+                      }}
                     >
-                      {lang === 'ko' ? feat.ko : feat.en}
-                    </span>
-                  </div>
-                ))}
+                      <div
+                        className="w-9 h-9 rounded-xl flex items-center justify-center mb-4"
+                        style={{ background: `${activeProduct.color}12` }}
+                      >
+                        <Icon className="w-[18px] h-[18px]" style={{ color: activeProduct.color }} />
+                      </div>
+                      <p
+                        className="text-[15px] font-semibold mb-2"
+                        style={{ color: activeProduct.color }}
+                      >
+                        {lang === 'ko' ? feat.ko : feat.en}
+                      </p>
+                      <p className="text-[13px] text-[#6B7280] leading-[1.7]" style={{ wordBreak: 'keep-all' }}>
+                        {lang === 'ko' ? feat.descKo : feat.descEn}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </motion.div>
           </AnimatePresence>
@@ -909,7 +917,7 @@ export function ServicesPage() {
             className="text-center max-w-2xl mx-auto mb-14 sm:mb-16"
           >
             <h2
-              className="font-bold text-[#191F28] leading-[1.3] tracking-tight mb-4"
+              className="font-bold text-[#383838] leading-[1.3] tracking-tight mb-4"
               style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', wordBreak: 'keep-all' }}
             >
               {lang === 'ko' ? (
@@ -939,7 +947,7 @@ export function ServicesPage() {
                   <div className="w-11 h-11 flex items-center justify-center mb-5">
                     <AnimIcon color={item.color} />
                   </div>
-                  <h3 className="text-[16px] sm:text-[17px] font-bold text-[#191F28] mb-3" style={{ wordBreak: 'keep-all' }}>
+                  <h3 className="text-[16px] sm:text-[17px] font-bold text-[#383838] mb-3" style={{ wordBreak: 'keep-all' }}>
                     {lang === 'ko' ? item.titleKo : item.titleEn}
                   </h3>
                   <p className="text-[13px] sm:text-[14px] text-[#8B95A1] leading-[1.7] whitespace-pre-line">

@@ -115,7 +115,7 @@ function InfraCard({ cat, index, lang }: { cat: TechCategory; index: number; lan
         >
           <cat.icon className="w-5 h-5 text-white" aria-hidden="true" />
         </div>
-        <h3 className="text-[17px] sm:text-[18px] font-bold text-[#191F28]">{title}</h3>
+        <h3 className="text-[17px] sm:text-[18px] font-bold text-[#383838]">{title}</h3>
       </div>
 
       {/* 설명 */}

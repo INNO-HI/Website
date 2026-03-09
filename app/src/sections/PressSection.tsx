@@ -113,7 +113,7 @@ export function PressSection() {
         >
           <div>
             <p className="text-sm font-semibold text-[#448CFF] tracking-wide uppercase mb-2">Press</p>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1A1A1A]">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#383838]">
               {lang === 'ko' ? '이노하이의 이야기를 만나보세요' : 'Discover Our Stories'}
             </h2>
           </div>
@@ -163,7 +163,7 @@ export function PressSection() {
 
               {/* 제목 + 메타 */}
               <div className="p-5 bg-white">
-                <h3 className="text-[15px] font-semibold text-[#1A1A1A] leading-snug line-clamp-2 group-hover:text-[#448CFF] transition-colors mb-4">
+                <h3 className="text-[15px] font-semibold text-[#383838] leading-snug line-clamp-2 group-hover:text-[#448CFF] transition-colors mb-4">
                   {lang === 'ko' ? item.titleKo : item.titleEn}
                 </h3>
                 <div className="flex items-center justify-between text-[12px] text-[#9CA3AF] pt-3 border-t border-[#F2F4F6]">
