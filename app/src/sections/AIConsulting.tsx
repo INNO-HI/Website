@@ -168,7 +168,7 @@ export function AIConsulting() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 sm:py-28 lg:py-36 overflow-hidden"
+      className="pt-16 sm:pt-20 lg:pt-28 pb-24 sm:pb-32 lg:pb-40 overflow-hidden"
       style={{ background: '#FFFFFF' }}
     >
       <div className="max-w-[1300px] mx-auto px-5 sm:px-8 lg:px-14">
@@ -178,7 +178,7 @@ export function AIConsulting() {
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="text-center mb-12 sm:mb-16"
+          className="text-center mb-10 sm:mb-12"
         >
           <h2
             className="font-bold text-[#191F28] tracking-tight"
@@ -206,11 +206,21 @@ export function AIConsulting() {
         >
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
             {/* 채팅 목업 */}
-            <div className="w-full lg:w-[480px] shrink-0 h-[340px] sm:h-[380px]">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="w-full lg:w-[480px] shrink-0 h-[300px] sm:h-[340px]"
+            >
               <ChatMockup />
-            </div>
+            </motion.div>
             {/* 설명 */}
-            <div className="flex-1 min-w-0">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="flex-1 min-w-0"
+            >
               <h3
                 className="text-[22px] sm:text-[28px] font-bold text-[#191F28] tracking-tight mb-5"
                 style={{ wordBreak: 'keep-all' }}
@@ -225,7 +235,7 @@ export function AIConsulting() {
                   ? '자연스러운 음성 대화를 통해\n현장에서 필요한 정보를 빠르게 확인하고\n업무 내용을 자동으로 기록합니다.'
                   : 'Through natural voice conversation,\nquickly access the information you need\nand automatically record your work.'}
               </p>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -233,14 +243,14 @@ export function AIConsulting() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
           {/* 카드 1 — Knowledge */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            initial={{ opacity: 0, x: -30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.35 }}
             className="rounded-3xl border border-[#3B82F6]/15 shadow-sm overflow-hidden"
             style={{ background: 'linear-gradient(135deg, #EFF6FF 0%, #F0F4FF 100%)' }}
           >
-            <div className="flex flex-col sm:flex-row items-center sm:items-stretch sm:min-h-[340px]">
-              <div className="flex-1 p-6 sm:p-8 sm:py-12 flex flex-col justify-center">
+            <div className="flex flex-col sm:flex-row items-stretch sm:min-h-[300px]">
+              <div className="flex-1 p-6 sm:p-8 sm:pt-10 flex flex-col">
                 <h3
                   className="text-[18px] sm:text-[22px] font-bold text-[#191F28] tracking-tight mb-3"
                   style={{ wordBreak: 'keep-all' }}
@@ -256,24 +266,29 @@ export function AIConsulting() {
                     : 'INNOHI AI system understands\nquestion intent based on internal\ndocuments and data, providing\nthe information you need.'}
                 </p>
               </div>
-              <div className="w-full sm:w-[280px] shrink-0 flex items-end justify-center pt-4 sm:pt-6 -mb-10">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.55 }}
+                className="w-full sm:w-[280px] shrink-0 flex items-end justify-center pt-4 sm:pt-6 -mb-10"
+              >
                 <MobileChatMockup />
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
           {/* 카드 2 — Workflow */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            initial={{ opacity: 0, x: 30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.45 }}
             className="rounded-3xl border border-[#6366F1]/15 shadow-sm overflow-hidden"
             style={{ background: 'linear-gradient(135deg, #F5F3FF 0%, #EEF2FF 100%)' }}
           >
-            <div className="flex flex-col sm:flex-row items-center sm:items-stretch sm:min-h-[340px]">
-              <div className="flex-1 p-6 sm:p-8 sm:py-12 flex flex-col justify-center">
+            <div className="flex flex-col sm:flex-row items-stretch sm:min-h-[300px]">
+              <div className="flex-1 p-6 sm:p-8 sm:pt-10 flex flex-col">
                 <h3
-                  className="text-[18px] sm:text-[22px] font-bold text-[#191F28] tracking-tight mb-3"
+                  className="text-[18px] sm:text-[22px] font-bold text-[#191F28] tracking-tight mb-3 whitespace-nowrap"
                   style={{ wordBreak: 'keep-all' }}
                 >
                   {lang === 'ko' ? '현장 업무를 자동으로 정리' : 'Auto-organize field work'}
@@ -287,9 +302,14 @@ export function AIConsulting() {
                     : 'Automatically organizes conversations\nand work records, supporting\nreport and document creation.'}
                 </p>
               </div>
-              <div className="w-full sm:w-[280px] shrink-0 flex items-end justify-center pt-4 sm:pt-6 -mb-10">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.65 }}
+                className="w-full sm:w-[280px] shrink-0 flex items-end justify-center pt-4 sm:pt-6 -mb-10"
+              >
                 <MobileWorkflowMockup />
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>

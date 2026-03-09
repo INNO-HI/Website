@@ -91,76 +91,58 @@ const techCategories = [
 
 type TechCategory = typeof techCategories[0];
 
-function InfraBlock({ cat, index, lang }: { cat: TechCategory; index: number; lang: 'ko' | 'en' }) {
+function InfraCard({ cat, index, lang }: { cat: TechCategory; index: number; lang: 'ko' | 'en' }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-  const isEven = index % 2 === 0;
+  const inView = useInView(ref, { once: true, margin: '-60px' });
 
   const title = lang === 'ko' ? cat.titleKo : cat.titleEn;
-  const subtitle = lang === 'ko' ? cat.subtitleKo : cat.subtitleEn;
   const description = lang === 'ko' ? cat.descriptionKo : cat.descriptionEn;
   const features = lang === 'ko' ? cat.featuresKo : cat.featuresEn;
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 48 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      className={`flex flex-col lg:flex-row ${isEven ? '' : 'lg:flex-row-reverse'} items-center gap-10 lg:gap-20 py-16 lg:py-20 border-b border-[#EAEDF2] last:border-0`}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="rounded-2xl border border-[#E5E8EB] p-6 sm:p-7 hover:shadow-lg hover:border-transparent transition-all duration-300 flex flex-col"
     >
-      {/* 아이콘 패널 */}
-      <div className="w-full lg:w-[340px] flex-shrink-0">
+      {/* 아이콘 + 타이틀 */}
+      <div className="flex items-center gap-3 mb-5">
         <div
-          className="rounded-2xl p-8 flex flex-col items-center justify-center gap-6"
-          style={{ background: cat.bgColor }}
+          className="w-11 h-11 rounded-xl flex items-center justify-center"
+          style={{ background: cat.color }}
         >
-          <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center"
-            style={{ background: cat.color }}
-          >
-            <cat.icon className="w-8 h-8 text-white" aria-hidden="true" />
-          </div>
-          <div className="grid grid-cols-3 gap-3 w-full">
-            {cat.specs.map((spec, i) => (
-              <div key={i} className="text-center p-3 rounded-xl bg-white/80">
-                <div className="text-xl font-semibold text-[#0F1117]">{spec.value}</div>
-                <div className="text-[11px] text-[#777A86] mt-0.5">
-                  {lang === 'ko' ? spec.labelKo : spec.labelEn}
-                </div>
-              </div>
-            ))}
-          </div>
+          <cat.icon className="w-5 h-5 text-white" aria-hidden="true" />
         </div>
+        <h3 className="text-[17px] sm:text-[18px] font-bold text-[#191F28]">{title}</h3>
       </div>
 
-      {/* 본문 */}
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2.5 mb-4">
-          <span
-            className="inline-block px-2.5 py-1 rounded-full text-xs font-semibold text-white"
-            style={{ background: cat.color }}
-          >
-            {subtitle}
-          </span>
-        </div>
-        <h3
-          className="font-semibold text-[#0F1117] mb-3 leading-tight"
-          style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '-0.03em' }}
-        >
-          {title}
-        </h3>
-        <p className="text-[#4B4E56] leading-relaxed whitespace-pre-line mb-5 text-[17px] font-medium">
-          {description}
-        </p>
-        <ul className="space-y-3">
-          {features.map((feature, i) => (
-            <li key={i} className="flex items-center gap-3 text-[15px] text-[#383838] font-medium">
-              <CheckCircle2 className="w-5 h-5 flex-shrink-0" style={{ color: cat.color }} aria-hidden="true" />
-              {feature}
-            </li>
-          ))}
-        </ul>
+      {/* 설명 */}
+      <p className="text-[14px] text-[#6B7280] leading-[1.7] whitespace-pre-line mb-6" style={{ wordBreak: 'keep-all' }}>
+        {description}
+      </p>
+
+      {/* 스펙 */}
+      <div className="grid grid-cols-3 gap-2 mb-6">
+        {cat.specs.map((spec, i) => (
+          <div key={i} className="text-center p-2.5 rounded-xl" style={{ background: cat.bgColor }}>
+            <div className="text-[16px] font-bold" style={{ color: cat.color }}>{spec.value}</div>
+            <div className="text-[10px] text-[#8B95A1] mt-0.5 font-medium">
+              {lang === 'ko' ? spec.labelKo : spec.labelEn}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 기능 목록 */}
+      <div className="mt-auto space-y-2.5">
+        {features.map((feature, i) => (
+          <div key={i} className="flex items-center gap-2.5">
+            <CheckCircle2 className="w-4 h-4 shrink-0" style={{ color: cat.color }} aria-hidden="true" />
+            <span className="text-[13px] text-[#4E5968] font-medium">{feature}</span>
+          </div>
+        ))}
       </div>
     </motion.div>
   );
@@ -208,10 +190,10 @@ export function Infrastructure() {
           </p>
         </motion.div>
 
-        {/* 블록 목록 */}
-        <div>
+        {/* 카드 그리드 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-7 mt-12">
           {techCategories.map((cat, index) => (
-            <InfraBlock key={cat.id} cat={cat} index={index} lang={lang} />
+            <InfraCard key={cat.id} cat={cat} index={index} lang={lang} />
           ))}
         </div>
       </div>

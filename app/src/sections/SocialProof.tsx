@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { useLanguage } from '@/hooks/useLanguage';
 
 import kepcoMcsLogo from '@/assets/partners/kepco-mcs.png';
@@ -31,10 +33,18 @@ function PartnerChip({ logo, lang }: { logo: typeof partnerLogos[number]; lang: 
 /* 로고 마키 — Hero 바로 아래 */
 export function PartnerLogos() {
   const { lang } = useLanguage();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-40px' });
   const quadrupled = [...partnerLogos, ...partnerLogos, ...partnerLogos, ...partnerLogos];
 
   return (
-    <div className="bg-white py-10 sm:py-16 lg:py-20">
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={inView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.8 }}
+      className="bg-white py-10 sm:py-16 lg:py-20"
+    >
       <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
         <div className="relative overflow-hidden">
           <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-20 z-10 pointer-events-none"
@@ -48,6 +58,6 @@ export function PartnerLogos() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

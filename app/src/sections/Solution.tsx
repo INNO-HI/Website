@@ -359,7 +359,15 @@ export function Solution() {
               { value: '90%+', label: lang === 'ko' ? 'AI 정확도' : 'AI accuracy' },
               { value: '3x', label: lang === 'ko' ? '업무속도' : 'Work speed' },
             ].map((stat) => (
-              <div key={stat.label} className="text-center">
+              <div
+                key={stat.label}
+                className="text-center px-6 sm:px-10 py-5 sm:py-6 rounded-2xl border border-white/[0.08]"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                }}
+              >
                 <div
                   className="font-extrabold bg-clip-text text-transparent"
                   style={{
