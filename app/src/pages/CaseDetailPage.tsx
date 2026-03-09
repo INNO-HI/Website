@@ -113,9 +113,10 @@ export function CaseDetailPage() {
             </h1>
 
             {/* 부제목 */}
-            <p className="text-[16px] sm:text-[18px] text-[#6B7280] leading-relaxed max-w-2xl" style={{ wordBreak: 'keep-all' }}>
+            <p className="text-[16px] sm:text-[18px] text-[#6B7280] leading-relaxed max-w-2xl mb-8" style={{ wordBreak: 'keep-all' }}>
               {t(cs.heroDescKo, cs.heroDescEn)}
             </p>
+
           </motion.div>
         </div>
       </section>
@@ -248,19 +249,21 @@ export function CaseDetailPage() {
       </section>
 
       {/* ─── 관계자 의견 ─── */}
-      <section className="bg-[#F9FAFB] py-14 sm:py-20">
+      <section className="py-14 sm:py-20">
         <div className="max-w-[760px] mx-auto px-5 sm:px-6 lg:px-8">
           <StorySection>
-            <Quote className="w-8 h-8 text-[#448CFF] opacity-20 mb-6" />
-            <p
-              className="text-[18px] sm:text-[22px] text-[#383838] leading-[1.8] font-medium whitespace-pre-line mb-6"
-              style={{ fontStyle: 'italic', wordBreak: 'keep-all' }}
-            >
-              {t(cs.quoteKo, cs.quoteEn)}
-            </p>
-            <p className="text-[14px] text-[#9CA3AF] font-medium">
-              — {t(cs.quoteAuthorKo, cs.quoteAuthorEn)}
-            </p>
+            <div className="bg-[#F9FAFB] rounded-2xl border border-[#E5E8EB] p-8 sm:p-12">
+              <Quote className="w-8 h-8 text-[#448CFF] opacity-25 mb-5" />
+              <p
+                className="text-[18px] sm:text-[22px] text-[#0F172A] leading-[1.8] font-medium whitespace-pre-line mb-6"
+                style={{ wordBreak: 'keep-all' }}
+              >
+                {t(cs.quoteKo, cs.quoteEn)}
+              </p>
+              <p className="text-[14px] text-[#9CA3AF] font-medium">
+                — {t(cs.quoteAuthorKo, cs.quoteAuthorEn)}
+              </p>
+            </div>
           </StorySection>
         </div>
       </section>

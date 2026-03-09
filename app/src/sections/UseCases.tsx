@@ -5,6 +5,7 @@ import { X, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 
 import kepcoLogoSrc from '@/assets/partners/kepco-mcs.png';
+import ssisLogoSrc from '@/assets/partners/ssis.svg';
 import yangcheonLogoSrc from '@/assets/partners/yangcheon.jpg';
 import cardKepcoSrc from '@/assets/partners/card-kepco.png';
 import cardWelfareSrc from '@/assets/partners/card-welfare.png';
@@ -29,18 +30,18 @@ export const references = [
     detailEn: 'Field consultations should focus on people, not paperwork.\nAnsimHI recognizes consultation content through voice at the field and automatically organizes it, integrating the entire care administration flow—from documentation to reporting and welfare service linkage—into a single AI-based process.\n\nPreviously, multiple stages of repetitive administration were needed after consultations: manual recording, schedule organization, report writing, and welfare service review. AnsimHI automates this process so field workers can spend more time on consultations with clients rather than administration.\n\nKey Features\n• Elderly-specialized voice recognition for automatic consultation recording\n• Record summarization and documentation in administrative report format\n• Welfare service recommendations based on consultation content\n• Mobile-first UX designed for field workflows\n\nExpected Impact\n• Reduced repetitive administrative time after consultations\n• Improved consistency and accuracy of care records\n• Reduced workload burden for field workers\n• Enhanced consultation quality and service linkage efficiency',
   },
   {
-    titleKo: '통합복지상담AI',
-    titleEn: 'Integrated Welfare Consultation AI',
-    clientKo: '양천구청',
-    clientEn: 'Yangcheon District Office',
-    logo: yangcheonLogoSrc,
-    logoHeight: 'h-16 sm:h-20',
+    titleKo: 'AI 기반 고독사 판별 분류',
+    titleEn: 'AI Solitary Death Classification',
+    clientKo: '한국사회보장정보원',
+    clientEn: 'SSIS',
+    logo: ssisLogoSrc,
+    logoHeight: 'h-12 sm:h-14',
     image: slideWelfareSrc,
     cardImage: cardWelfareSrc,
-    summaryKo: '복지 업무에 필요한 답을 내부 문서 기반으로 즉시 제공하는 상담 AI',
-    summaryEn: 'Consultation AI providing instant answers based on internal documents for welfare tasks',
-    detailKo: '복지 행정에서는 빠른 답변만큼이나 근거 있는 답변이 중요합니다.\n이노하이는 내부 지침, 매뉴얼, 제도 문서를 기반으로 필요한 정보를 즉시 탐색하고, 출처와 함께 답변을 제공하는 RAG 기반 복지 상담 AI를 구현했습니다.\n\n기존에는 담당자가 복수의 문서를 직접 찾아보며 제도 해석과 민원 응대를 수행해야 했습니다. 통합복지상담AI는 질문 의도를 분석하고 관련 문서를 검색해, 행정 판단에 참고할 수 있는 형태로 답변을 정리합니다.\n\n주요 기능\n• 복지 행정 질의에 대한 실시간 AI 응답\n• 내부 문서 및 지침 기반 검색\n• 답변과 함께 근거·출처 제공\n• 상담 데이터 축적을 통한 행정 지식 자산화\n\n기대 효과\n• 담당자별 응답 편차 감소\n• 문서 탐색 시간 절감\n• 근거 중심 응대로 행정 신뢰성 향상\n• 반복되는 복지 질의 대응 효율화',
-    detailEn: 'In welfare administration, evidence-based answers are just as important as fast ones.\nAnsimHI implements a RAG-based welfare consultation AI that instantly searches internal guidelines, manuals, and policy documents to provide answers with sources.\n\nPreviously, staff had to manually search through multiple documents for policy interpretation and citizen response. The Integrated Welfare Consultation AI analyzes question intent, searches relevant documents, and organizes answers in a format useful for administrative judgment.\n\nKey Features\n• Real-time AI responses to welfare administration queries\n• Search based on internal documents and guidelines\n• Answers provided with evidence and sources\n• Administrative knowledge management through accumulated consultation data\n\nExpected Impact\n• Reduced response variation between staff members\n• Reduced document search time\n• Improved administrative reliability through evidence-based responses\n• Streamlined handling of repetitive welfare queries',
+    summaryKo: '변사 사건 데이터를 분석해 고독사 여부를 판별하고 검수 부담을 줄이는 AI 이진 분류 모델',
+    summaryEn: 'AI binary classification model analyzing unnatural death data to determine solitary death and reduce review burden',
+    detailKo: '고독사 판정은 통계의 신뢰도와 정책 방향을 결정하는 중요한 과정입니다.\n이노하이는 57,145건의 변사 데이터를 기반으로 사건개요 텍스트, 원시변수 22개, 파생변수 45개를 결합해 고독사 여부를 판별하는 AI 이진 분류 모델을 개발했습니다.\n\n기존에는 담당자가 사건을 직접 읽고 판정해야 했으며, 전수 검수에 가까운 비효율이 반복되었습니다. AI 모델 도입 이후 사건별 확률값을 먼저 제시해 필요한 사건에 검수 역량을 집중할 수 있게 되었습니다.\n\n주요 기능\n• 사건개요 텍스트를 구조화한 파생변수 설계\n• 원시변수 22개와 파생변수 45개를 결합한 판별 구조\n• Recall 중심의 실무형 평가 체계\n• 판별 결과와 함께 근거를 제시하는 설명 가능한 AI 구조\n\n기대 효과\n• 목표 Recall 95% 기준 Test Recall 96.77% 달성\n• 전체 사건의 13.8%만 검수하는 구조 검증\n• 기존 대비 84% 수준 검수 부담 절감\n• 판별 근거 제시를 통한 검토 일관성 확보',
+    detailEn: 'Solitary death determination is a critical process shaping statistical reliability and policy direction.\nINNOHI developed an AI binary classification model that combines case summary text, 22 raw variables, and 45 derived variables from 57,145 unnatural death cases to determine solitary death.\n\nPreviously, reviewers had to manually read and judge each case, resulting in near-complete manual review. After AI model adoption, probability scores are presented first for each case, allowing review capacity to focus on necessary cases.\n\nKey Features\n• Derived variable design structuring case summary text\n• Classification structure combining 22 raw and 45 derived variables\n• Recall-focused practical evaluation framework\n• Explainable AI presenting evidence alongside results\n\nExpected Impact\n• Achieved Test Recall 96.77% against 95% target\n• Verified structure requiring review of only 13.8% of cases\n• 84% reduction in review burden\n• Improved review consistency through evidence-based classification',
   },
   {
     titleKo: 'AI 민원 창구 서비스',
