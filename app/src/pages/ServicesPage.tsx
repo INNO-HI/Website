@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Mic, ArrowRight, Bot, BarChart3, FileText, CheckCircle2 } from 'lucide-react';
+import { Mic, ArrowRight, Search, BarChart3, FileText, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguage';
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -104,41 +104,60 @@ function HeroLaptopMockup() {
   );
 }
 
-/* ── STT 목업 ──────────────────────────────────────────────────────── */
+/* ── Voice 목업 (애니메이션) ───────────────────────────────────────── */
 
-function MockSTT() {
+function MockVoice() {
+  const [visibleMsgs, setVisibleMsgs] = useState(0);
+  const [showTags, setShowTags] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setVisibleMsgs(1), 800),
+      setTimeout(() => setVisibleMsgs(2), 2400),
+      setTimeout(() => setVisibleMsgs(3), 4000),
+      setTimeout(() => setVisibleMsgs(4), 5600),
+      setTimeout(() => setShowTags(true), 6800),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const messages = [
+    { speaker: '상담사', color: '#448CFF', text: '안녕하세요, 오늘 어떤 부분이 불편하셨나요?' },
+    { speaker: '대상자', color: '#6B7280', text: '최근에 수면이 어려워서 상담 받으러 왔습니다.' },
+    { speaker: '상담사', color: '#448CFF', text: '언제부터 그런 증상이 있으셨나요?' },
+    { speaker: '대상자', color: '#6B7280', text: '한 달 전부터 잠들기가 어렵고 자주 깨요.' },
+  ];
+
   return (
     <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#EEF2FF] to-[#E0E7FF] p-5 sm:p-6">
+      <style>{`@keyframes mockWave{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}`}</style>
       <div className="bg-white rounded-xl shadow-sm overflow-hidden h-full flex flex-col">
-        {/* 헤더 */}
         <div className="px-4 py-3 border-b border-[#F1F3F5] flex items-center gap-2">
           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#448CFF] to-[#6366F1] flex items-center justify-center">
             <Mic className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI STT</span>
+          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Voice</span>
           <div className="ml-auto flex items-center gap-1">
             <div className="w-1.5 h-1.5 rounded-full bg-[#EF4444] animate-pulse" />
             <span className="text-[9px] text-[#EF4444] font-semibold">REC</span>
           </div>
         </div>
 
-        {/* 파형 */}
         <div className="px-4 py-3 border-b border-[#F1F3F5]">
           <div className="flex items-center gap-[2px] h-[28px]">
-            {Array.from({ length: 40 }).map((_, i) => {
-              const h = 6 + Math.sin(i * 0.5) * 10 + Math.cos(i * 0.3) * 6;
-              return (
-                <div
-                  key={i}
-                  className="flex-1 rounded-full"
-                  style={{
-                    height: `${Math.max(3, h)}px`,
-                    background: i < 28 ? '#448CFF' : '#E5E8EB',
-                    opacity: i < 28 ? 0.5 + (i / 40) * 0.5 : 0.4,
-                  }}
-                />
-              );
-            })}
+            {Array.from({ length: 40 }).map((_, i) => (
+              <div
+                key={i}
+                className="flex-1 rounded-full bg-[#448CFF]"
+                style={{
+                  height: '100%',
+                  opacity: 0.3 + (i % 5) * 0.12,
+                  animation: `mockWave ${0.6 + (i % 7) * 0.12}s ease-in-out infinite`,
+                  animationDelay: `${i * 0.07}s`,
+                  transformOrigin: 'center',
+                }}
+              />
+            ))}
           </div>
           <div className="flex justify-between mt-1">
             <span className="text-[8px] text-[#8B95A1]">00:03:24</span>
@@ -146,25 +165,32 @@ function MockSTT() {
           </div>
         </div>
 
-        {/* 트랜스크립트 */}
         <div className="flex-1 p-4 space-y-3 overflow-hidden">
-          {[
-            { speaker: '상담사', color: '#448CFF', text: '안녕하세요, 오늘 어떤 부분이 불편하셨나요?' },
-            { speaker: '대상자', color: '#6B7280', text: '최근에 수면이 어려워서 상담 받으러 왔습니다.' },
-            { speaker: '상담사', color: '#448CFF', text: '언제부터 그런 증상이 있으셨나요?' },
-            { speaker: '대상자', color: '#6B7280', text: '한 달 전부터 잠들기가 어렵고 자주 깨요.' },
-          ].map((msg, i) => (
-            <div key={i} className="flex gap-2">
+          {messages.slice(0, visibleMsgs).map((msg, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="flex gap-2"
+            >
               <span className="text-[9px] font-semibold shrink-0 mt-0.5" style={{ color: msg.color }}>{msg.speaker}</span>
               <p className="text-[10px] text-[#4E5968] leading-[1.6]">{msg.text}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        {/* 태그 */}
-        <div className="px-4 pb-3 flex gap-1.5 flex-wrap">
-          {['수면 장애', '상담 요청', '초기 면담'].map((tag) => (
-            <span key={tag} className="text-[8px] px-2 py-0.5 rounded-full bg-[#448CFF]/10 text-[#448CFF] font-medium">{tag}</span>
+        <div className="px-4 pb-3 flex gap-1.5 flex-wrap min-h-[24px]">
+          {showTags && ['수면 장애', '상담 요청', '초기 면담'].map((tag, i) => (
+            <motion.span
+              key={tag}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: i * 0.1 }}
+              className="text-[8px] px-2 py-0.5 rounded-full bg-[#448CFF]/10 text-[#448CFF] font-medium"
+            >
+              {tag}
+            </motion.span>
           ))}
         </div>
       </div>
@@ -172,175 +198,297 @@ function MockSTT() {
   );
 }
 
-/* ── Voice Bot 목업 ────────────────────────────────────────────────── */
+/* ── Knowledge 목업 (애니메이션) ──────────────────────────────────── */
 
-function MockVoiceBot() {
+function MockKnowledge() {
+  const fullQuery = '긴급복지지원 신청 자격 기준이 뭔가요?';
+  const [typed, setTyped] = useState('');
+  const [isThinking, setIsThinking] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [showSources, setShowSources] = useState(false);
+
+  useEffect(() => {
+    let charIdx = 0;
+    const typeTimer = setInterval(() => {
+      charIdx++;
+      if (charIdx <= fullQuery.length) {
+        setTyped(fullQuery.slice(0, charIdx));
+      } else {
+        clearInterval(typeTimer);
+        setIsThinking(true);
+        setTimeout(() => {
+          setIsThinking(false);
+          setShowAnswer(true);
+          setTimeout(() => setShowSources(true), 600);
+        }, 1500);
+      }
+    }, 80);
+    return () => clearInterval(typeTimer);
+  }, []);
+
   return (
-    <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#F0FDF4] to-[#DCFCE7] p-5 sm:p-6">
+    <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#EEF2FF] to-[#E0E7FF] p-5 sm:p-6">
       <div className="bg-white rounded-xl shadow-sm overflow-hidden h-full flex flex-col">
-        {/* 헤더 */}
         <div className="px-4 py-3 border-b border-[#F1F3F5] flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#22C55E] to-[#16A34A] flex items-center justify-center">
-            <Bot className="w-3.5 h-3.5 text-white" />
+          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#6366F1] to-[#4F46E5] flex items-center justify-center">
+            <Search className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Voice Bot</span>
-          <span className="ml-auto text-[9px] text-[#22C55E] font-semibold">응대 중</span>
+          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Knowledge</span>
         </div>
 
-        {/* 대화 */}
-        <div className="flex-1 p-4 space-y-3 overflow-hidden">
-          <div className="flex justify-start">
-            <div className="max-w-[80%] rounded-2xl rounded-tl-md bg-[#F0FDF4] px-3 py-2">
-              <p className="text-[10px] text-[#166534] leading-[1.6]">안녕하세요! 이노하이 AI 상담 봇입니다. 무엇을 도와드릴까요?</p>
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <div className="max-w-[80%] rounded-2xl rounded-tr-md bg-[#191F28] px-3 py-2">
-              <p className="text-[10px] text-white leading-[1.6]">복지 신청 방법을 알려주세요.</p>
-            </div>
-          </div>
-          <div className="flex justify-start">
-            <div className="max-w-[80%] rounded-2xl rounded-tl-md bg-[#F0FDF4] px-3 py-2">
-              <p className="text-[10px] text-[#166534] leading-[1.6]">복지 신청은 주민센터 방문 또는 온라인 신청이 가능합니다. 자세한 절차를 안내해 드릴까요?</p>
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <div className="max-w-[80%] rounded-2xl rounded-tr-md bg-[#191F28] px-3 py-2">
-              <p className="text-[10px] text-white leading-[1.6]">네, 알려주세요.</p>
-            </div>
+        <div className="px-4 pt-3 pb-2">
+          <div className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-[#F8F9FA] border border-[#E5E8EB]">
+            <Search className="w-3.5 h-3.5 text-[#8B95A1]" />
+            <span className="text-[10px] text-[#191F28] flex-1">
+              {typed}
+              {typed.length < fullQuery.length && (
+                <span className="inline-block w-[1px] h-[12px] bg-[#191F28] ml-[1px] animate-pulse align-middle" />
+              )}
+            </span>
           </div>
         </div>
 
-        {/* 입력 */}
-        <div className="px-4 pb-3">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#F8F9FA] border border-[#E5E8EB]">
-            <Mic className="w-3.5 h-3.5 text-[#22C55E]" />
-            <span className="text-[10px] text-[#8B95A1] flex-1">음성으로 질문하기...</span>
-          </div>
+        <div className="flex-1 px-4 py-3 space-y-3 overflow-hidden">
+          {isThinking && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center">
+                <span className="text-[7px] text-white font-bold">AI</span>
+              </div>
+              <span className="text-[10px] text-[#6366F1] font-semibold">답변 생성 중</span>
+              <span className="flex gap-0.5 ml-1">
+                {[0, 1, 2].map(d => (
+                  <span key={d} className="w-1 h-1 rounded-full bg-[#6366F1] animate-bounce" style={{ animationDelay: `${d * 0.15}s` }} />
+                ))}
+              </span>
+            </motion.div>
+          )}
+
+          {showAnswer && (
+            <>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] flex items-center justify-center">
+                  <span className="text-[7px] text-white font-bold">AI</span>
+                </div>
+                <span className="text-[10px] font-semibold text-[#6366F1]">AI 답변</span>
+              </motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-[9px] text-[#4E5968] leading-[1.7]"
+              >
+                긴급복지지원법 제5조에 따르면, 생계곤란 등의 위기 상황에 처한 자로서 소득·재산 기준을 충족하는 경우 신청 가능합니다.
+              </motion.p>
+            </>
+          )}
+
+          {showSources && (
+            <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+              <span className="text-[8px] text-[#8B95A1] block mb-1.5">출처: 긴급복지지원법 제5조, 시행령 제2조</span>
+              <div className="flex gap-1.5 flex-wrap">
+                {['긴급복지지원법', '시행령', '업무매뉴얼'].map((src, i) => (
+                  <motion.span
+                    key={src}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: i * 0.1 }}
+                    className="text-[8px] px-2.5 py-1 rounded-lg bg-[#6366F1]/8 text-[#6366F1] font-medium border border-[#6366F1]/10"
+                  >
+                    {src}
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-/* ── Analytics 목업 ────────────────────────────────────────────────── */
+/* ── Decision 목업 (애니메이션) ───────────────────────────────────── */
 
-function MockAnalytics() {
-  const bars = [35, 52, 45, 68, 58, 72, 82, 65, 90, 78];
+function MockDecision() {
+  const targetBars = [35, 52, 45, 68, 58, 72, 82, 65, 90, 78];
+  const [progress, setProgress] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+
+  useEffect(() => {
+    let p = 0;
+    const interval = setInterval(() => {
+      p += 0.02;
+      if (p >= 1) {
+        p = 1;
+        clearInterval(interval);
+        setTimeout(() => setShowAlert(true), 500);
+      }
+      setProgress(p);
+    }, 40);
+    return () => clearInterval(interval);
+  }, []);
+
+  const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
   return (
-    <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#FFF7ED] to-[#FFEDD5] p-5 sm:p-6">
+    <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#EFF6FF] to-[#DBEAFE] p-5 sm:p-6">
       <div className="bg-white rounded-xl shadow-sm overflow-hidden h-full flex flex-col">
-        {/* 헤더 */}
         <div className="px-4 py-3 border-b border-[#F1F3F5] flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#F59E0B] to-[#D97706] flex items-center justify-center">
+          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#3B82F6] to-[#2563EB] flex items-center justify-center">
             <BarChart3 className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Analytics</span>
+          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Decision</span>
         </div>
 
-        {/* KPI */}
         <div className="grid grid-cols-3 gap-2 px-4 pt-3 pb-2">
           {[
-            { label: '총 통화', value: '2,847', color: '#F59E0B', bg: '#FFFBEB' },
-            { label: '평균 시간', value: '4:32', color: '#3B82F6', bg: '#EFF6FF' },
-            { label: '만족도', value: '94%', color: '#22C55E', bg: '#F0FDF4' },
+            { label: '실시간', value: Math.round(ease * 24).toString(), unit: '건', color: '#3B82F6', bg: '#EFF6FF' },
+            { label: '위험 감지', value: Math.round(ease * 1284).toLocaleString(), unit: '건', sub: '분석 완료', color: '#6366F1', bg: '#EEF2FF' },
+            { label: '정확도', value: (ease * 94.2).toFixed(1), unit: '%', color: '#818CF8', bg: '#F5F3FF' },
           ].map((m) => (
             <div key={m.label} className="rounded-lg p-2 text-center" style={{ background: m.bg }}>
-              <div className="text-[14px] font-bold" style={{ color: m.color }}>{m.value}</div>
-              <div className="text-[8px] text-[#8B95A1] mt-0.5">{m.label}</div>
+              <div className="text-[8px] text-[#8B95A1] mb-0.5">{m.label}</div>
+              <div className="flex items-baseline justify-center gap-0.5">
+                <span className="text-[14px] font-bold" style={{ color: m.color }}>{m.value}</span>
+                <span className="text-[8px] text-[#8B95A1]">{m.unit}</span>
+              </div>
+              {'sub' in m && m.sub && <div className="text-[7px] text-[#8B95A1] mt-0.5">{m.sub}</div>}
             </div>
           ))}
         </div>
 
-        {/* 차트 */}
         <div className="flex-1 px-4 py-3">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-semibold text-[#334155]">주간 통화 분석</span>
+            <span className="text-[10px] font-semibold text-[#334155]">주간 분석 추이</span>
             <div className="flex items-center gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
-              <span className="text-[8px] text-[#8B95A1]">통화량</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
+              <span className="text-[8px] text-[#8B95A1]">처리량</span>
             </div>
           </div>
-          <div className="h-[80px] flex items-end gap-[4px] bg-[#FFFBEB] rounded-lg p-2">
-            {bars.map((h, j) => (
-              <div key={j} className="flex-1 rounded-t-sm" style={{
-                height: `${h}%`,
-                background: j >= bars.length - 2
-                  ? 'linear-gradient(180deg, #F59E0B, #D97706)'
-                  : 'linear-gradient(180deg, #FCD34D80, #F59E0B30)',
+          <div className="h-[80px] flex items-end gap-[4px] bg-[#EFF6FF] rounded-lg p-2">
+            {targetBars.map((h, j) => (
+              <div key={j} className="flex-1 rounded-t-sm transition-[height] duration-100" style={{
+                height: `${h * ease}%`,
+                background: j >= targetBars.length - 2
+                  ? 'linear-gradient(180deg, #3B82F6, #2563EB)'
+                  : 'linear-gradient(180deg, #93C5FD80, #3B82F630)',
               }} />
             ))}
           </div>
         </div>
 
-        {/* 인사이트 */}
         <div className="px-4 pb-3">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FFFBEB]">
-            <span className="text-[9px] text-[#92400E] font-semibold">📊 이번 주 통화량이 전주 대비 12% 증가했습니다</span>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={showAlert ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#FEF2F2] border border-[#FECACA]"
+          >
+            <AlertTriangle className="w-3.5 h-3.5 text-[#EF4444] shrink-0" />
+            <div>
+              <span className="text-[9px] text-[#991B1B] font-semibold block">위기 가구 3건 신규 감지</span>
+              <span className="text-[8px] text-[#B91C1C]">즉시 확인이 필요합니다</span>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>
   );
 }
 
-/* ── Report 목업 ───────────────────────────────────────────────────── */
+/* ── Workflow 목업 (애니메이션) ────────────────────────────────────── */
 
-function MockReport() {
+function MockWorkflow() {
+  const [completedSteps, setCompletedSteps] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [showFiles, setShowFiles] = useState(false);
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => { setCompletedSteps(1); setPercent(25); }, 1000),
+      setTimeout(() => { setCompletedSteps(2); setPercent(50); }, 2200),
+      setTimeout(() => { setCompletedSteps(3); setPercent(75); }, 3400),
+      setTimeout(() => setShowFiles(true), 4200),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  const stepLabels = ['상담 기록 수신', '서식 자동 작성', '보고서 생성', '후속 일정 등록'];
+
   return (
     <div className="w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#F5F3FF] to-[#EDE9FE] p-5 sm:p-6">
       <div className="bg-white rounded-xl shadow-sm overflow-hidden h-full flex flex-col">
-        {/* 헤더 */}
+        <div className="flex items-center gap-1.5 px-3 py-2 bg-[#F8F9FA] border-b border-[#E5E8EB]">
+          <div className="w-2 h-2 rounded-full bg-[#FF5F57]" />
+          <div className="w-2 h-2 rounded-full bg-[#FEBC2E]" />
+          <div className="w-2 h-2 rounded-full bg-[#28C840]" />
+          <div className="flex-1 mx-2 px-2.5 py-1 rounded-md bg-white border border-[#E5E8EB] text-[8px] text-[#8B95A1]">
+            app.innohi.ai/workflow
+          </div>
+        </div>
+
         <div className="px-4 py-3 border-b border-[#F1F3F5] flex items-center gap-2">
           <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#6D28D9] flex items-center justify-center">
             <FileText className="w-3.5 h-3.5 text-white" />
           </div>
-          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Report</span>
-          <span className="ml-auto text-[9px] text-[#8B5CF6] font-semibold">자동 생성</span>
+          <span className="text-[12px] font-bold text-[#191F28]">INNOHI Workflow</span>
+          <span className="ml-auto text-[9px] text-[#8B5CF6] font-semibold">자동 처리 중</span>
         </div>
 
-        {/* 리포트 콘텐츠 */}
-        <div className="flex-1 p-4 space-y-3 overflow-hidden">
-          <div>
-            <span className="text-[10px] font-bold text-[#191F28]">상담 요약 보고서</span>
-            <span className="ml-2 text-[8px] text-[#8B95A1]">2024.03.08</span>
+        <div className="px-4 pt-3">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[9px] font-semibold text-[#334155]">전체 진행률</span>
+            <span className="text-[10px] font-bold text-[#8B5CF6]">{percent}%</span>
           </div>
-
-          <div className="rounded-lg bg-[#F5F3FF] p-3">
-            <span className="text-[9px] font-semibold text-[#6D28D9] block mb-1">주요 키워드</span>
-            <div className="flex gap-1 flex-wrap">
-              {['수면 장애', '스트레스', '상담 요청', '초기 면담', '약물 치료'].map((tag) => (
-                <span key={tag} className="text-[8px] px-2 py-0.5 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] font-medium">{tag}</span>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-[#F8F9FA] p-3">
-            <span className="text-[9px] font-semibold text-[#334155] block mb-1">상담 요약</span>
-            <p className="text-[9px] text-[#4E5968] leading-[1.6]">
-              내담자는 약 1개월 전부터 수면 장애 증상을 호소하고 있으며, 직장 내 스트레스가 주요 원인으로 파악됨. 초기 면담 결과 전문 상담 연계 필요.
-            </p>
-          </div>
-
-          <div className="rounded-lg bg-[#F8F9FA] p-3">
-            <span className="text-[9px] font-semibold text-[#334155] block mb-1">후속 조치</span>
-            <div className="space-y-1">
-              {['전문 상담사 연계 예약', '수면 패턴 기록지 배부', '2주 후 경과 확인'].map((item, i) => (
-                <div key={i} className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3 h-3 text-[#8B5CF6]" />
-                  <span className="text-[9px] text-[#4E5968]">{item}</span>
-                </div>
-              ))}
-            </div>
+          <div className="h-1.5 rounded-full bg-[#F3F4F6] overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] transition-all duration-700 ease-out"
+              style={{ width: `${percent}%` }}
+            />
           </div>
         </div>
 
-        {/* 생성된 파일 */}
-        <div className="px-4 pb-3 flex gap-2">
-          {['상담보고서.pdf', '분석결과.xlsx'].map((f) => (
-            <span key={f} className="text-[8px] px-2 py-1 rounded-lg bg-[#8B5CF6]/8 text-[#8B5CF6] font-medium flex items-center gap-1 border border-[#8B5CF6]/10">
+        <div className="flex-1 px-4 py-3 space-y-2 overflow-hidden">
+          {stepLabels.map((label, i) => {
+            const done = i < completedSteps;
+            const processing = i === completedSteps;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0.4 }}
+                animate={{ opacity: done || processing ? 1 : 0.4 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg"
+                style={{ background: done ? '#F5F3FF' : processing ? '#FFFBEB' : '#F8F9FA' }}
+              >
+                {done ? (
+                  <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300 }}>
+                    <CheckCircle2 className="w-4 h-4 text-[#8B5CF6]" />
+                  </motion.div>
+                ) : processing ? (
+                  <div className="w-4 h-4 rounded-full border-2 border-[#F59E0B] border-t-transparent animate-spin shrink-0" />
+                ) : (
+                  <div className="w-4 h-4 rounded-full border-2 border-[#E5E8EB] shrink-0" />
+                )}
+                <span className="text-[10px] text-[#191F28] flex-1">{label}</span>
+                <span className={`text-[8px] font-semibold ${done ? 'text-[#8B5CF6]' : processing ? 'text-[#F59E0B]' : 'text-[#D1D6DB]'}`}>
+                  {done ? '완료' : processing ? '처리 중...' : '대기'}
+                </span>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <div className="px-4 pb-3 flex gap-2 min-h-[28px]">
+          {showFiles && ['상담기록.pdf', '보고서.xlsx'].map((f, i) => (
+            <motion.span
+              key={f}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: i * 0.15 }}
+              className="text-[8px] px-2 py-1 rounded-lg bg-[#8B5CF6]/8 text-[#8B5CF6] font-medium flex items-center gap-1 border border-[#8B5CF6]/10"
+            >
               <FileText className="w-3 h-3" />{f}
-            </span>
+            </motion.span>
           ))}
         </div>
       </div>
@@ -354,52 +502,72 @@ function MockReport() {
 
 const tabs = [
   {
-    key: 'stt',
-    label: 'STT',
-    titleKo: '편하고 간편하게, AI STT',
-    titleEn: 'Easy & Simple, AI STT',
+    key: 'voice',
+    label: 'Voice',
+    titleKo: 'INNOHI Voice',
+    titleEn: 'INNOHI Voice',
     descKo:
-      'Inno-Hi의 AI 음성 인식 엔진은\n실시간 음성을 텍스트로 변환하고\n대화 내용을 분석하여\n업무 기록을 자동으로 생성하는\nAI 기반 음성 처리 플랫폼입니다.',
+      '현장의 대화를 자동으로 기록하는 음성 인식 AI 제품입니다.\n상담, 인터뷰, 민원 응대 등 다양한 현장 상황에서\n음성을 실시간으로 텍스트로 변환합니다.',
     descEn:
-      "Inno-Hi's AI speech recognition engine\nconverts real-time voice to text,\nanalyzes conversations,\nand automatically generates\nwork records.",
-    Mockup: MockSTT,
+      'An AI voice recognition product that automatically records on-site conversations.\nConverts speech to text in real-time across\nconsultation, interview, and civil service scenarios.',
+    Mockup: MockVoice,
     color: '#448CFF',
+    features: [
+      { ko: '실시간 음성 변환', en: 'Real-time Transcription' },
+      { ko: '한국어 특화 모델', en: 'Korean-Specialized Model' },
+      { ko: '자동 키워드 태깅', en: 'Auto Keyword Tagging' },
+    ],
   },
   {
-    key: 'voicebot',
-    label: 'Voice Bot',
-    titleKo: '24시간 응대하는, AI Voice Bot',
-    titleEn: '24/7 Response, AI Voice Bot',
+    key: 'knowledge',
+    label: 'Knowledge',
+    titleKo: 'INNOHI Knowledge',
+    titleEn: 'INNOHI Knowledge',
     descKo:
-      'AI 음성 봇이 고객 문의를 자동으로 응대합니다.\n자연스러운 대화 흐름으로\n상담 업무를 효율화하고\n고객 만족도를 높입니다.',
+      '문서를 이해하고 답을 찾는 AI 지식 검색 제품입니다.\n내부 법령, 매뉴얼, 정책 문서를 기반으로\n질문 의도를 이해하고 근거와 함께 답변을 제공합니다.',
     descEn:
-      'AI voice bot automatically handles customer inquiries.\nWith natural conversation flow,\nit streamlines consulting\nand improves customer satisfaction.',
-    Mockup: MockVoiceBot,
-    color: '#22C55E',
+      'An AI knowledge search product that understands documents and finds answers.\nBased on internal regulations, manuals, and policy documents,\nit understands intent and provides evidence-based answers.',
+    Mockup: MockKnowledge,
+    color: '#6366F1',
+    features: [
+      { ko: '문서 기반 답변', en: 'Document-Based Answers' },
+      { ko: '출처 자동 표시', en: 'Auto Source Citation' },
+      { ko: '질문 의도 분석', en: 'Intent Analysis' },
+    ],
   },
   {
-    key: 'analytics',
-    label: 'Voice Analytics',
-    titleKo: '데이터로 보는, Voice Analytics',
-    titleEn: 'Data-Driven, Voice Analytics',
+    key: 'decision',
+    label: 'Decision',
+    titleKo: 'INNOHI Decision',
+    titleEn: 'INNOHI Decision',
     descKo:
-      '음성 데이터를 분석하여\n통화 패턴, 고객 감정, 상담 품질을\n실시간으로 모니터링하고\n인사이트를 제공합니다.',
+      '데이터 분석을 통해 판단을 지원하는 AI 분석 제품입니다.\n대규모 데이터를 실시간으로 분석하여\n위험 신호와 중요한 패턴을 빠르게 탐지합니다.',
     descEn:
-      'Analyzes voice data to monitor\ncall patterns, customer sentiment,\nand consultation quality\nin real-time with actionable insights.',
-    Mockup: MockAnalytics,
-    color: '#F59E0B',
+      'An AI analytics product that supports decision-making through data analysis.\nAnalyzes large-scale data in real-time\nto quickly detect risk signals and important patterns.',
+    Mockup: MockDecision,
+    color: '#3B82F6',
+    features: [
+      { ko: '실시간 데이터 분석', en: 'Real-time Data Analysis' },
+      { ko: '위험 신호 탐지', en: 'Risk Signal Detection' },
+      { ko: '패턴 자동 감지', en: 'Auto Pattern Detection' },
+    ],
   },
   {
-    key: 'report',
-    label: 'AI Report',
-    titleKo: '자동으로 생성되는, AI Report',
-    titleEn: 'Auto-Generated, AI Report',
+    key: 'workflow',
+    label: 'Workflow',
+    titleKo: 'INNOHI Workflow',
+    titleEn: 'INNOHI Workflow',
     descKo:
-      '상담 내용을 AI가 자동으로 분석하여\n요약 보고서, 키워드 추출,\n후속 조치 제안까지\n리포트를 자동 생성합니다.',
+      '기록, 보고, 문서 작성 등 반복 업무를 자동화하는 AI 제품입니다.\n상담 이후 이루어지는 행정 업무를 자동으로 정리하여\n업무 처리 시간을 크게 줄입니다.',
     descEn:
-      'AI automatically analyzes consultations\nto generate summary reports,\nextract keywords,\nand suggest follow-up actions.',
-    Mockup: MockReport,
+      'An AI product that automates repetitive tasks like recording, reporting, and documentation.\nAutomatically organizes post-consultation administrative work\nto significantly reduce processing time.',
+    Mockup: MockWorkflow,
     color: '#8B5CF6',
+    features: [
+      { ko: '자동 문서 작성', en: 'Auto Document Generation' },
+      { ko: '업무 프로세스 자동화', en: 'Process Automation' },
+      { ko: '후속 조치 관리', en: 'Follow-up Management' },
+    ],
   },
 ];
 
@@ -520,14 +688,14 @@ const strengths = [
   },
   {
     color: '#6366F1',
-    titleKo: '한국 환경에 최적화된 AI 기술',
+    titleKo: '한국어 특화된 AI 기술',
     titleEn: 'AI Optimized for Korean Environment',
     descKo: '한국어 음성 환경, 공공 행정 환경,\n국내 서비스 환경에 맞는\nAI 기술 설계 및 개발',
     descEn: 'AI technology designed for Korean\nlanguage, public administration,\nand domestic service environments',
   },
   {
     color: '#3B82F6',
-    titleKo: '고정확도 음성 인식 기술',
+    titleKo: '정확도 높은 음성 인식 기술',
     titleEn: 'High-Accuracy Voice Recognition',
     descKo: '실시간 음성 인식, 한국어 특화 모델,\n정확도 중심의 STT 시스템 구축',
     descEn: 'Real-time voice recognition with\nKorean-specialized models and\naccuracy-focused STT systems',
@@ -536,7 +704,7 @@ const strengths = [
     color: '#818CF8',
     titleKo: '대규모 음성 데이터 활용',
     titleEn: 'Large-Scale Voice Data Utilization',
-    descKo: '실제 음성 데이터를 기반으로\nAI 모델 성능을 지속적으로 개선',
+    descKo: '실제 현장 음성 데이터를 기반으로\nAI 모델 성능을 지속적으로 개선',
     descEn: 'Continuously improving AI model\nperformance based on real voice data',
   },
   {
@@ -614,8 +782,8 @@ export function ServicesPage() {
                 style={{ fontSize: 'clamp(0.938rem, 1.5vw, 1.063rem)', wordBreak: 'keep-all' }}
               >
                 {lang === 'ko'
-                  ? 'Inno-Hi의 AI 음성 기술은\n실시간 음성을 텍스트로 변환하고\n대화 내용을 분석하여\n업무 기록과 리포트를 자동으로 생성합니다.'
-                  : "Inno-Hi's AI voice technology\nconverts real-time speech to text,\nanalyzes conversations,\nand automatically generates work records and reports."}
+                  ? '이노하이는 반복적인 현장 업무를 줄이기 위해 AI 기술을 활용한 다양한 제품을 제공합니다.'
+                  : 'INNOHI offers a range of AI-powered products to reduce repetitive field work.'}
               </p>
               <button
                 onClick={scrollToProducts}
@@ -693,11 +861,36 @@ export function ServicesPage() {
                   {lang === 'ko' ? activeProduct.titleKo : activeProduct.titleEn}
                 </h2>
                 <p
-                  className="text-[#6B7280] leading-[1.8] whitespace-pre-line"
+                  className="text-[#6B7280] leading-[1.8] whitespace-pre-line mb-6"
                   style={{ fontSize: 'clamp(0.875rem, 1.3vw, 1rem)', wordBreak: 'keep-all' }}
                 >
                   {lang === 'ko' ? activeProduct.descKo : activeProduct.descEn}
                 </p>
+              </div>
+
+              {/* 특징 박스 3개 — 목업 아래 */}
+              <div className="order-3 lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-4 mt-2">
+                {activeProduct.features.map((feat) => (
+                  <div
+                    key={feat.ko}
+                    className="flex items-center gap-3 rounded-2xl border px-5 py-5"
+                    style={{
+                      background: `${activeProduct.color}06`,
+                      borderColor: `${activeProduct.color}15`,
+                    }}
+                  >
+                    <CheckCircle2
+                      className="w-5 h-5 flex-shrink-0"
+                      style={{ color: activeProduct.color }}
+                    />
+                    <span
+                      className="text-[15px] font-semibold"
+                      style={{ color: activeProduct.color }}
+                    >
+                      {lang === 'ko' ? feat.ko : feat.en}
+                    </span>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </AnimatePresence>
@@ -720,9 +913,9 @@ export function ServicesPage() {
               style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', wordBreak: 'keep-all' }}
             >
               {lang === 'ko' ? (
-                <>왜 Inno-Hi인가요?</>
+                <>왜 이노하이인가요?</>
               ) : (
-                <>Why Inno-Hi?</>
+                <>Why 이노하이?</>
               )}
             </h2>
             <p className="text-[15px] text-[#6B7280] leading-[1.7]" style={{ wordBreak: 'keep-all' }}>

@@ -51,6 +51,10 @@ export function Navigation() {
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsScrolled(false);
+    setIsHidden(false);
+    setIsDarkSection(false);
+    lastScrollYRef.current = 0;
   }, [location.pathname]);
 
   const handleNavClick = (item: NavItem) => {

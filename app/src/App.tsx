@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LanguageProvider } from '@/context/LanguageProvider';
@@ -16,6 +16,14 @@ import './App.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 function App() {
   useEffect(() => {
     ScrollTrigger.defaults({ toggleActions: 'play none none reverse' });
@@ -26,6 +34,7 @@ function App() {
   return (
     <LanguageProvider>
       <div className="relative min-h-screen bg-white">
+        <ScrollToTop />
         <Navigation />
         <Routes>
           <Route path="/" element={<MainPage />} />

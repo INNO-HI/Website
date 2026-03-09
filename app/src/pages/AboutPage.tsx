@@ -540,18 +540,18 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   const futureValues = [
     {
       titleKo: '지능 엔진', titleEn: 'Intelligence Engine',
-      descKo: '음성, 기록, 환경 데이터를\n실시간으로 이해하는\n핵심 AI 엔진을 구축합니다.\n\n단일 기능이 아니라,\n다양한 서비스에 적용 가능한\n공통 지능 기반을 만듭니다.',
-      descEn: 'We build a core AI engine\nthat understands voice, records,\nand environmental data in real time.\n\nNot a single function,\nbut a common intelligence foundation\napplicable to diverse services.',
+      descKo: '음성, 기록, 환경 데이터를 실시간으로 이해하는\n핵심 AI 엔진을 구축합니다.\n다양한 서비스에 적용 가능한 공통 지능 기반을 만듭니다.',
+      descEn: 'We build a core AI engine that understands\nvoice, records, and environmental data in real time.\nA common intelligence foundation for diverse services.',
     },
     {
       titleKo: '데이터 네트워크', titleEn: 'Data Network',
-      descKo: '현장에서 생성되는 데이터를\n연결하고 학습하고,\n예측하고, 고도화합니다.\n\n데이터는 저장되는 것이 아니라\n지능을 진화시키는 구조가 됩니다.',
-      descEn: 'We connect, learn from, predict,\nand enhance data generated in the field.\n\nData doesn\'t just get stored —\nit becomes the structure\nthat evolves intelligence.',
+      descKo: '현장에서 생성되는 데이터를 연결하고 학습하여\n예측하고 고도화합니다.\n데이터는 지능을 진화시키는 구조가 됩니다.',
+      descEn: 'We connect and learn from field-generated data\nto predict and enhance.\nData becomes the structure that evolves intelligence.',
     },
     {
       titleKo: 'Physical AI 확장', titleEn: 'Physical AI Extension',
-      descKo: '지능을 화면에 두지 않습니다.\n행정 시스템, 현장 기기,\n공간과 디바이스에 탑재합니다.\n\n소프트웨어를 넘어\n현실에서 작동하는 AI로 확장합니다.',
-      descEn: 'We don\'t keep intelligence on screens.\nWe embed it in administrative systems,\nfield devices, spaces and hardware.\n\nBeyond software —\nAI that operates in the real world.',
+      descKo: '행정 시스템, 현장 기기, 공간과 디바이스에\n지능을 탑재합니다.\n소프트웨어를 넘어 현실에서 작동하는 AI로 확장합니다.',
+      descEn: 'We embed intelligence in administrative systems,\nfield devices, and hardware.\nBeyond software — AI that operates in the real world.',
     },
   ];
 
@@ -619,8 +619,8 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   ];
 
   return (
-    <section ref={sectionRef} className="bg-[#FAFBFF] py-16 sm:py-24 lg:py-[140px] snap-start">
-      <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14">
+    <section ref={sectionRef} className="bg-[#FAFBFF] min-h-screen flex items-center py-16 sm:py-24 lg:py-[140px] snap-start">
+      <div className="max-w-[1720px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
         {/* 헤더 */}
         <motion.div
           className="text-center mb-14"
@@ -858,7 +858,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
       ko: '실시간 음성 인식 시스템',
       subKo: '실시간으로 상담 음성을 텍스트로 변환하는 AI 시스템을 개발·운영합니다.',
       subEn: 'We develop and operate an AI system that converts consultation audio to text in real time.',
-      descKo: '고정밀 STT 모델과 발화 구간 탐지(VAD)를 결합해 1초 단위로 음성을 처리하며, 문맥 기반 확률 교정 알고리즘을 통해 인식 오류를 최소화합니다. 공공 상담 환경에서도 안정적으로 작동하는 음성 인식 체계를 구축합니다.',
+      descKo: '고정밀 STT 모델과 발화 구간 탐지(VAD)를 결합해\n1초 단위로 음성을 처리하며,\n문맥 기반 확률 교정 알고리즘을 통해 인식 오류를 최소화합니다.\n공공 상담 환경에서도 안정적으로 작동하는\n음성 인식 체계를 구축합니다.',
       descEn: 'Combining a high-precision STT model with Voice Activity Detection (VAD), we process speech at one-second intervals and minimize recognition errors through context-based probabilistic correction algorithms. We build a speech recognition system that operates reliably even in public consultation environments.',
     },
     {
@@ -866,7 +866,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
       ko: '문맥 기반 지능 교정 시스템',
       subKo: '단순 인식을 넘어, 의미를 이해하는 교정 기술을 구현합니다.',
       subEn: 'Beyond simple recognition — we implement correction technology that understands meaning.',
-      descKo: '상담 도메인 특화 단어 사전과 문맥 확률 모델을 적용해 오인식 단어를 자동 수정하며, 문장 단위 맥락 분석을 통해 정보 정확도를 높입니다. 실무에 바로 활용 가능한 수준의 텍스트 정합성을 제공합니다.',
+      descKo: '상담 도메인 특화 단어 사전과 문맥 확률 모델을 적용해\n오인식 단어를 자동 수정하며,\n문장 단위 맥락 분석을 통해 정보 정확도를 높입니다.\n실무에 바로 활용 가능한 수준의\n텍스트 정합성을 제공합니다.',
       descEn: 'Applying consultation-domain dictionaries and contextual probability models, we auto-correct misrecognized words and improve accuracy through sentence-level context analysis. We deliver text consistency ready for immediate practical use.',
     },
     {
@@ -874,7 +874,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
       ko: 'AI 상담 리포트 자동화 시스템',
       subKo: '상담 기록을 구조화하고 요약하는 자동화 플랫폼을 구축합니다.',
       subEn: 'We build an automation platform that structures and summarizes consultation records.',
-      descKo: '음성 인식 결과를 기반으로 핵심 내용, 주요 키워드, 민원 유형을 자동 추출하며, 행정 서식에 맞춘 리포트를 자동 생성합니다. 반복적인 문서 작성 업무를 줄이고, 업무 효율성을 향상시킵니다.',
+      descKo: '음성 인식 결과를 기반으로\n핵심 내용, 주요 키워드, 민원 유형을 자동 추출하며,\n행정 서식에 맞춘 리포트를 자동 생성합니다.\n반복적인 문서 작성 업무를 줄이고,\n업무 효율성을 향상시킵니다.',
       descEn: 'Based on speech recognition results, we auto-extract key content, keywords, and complaint types, then auto-generate reports formatted for administrative forms. We reduce repetitive document writing and improve operational efficiency.',
     },
     {
@@ -882,7 +882,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
       ko: '데이터 기반 위험 예측 모델',
       subKo: '대규모 데이터를 분석해 위험 신호를 탐지하는 예측 모델을 개발합니다.',
       subEn: 'We develop prediction models that analyze large-scale data to detect risk signals.',
-      descKo: '57,000건 이상의 사례 데이터를 학습해 고독사 여부를 분류하고, 설명 가능한 AI(XAI)를 통해 판단 근거를 제공합니다. 정책적 의사결정에 활용 가능한 분석 기반을 마련합니다.',
+      descKo: '57,000건 이상의 사례 데이터를 학습해\n고독사 여부를 분류하고,\n설명 가능한 AI(XAI)를 통해 판단 근거를 제공합니다.\n정책적 의사결정에 활용 가능한\n분석 기반을 마련합니다.',
       descEn: 'Training on over 57,000 case records to classify solitary death risk, we provide decision rationale through explainable AI (XAI). We establish an analytical foundation applicable to policy decision-making.',
     },
     {
@@ -890,7 +890,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
       ko: '보안 중심 AI 아키텍처',
       subKo: '공공 환경에 적합한 보안 처리 구조를 설계합니다.',
       subEn: 'We design security processing structures suited for public sector environments.',
-      descKo: '내부 서버 기반 처리, 개인정보 비식별화 기술, 접근 통제 시스템을 적용해 민감 정보를 안전하게 관리합니다. 안정성과 신뢰성을 동시에 확보합니다.',
+      descKo: '내부 서버 기반 처리, 개인정보 비식별화 기술,\n접근 통제 시스템을 적용해\n민감 정보를 안전하게 관리합니다.\n안정성과 신뢰성을 동시에 확보합니다.',
       descEn: 'Applying on-premise processing, personal data de-identification, and access control systems, we securely manage sensitive information. We ensure both stability and reliability.',
     },
   ];
@@ -966,7 +966,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
                     <p className="text-[15px] lg:text-[16px] text-white/70 font-medium leading-relaxed mb-4">
                       {lang === 'ko' ? m.subKo : m.subEn}
                     </p>
-                    <p className="text-[13px] lg:text-[14px] text-[#9CA3AF] leading-[1.8]">
+                    <p className="text-[13px] lg:text-[14px] text-[#9CA3AF] leading-[1.8] whitespace-pre-line break-keep">
                       {lang === 'ko' ? m.descKo : m.descEn}
                     </p>
                   </motion.div>
