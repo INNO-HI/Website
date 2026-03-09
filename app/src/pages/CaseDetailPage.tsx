@@ -62,9 +62,7 @@ export function CaseDetailPage() {
             transition={{ duration: 0.6 }}
           >
             {/* 로고 */}
-            <div className="bg-[#F3F4F6] rounded-xl w-fit px-4 py-2.5 mb-6">
-              <img src={ref_.logo} alt="" className="h-6 sm:h-7 w-auto object-contain" />
-            </div>
+            <img src={ref_.logo} alt="" className="h-10 sm:h-12 w-auto object-contain mb-6" />
 
             {/* 제목 */}
             <h1
@@ -89,23 +87,24 @@ export function CaseDetailPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="rounded-2xl overflow-hidden relative"
           >
-            <img
-              src={ref_.image}
-              alt={lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
-              className="w-full h-auto object-cover"
-              style={{ aspectRatio: '16/9' }}
-            />
+            <div className="rounded-2xl overflow-hidden">
+              <img
+                src={ref_.image}
+                alt={lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
+                className="w-full h-auto object-cover"
+                style={{ aspectRatio: '16/9' }}
+              />
+            </div>
             {/* 페이지네이션 */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm">
+            <div className="flex items-center justify-center gap-2 mt-4">
               {caseStudyMeta.map((c) => (
                 <button
                   key={c.id}
                   onClick={() => navigate(`/cases/${c.id}`)}
                   className="w-2 h-2 rounded-full transition-all duration-300"
                   style={{
-                    background: c.id === cs.id ? '#fff' : 'rgba(255,255,255,0.4)',
+                    background: c.id === cs.id ? '#448CFF' : '#D1D5DB',
                     transform: c.id === cs.id ? 'scale(1.3)' : 'scale(1)',
                   }}
                 />

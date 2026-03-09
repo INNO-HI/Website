@@ -6,16 +6,12 @@ import { useLanguage } from '@/hooks/useLanguage';
 
 import kepcoLogoSrc from '@/assets/partners/kepco-mcs.png';
 import yangcheonLogoSrc from '@/assets/partners/yangcheon.jpg';
-import ssisLogoSrc from '@/assets/partners/ssis.svg';
-
 import cardKepcoSrc from '@/assets/partners/card-kepco.png';
 import cardWelfareSrc from '@/assets/partners/card-welfare.png';
 import cardCivilSrc from '@/assets/partners/card-civil.png';
-import cardSsisSrc from '@/assets/partners/card-ssis.png';
 import slideKepcoSrc from '@/assets/partners/slide-kepco.png';
 import slideWelfareSrc from '@/assets/partners/slide-welfare.png';
 import slideCivilSrc from '@/assets/partners/slide-civil.png';
-import slideSsisSrc from '@/assets/partners/slide-ssis.png';
 
 export const references = [
   {
@@ -59,20 +55,6 @@ export const references = [
     summaryEn: 'Conversational AI converting civil petition speech into documents through to filing',
     detailKo: '민원은 복잡해야 하는 일이 아니라, 더 쉽게 처리되어야 하는 일입니다.\n이노하이는 음성 및 대화형 인터페이스를 통해 민원 내용을 자동으로 정리하고, 필요한 서식을 작성하며, 제출 단계까지 연결되는 AI 민원 창구 서비스를 구현했습니다.\n\n기존 민원 처리 과정은 내용 정리, 반복 입력, 서식 작성, 검토와 재작성까지 많은 수작업이 필요했습니다. 이 서비스는 민원인의 발화를 중심으로 내용을 구조화하고 행정 문서로 전환하여, 보다 빠르고 정확한 접수를 지원합니다.\n\n주요 기능\n• 민원 발화 자동 인식 및 내용 요약\n• 서식 자동 작성 및 입력 보조\n• 전자서명 및 제출 흐름 지원\n• 비정형 발화를 행정 문서 형태로 구조화\n\n기대 효과\n• 민원 처리 시간 단축\n• 서식 오류 및 누락 감소\n• 공무원의 반복 업무 감소\n• 시민 접근성과 행정 편의성 향상',
     detailEn: 'Civil petitions shouldn\'t be complicated—they should be easier to process.\nAnsimHI implements an AI civil service counter that automatically organizes petition content through voice and conversational interfaces, fills in required forms, and connects to the submission stage.\n\nThe traditional petition process required extensive manual work: content organization, repetitive input, form filling, review and revision. This service structures content around the petitioner\'s speech and converts it into administrative documents for faster, more accurate filing.\n\nKey Features\n• Automatic recognition and summarization of petition speech\n• Auto form generation and input assistance\n• Electronic signature and submission flow support\n• Structuring unstructured speech into administrative document format\n\nExpected Impact\n• Reduced petition processing time\n• Fewer form errors and omissions\n• Reduced repetitive work for public servants\n• Improved citizen accessibility and administrative convenience',
-  },
-  {
-    titleKo: '고독사 이진 분류 모델 개발 PoC',
-    titleEn: 'Lonely Death Classification Model PoC',
-    clientKo: '한국사회보장정보원',
-    clientEn: 'Korea Social Security Information Service',
-    logo: ssisLogoSrc,
-    logoHeight: 'h-6 sm:h-7',
-    image: slideSsisSrc,
-    cardImage: cardSsisSrc,
-    summaryKo: '대규모 데이터를 기반으로 고독사 위험을 분류하는 예측 AI',
-    summaryEn: 'Predictive AI classifying lonely death risk based on large-scale data',
-    detailKo: '반복적인 행정 분류 업무는 AI를 통해 더 빠르고 체계적으로 수행할 수 있습니다.\n이노하이는 대규모 공공 데이터를 기반으로 고독사 여부를 분류하는 머신러닝·딥러닝 기반 모델을 개발하여, 공공 데이터 분석과 행정 의사결정을 지원하는 PoC를 수행했습니다.\n\n이 프로젝트는 고독사 관련 통계 생성과 데이터 표준화 과정에서 발생하는 대규모 수작업을 줄이고, 위험 신호를 더 빠르게 식별할 수 있는 데이터 기반 분류 체계를 만드는 데 목적이 있습니다.\n\n주요 기능\n• 공공 데이터 기반 고독사 여부 이진 분류\n• 정형·비정형 데이터 통합 분석\n• 위험 신호 탐지 및 분류 확률 제공\n• 향후 정책 판단과 후속 검토를 위한 근거 생성 구조\n\n기대 효과\n• 대규모 행정 분류 업무 자동화\n• 처리 시간 획기적 절감\n• 위험군 선별 정확도 향상\n• 공공 데이터 기반 예측 행정 레퍼런스 확보',
-    detailEn: 'Repetitive administrative classification tasks can be performed faster and more systematically through AI.\nAnsimHI developed a machine learning and deep learning-based model to classify lonely deaths from large-scale public data, conducting a PoC supporting public data analysis and administrative decision-making.\n\nThis project aims to reduce the large-scale manual work involved in generating lonely death statistics and data standardization, and to create a data-driven classification system that can identify risk signals more quickly.\n\nKey Features\n• Binary classification of lonely death based on public data\n• Integrated analysis of structured and unstructured data\n• Risk signal detection and classification probability\n• Evidence generation structure for future policy decisions and follow-up review\n\nExpected Impact\n• Automation of large-scale administrative classification\n• Dramatically reduced processing time\n• Improved accuracy in high-risk group identification\n• Secured predictive administration reference based on public data',
   },
 ];
 

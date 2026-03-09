@@ -49,7 +49,7 @@ export function Hero() {
             <span className="font-bold bg-gradient-to-r from-[#6AA8FF] to-[#A8CEFF] bg-clip-text text-transparent">INNO</span>vation for <span className="font-bold bg-gradient-to-r from-[#6AA8FF] to-[#A8CEFF] bg-clip-text text-transparent">H</span>uman <span className="font-bold bg-gradient-to-r from-[#6AA8FF] to-[#A8CEFF] bg-clip-text text-transparent">I</span>ntegrity
           </h1>
           <p
-            className="hero-subtitle font-semibold text-white/80 mt-6 lg:mt-8 leading-relaxed"
+            className="hero-subtitle font-semibold text-white/80 mt-6 lg:mt-8 leading-relaxed whitespace-nowrap"
             style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.5rem)' }}
           >
             {lang === 'ko'

@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
 import logoSrc from '@/assets/logo.png';
+import logoDarkSrc from '@/assets/logo-dark.png';
 
 type NavItem = {
   labelKo: string;
@@ -104,10 +105,9 @@ export function Navigation() {
               aria-label={lang === 'ko' ? 'INNO-HI 홈으로 이동' : 'Go to INNO-HI home'}
             >
               <img
-                src={logoSrc}
+                src={isDarkSection ? logoDarkSrc : logoSrc}
                 alt="INNO-HI"
                 className="h-5 lg:h-6 w-auto transition-all duration-300"
-                style={isDarkSection ? { filter: 'brightness(0) invert(1)' } : undefined}
               />
             </Link>
 

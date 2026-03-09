@@ -51,7 +51,7 @@ export function Footer() {
             </p>
             <p>
               {lang === 'ko'
-                ? '서울특별시 중구 퇴계로36길 2, 동국대학교 충무로관 신관 비257호'
+                ? '서울특별시 중구 퇴계로36길 2, 동국대학교 충무로관 신관 B257호'
                 : '2, Toegye-ro 36-gil, Jung-gu, Seoul, Dongguk Univ. Chungmuro Hall B257'}
             </p>
           </div>

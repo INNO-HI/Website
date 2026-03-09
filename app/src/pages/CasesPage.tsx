@@ -10,7 +10,6 @@ import donggukLogo from '@/assets/partners/dongguk.png';
 import bodymapLogo from '@/assets/partners/bodymap.png';
 import seoulAiLogo from '@/assets/partners/seoul-ai.jpg';
 import yangcheonLogo from '@/assets/partners/yangcheon.jpg';
-import ssisLogo from '@/assets/partners/ssis.svg';
 
 // ── Case Study 메타 데이터 ────────────────────────────────────────────
 
@@ -136,31 +135,6 @@ export const caseStudyMeta = [
     quoteAuthorKo: '양천구청 민원봉사과 담당자',
     quoteAuthorEn: 'Yangcheon District Civil Service Staff',
   },
-  {
-    id: 'ssis-classification',
-    ref: 3,
-    tagKo: '데이터 · ML/DL', tagEn: 'Data · ML/DL',
-    category: 'automation',
-    brandColor: '#2B4C9B',
-    heroTitleKo: 'AI 기반 고독사 위험 분류 모델',
-    heroTitleEn: 'AI-Based Lonely Death Risk Classification Model',
-    heroDescKo: '대규모 공공 데이터를 기반으로 고독사 위험을 자동 분류하는 예측 행정 AI PoC',
-    heroDescEn: 'Predictive AI PoC that auto-classifies lonely death risk based on large-scale public data',
-    metrics: [
-      { valueKo: '10배', valueEn: '10x', labelKo: '분류 속도 향상', labelEn: 'Classification Speed' },
-      { valueKo: '95%+', valueEn: '95%+', labelKo: '분류 정확도', labelEn: 'Classification Accuracy' },
-    ],
-    challengeKo: ['고독사 관련 통계 생성 시 대규모 수작업 분류 필요', '데이터 표준화 과정의 높은 인력 투입', '위험 신호를 빠르게 식별하기 어려운 구조'],
-    challengeEn: ['Large-scale manual classification needed for lonely death statistics', 'High labor investment in data standardization', 'Structural difficulty in quickly identifying risk signals'],
-    solutionKo: ['공공 데이터 기반 고독사 여부 이진 분류 모델', '정형 · 비정형 데이터 통합 분석', '위험 신호 탐지 및 분류 확률 제공', '정책 판단을 위한 근거 생성 구조 설계'],
-    solutionEn: ['Binary classification model for lonely death based on public data', 'Integrated analysis of structured and unstructured data', 'Risk signal detection and classification probability', 'Evidence generation structure for policy decisions'],
-    resultsKo: ['대규모 행정 분류 업무 자동화', '처리 시간 획기적 절감', '위험군 선별 정확도 향상', '공공 데이터 기반 예측 행정 레퍼런스 확보'],
-    resultsEn: ['Automation of large-scale administrative classification', 'Dramatically reduced processing time', 'Improved accuracy in high-risk group identification', 'Secured predictive administration reference'],
-    quoteKo: '"수작업으로 수개월 걸리던 분류 작업이\nAI를 통해 며칠 내로 완료될 수 있었습니다."',
-    quoteEn: '"Classification work that took months manually\ncould be completed within days through AI."',
-    quoteAuthorKo: '한국사회보장정보원 관계자',
-    quoteAuthorEn: 'SSIS Representative',
-  },
 ];
 
 export type CaseStudyMeta = typeof caseStudyMeta[number];
@@ -169,8 +143,7 @@ export type CaseStudyMeta = typeof caseStudyMeta[number];
 
 const clientLogos = [
   { src: kepcoMcsLogo, alt: '한전MCS', altEn: 'KEPCO MCS', h: 'h-8 sm:h-10' },
-  { src: ssisLogo, alt: '한국사회보장정보원', altEn: 'SSIS', h: 'h-8 sm:h-10' },
-  { src: seoulAiLogo, alt: '서울AI재단', altEn: 'Seoul AI', h: 'h-8 sm:h-10' },
+{ src: seoulAiLogo, alt: '서울AI재단', altEn: 'Seoul AI', h: 'h-8 sm:h-10' },
   { src: yangcheonLogo, alt: '양천구청', altEn: 'Yangcheon', h: 'h-12 sm:h-16' },
   { src: donggukLogo, alt: '동국대학교', altEn: 'Dongguk Univ.', h: 'h-8 sm:h-10' },
   { src: bodymapLogo, alt: '바디맵', altEn: 'Bodymap', h: 'h-8 sm:h-10' },
@@ -217,15 +190,7 @@ function CaseCard({ cs, index, lang }: { cs: CaseStudyMeta; index: number; lang:
         </h3>
 
         {/* 호버 시 오버레이 */}
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col justify-center p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-          <div className="flex items-center gap-2.5 mb-4">
-            <div className="bg-white rounded-lg px-2 py-1.5">
-              <img src={ref_.logo} alt="" className="h-5 w-auto object-contain" />
-            </div>
-            <span className="text-[12px] text-white/70 font-medium">
-              {lang === 'ko' ? ref_.clientKo : ref_.clientEn}
-            </span>
-          </div>
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm flex flex-col justify-start p-6 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
           <h4 className="text-[16px] font-bold text-white leading-snug mb-2" style={{ wordBreak: 'keep-all' }}>
             {lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
           </h4>
@@ -287,7 +252,7 @@ export function CasesPage() {
     <main id="main-content">
 
       {/* ─── Hero ─── */}
-      <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-20 lg:pt-44 lg:pb-24 bg-[#FAFBFC] overflow-hidden">
+      <section className="relative pt-32 pb-4 sm:pt-40 sm:pb-6 lg:pt-44 lg:pb-8 bg-[#FAFBFC] overflow-hidden">
         {/* 배경 장식 */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.03] pointer-events-none"
           style={{ background: 'radial-gradient(circle, #448CFF 0%, transparent 70%)', transform: 'translate(30%, -40%)' }} />
@@ -300,7 +265,7 @@ export function CasesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center max-w-3xl mx-auto mb-12 lg:mb-16"
+            className="text-center max-w-3xl mx-auto mb-8 lg:mb-10"
           >
             <h1
               className="font-bold text-[#0F172A] tracking-tight mb-4 whitespace-nowrap"
@@ -319,43 +284,45 @@ export function CasesPage() {
         </div>
 
         {/* ─── Featured Carousel ─── */}
-        <div className="relative mx-auto pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
-          <div ref={carouselRef} className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              className="flex gap-2"
-              animate={{ x: `calc(-${carouselIdx * 100}% - ${carouselIdx * 8}px)` }}
-              transition={{ type: 'spring', stiffness: 300, damping: 35 }}
-            >
-              {caseStudyMeta.map((cs) => {
-                const ref_ = references[cs.ref];
-                return (
-                  <div
-                    key={cs.id}
-                    className="w-full flex-shrink-0 cursor-pointer group"
-                    onClick={() => navigate(`/cases/${cs.id}`)}
-                  >
-                    <div className="relative rounded-3xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
-                      <img
-                        src={ref_.image}
-                        alt={lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      {/* 자세히 보기 버튼 */}
-                      <div className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 z-10">
-                        <button
-                          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 text-white text-[13px] sm:text-[14px] font-medium hover:bg-white/25 transition-colors"
-                        >
-                          {lang === 'ko' ? '자세히 보기' : 'View Details'}
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
+        <div className="relative mx-auto pb-10 sm:pb-14 lg:pb-16">
+          <div ref={carouselRef} className="relative max-w-[1300px] mx-auto px-6 sm:px-8 lg:px-14 overflow-hidden">
+            <div className="overflow-visible">
+              <motion.div
+                className="flex gap-5"
+                animate={{ x: `calc(-${carouselIdx * 100}% - ${carouselIdx * 20}px)` }}
+                transition={{ type: 'spring', stiffness: 300, damping: 35 }}
+              >
+                {caseStudyMeta.map((cs) => {
+                  const ref_ = references[cs.ref];
+                  return (
+                    <div
+                      key={cs.id}
+                      className="w-full flex-shrink-0 cursor-pointer"
+                      onClick={() => navigate(`/cases/${cs.id}`)}
+                    >
+                      <div className="relative rounded-3xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
+                        <img
+                          src={ref_.image}
+                          alt={lang === 'ko' ? cs.heroTitleKo : cs.heroTitleEn}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        {/* 자세히 보기 버튼 — 왼쪽 중앙 */}
+                        <div className="absolute left-14 sm:left-20 top-[34%] -translate-y-1/2 z-10">
+                          <button
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/25 text-white text-[13px] sm:text-[14px] font-medium hover:bg-white/25 transition-colors"
+                          >
+                            {lang === 'ko' ? '자세히 보기' : 'View Details'}
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </motion.div>
+                  );
+                })}
+              </motion.div>
+            </div>
 
-            {/* 사진 안 페이지네이션 */}
+            {/* 페이지네이션 */}
             <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm z-20">
               {caseStudyMeta.map((_, i) => (
                 <button
@@ -373,13 +340,13 @@ export function CasesPage() {
             {/* 좌우 화살표 */}
             <button
               onClick={(e) => { e.stopPropagation(); scrollCarousel(-1); }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-20"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-30"
             >
               <ChevronLeft className="w-5 h-5 text-white" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); scrollCarousel(1); }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-20"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/25 flex items-center justify-center transition-colors hover:bg-white/35 z-30"
             >
               <ChevronRight className="w-5 h-5 text-white" />
             </button>
@@ -500,7 +467,7 @@ export function CasesPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={ctaInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 px-8 sm:px-12 lg:px-16 py-16 sm:py-20 lg:py-28 flex flex-col sm:flex-row items-center justify-between gap-6">
+          className="relative z-10 max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14 py-16 sm:py-20 lg:py-28 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
               <div>
                 <h2
                   className="font-bold text-white mb-3"
