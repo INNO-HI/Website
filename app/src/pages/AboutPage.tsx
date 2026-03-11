@@ -75,95 +75,91 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
   );
 }
 
-// ── A-2. Mission (이미지 줌 → 배경 밝아지며 텍스트 플립) ─────────────
+// ── A-2. Mission (스크롤 시 배경 전환 + 텍스트 전환) ─────────────
 
-/* 떠다니는 3D 아이소메트릭 데이터 패널 배경 */
-function DataPanelsBg() {
+/* DB 실린더가 여러 개 쌓여있는 SVG 배경 */
+function DataStackBg() {
+  /* DB 실린더 1개 (cx, y위치, 너비rx, 높이h, 불투명도) */
+  const db = (cx: number, cy: number, rx: number, h: number, o: number, key: string) => {
+    const ry = rx * 0.32;
+    return (
+      <g key={key} opacity={o}>
+        {/* 몸통 */}
+        <rect x={cx - rx} y={cy - h} width={rx * 2} height={h} fill="#448CFF" opacity="0.18" />
+        {/* 몸통 좌우 곡선 */}
+        <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="#448CFF" opacity="0.12" />
+        {/* 중간 띠 */}
+        <ellipse cx={cx} cy={cy - h * 0.35} rx={rx} ry={ry} fill="none" stroke="#6DA6FF" strokeWidth="0.8" opacity="0.2" />
+        <ellipse cx={cx} cy={cy - h * 0.65} rx={rx} ry={ry} fill="none" stroke="#6DA6FF" strokeWidth="0.8" opacity="0.15" />
+        {/* 윗면 */}
+        <ellipse cx={cx} cy={cy - h} rx={rx} ry={ry} fill="#6DA6FF" opacity="0.3" />
+        <ellipse cx={cx} cy={cy - h - ry * 0.1} rx={rx * 0.5} ry={ry * 0.35} fill="white" opacity="0.1" />
+      </g>
+    );
+  };
+
   return (
     <svg viewBox="0 0 1440 900" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="mBg" x1="0" y1="0" x2="1440" y2="900" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#0B1628" />
-          <stop offset="40%" stopColor="#0F1D33" />
-          <stop offset="100%" stopColor="#111E36" />
-        </linearGradient>
-        <linearGradient id="iso-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#B8D4FF" /><stop offset="100%" stopColor="#6DA6FF" /></linearGradient>
-        <linearGradient id="iso-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#1D4ED8" /></linearGradient>
-        <linearGradient id="iso-right" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#6DA6FF" /><stop offset="100%" stopColor="#3B82F6" /></linearGradient>
-        <filter id="glow"><feGaussianBlur stdDeviation="12" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-      </defs>
-      <rect width="1440" height="900" fill="url(#mBg)" />
+      {/* 연결선 (데이터 흐름) */}
+      <line x1="250" y1="520" x2="450" y2="400" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.08" strokeDasharray="6 4" />
+      <line x1="550" y1="350" x2="720" y2="300" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.08" strokeDasharray="6 4" />
+      <line x1="720" y1="300" x2="950" y2="380" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.06" strokeDasharray="6 4" />
+      <line x1="950" y1="380" x2="1180" y2="480" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.06" strokeDasharray="6 4" />
 
-      {/* 원근 그리드 (아이소메트릭) */}
-      {Array.from({ length: 10 }).map((_, i) => (
-        <line key={`ig${i}`} x1={-200 + i * 200} y1="900" x2={520 + i * 200} y2="0" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.12" />
-      ))}
-      {Array.from({ length: 10 }).map((_, i) => (
-        <line key={`igr${i}`} x1={1640 - i * 200} y1="900" x2={920 - i * 200} y2="0" stroke="#448CFF" strokeWidth="0.5" strokeOpacity="0.12" />
-      ))}
+      {/* 좌측 — 작은 DB들 */}
+      {db(140, 700, 36, 55, 0.5, 'a1')}
+      {db(250, 680, 40, 70, 0.55, 'a2')}
 
-      {/* 3D 큐브 1: 중앙 대형 (대시보드) */}
-      <g opacity="0.7">
-        <polygon points="620,280 780,200 780,380 620,460" fill="url(#iso-left)" opacity="0.5" />
-        <polygon points="780,200 940,280 940,460 780,380" fill="url(#iso-right)" opacity="0.4" />
-        <polygon points="620,280 780,200 940,280 780,360" fill="url(#iso-top)" opacity="0.55" />
-        {/* 면 위 차트 요소 */}
-        <polygon points="660,310 730,275 730,320 660,355" fill="#448CFF" opacity="0.15" />
-        <polygon points="660,355 730,320 730,340 660,375" fill="#448CFF" opacity="0.1" />
-        <polygon points="740,270 780,250 780,350 740,370" fill="#6DA6FF" opacity="0.12" />
-        {/* 발광 코어 */}
-        <circle cx="780" cy="320" r="15" fill="#448CFF" opacity="0.15" filter="url(#glow)" />
-        <circle cx="780" cy="320" r="5" fill="white" opacity="0.6" />
+      {/* 중앙-좌 — 중간 DB들 */}
+      {db(400, 650, 48, 100, 0.65, 'b1')}
+      {db(540, 620, 52, 130, 0.7, 'b2')}
+
+      {/* 중앙 — 큰 메인 DB (가장 크고 진함) */}
+      {db(720, 600, 64, 180, 0.85, 'c1')}
+
+      {/* 중앙-우 — 큰 DB들 */}
+      {db(920, 630, 54, 140, 0.7, 'd1')}
+      {db(1080, 660, 48, 110, 0.6, 'd2')}
+
+      {/* 우측 — 작은 DB들 */}
+      {db(1220, 690, 40, 75, 0.5, 'e1')}
+      {db(1330, 710, 34, 50, 0.45, 'e2')}
+
+      {/* 떠다니는 작은 DB — 위에서 내려오는 애니메이션 */}
+      <g>
+        <g opacity="0.4">
+          <rect x={720 - 30} y={300} width={60} height={45} fill="#448CFF" opacity="0.18">
+            <animateTransform attributeName="transform" type="translate" values="0,-180;0,0;0,0" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.18;0" dur="4s" repeatCount="indefinite" keyTimes="0;0.5;1" />
+          </rect>
+          <ellipse cx={720} cy={300} rx={30} ry={10} fill="#448CFF" opacity="0.12">
+            <animateTransform attributeName="transform" type="translate" values="0,-180;0,0;0,0" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.12;0" dur="4s" repeatCount="indefinite" keyTimes="0;0.5;1" />
+          </ellipse>
+          <ellipse cx={720} cy={255} rx={30} ry={10} fill="#6DA6FF" opacity="0.3">
+            <animateTransform attributeName="transform" type="translate" values="0,-180;0,0;0,0" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.3;0" dur="4s" repeatCount="indefinite" keyTimes="0;0.5;1" />
+          </ellipse>
+        </g>
       </g>
 
-      {/* 3D 큐브 2: 좌상단 (작은) */}
-      <g opacity="0.5">
-        <polygon points="140,200 230,155 230,260 140,305" fill="url(#iso-left)" opacity="0.45" />
-        <polygon points="230,155 320,200 320,305 230,260" fill="url(#iso-right)" opacity="0.35" />
-        <polygon points="140,200 230,155 320,200 230,245" fill="url(#iso-top)" opacity="0.5" />
-      </g>
-
-      {/* 3D 큐브 3: 우상단 */}
-      <g opacity="0.55">
-        <polygon points="1050,130 1130,90 1130,190 1050,230" fill="url(#iso-left)" opacity="0.4" />
-        <polygon points="1130,90 1210,130 1210,230 1130,190" fill="url(#iso-right)" opacity="0.3" />
-        <polygon points="1050,130 1130,90 1210,130 1130,170" fill="url(#iso-top)" opacity="0.45" />
-      </g>
-
-      {/* 3D 실린더: 좌하단 (DB) */}
-      <g opacity="0.45">
-        <rect x="180" y="560" width="120" height="100" fill="url(#iso-left)" opacity="0.4" />
-        <ellipse cx="240" cy="560" rx="60" ry="22" fill="url(#iso-top)" opacity="0.55" />
-        <ellipse cx="240" cy="660" rx="60" ry="22" fill="url(#iso-left)" opacity="0.5" />
-        <ellipse cx="240" cy="610" rx="60" ry="22" fill="none" stroke="#A0C4FF" strokeWidth="0.8" opacity="0.3" />
-      </g>
-
-      {/* 3D 큐브 4: 우하단 */}
-      <g opacity="0.5">
-        <polygon points="1080,520 1160,480 1160,580 1080,620" fill="url(#iso-left)" opacity="0.4" />
-        <polygon points="1160,480 1240,520 1240,620 1160,580" fill="url(#iso-right)" opacity="0.3" />
-        <polygon points="1080,520 1160,480 1240,520 1160,560" fill="url(#iso-top)" opacity="0.45" />
-      </g>
-
-      {/* 연결선 (3D 느낌 점선) */}
-      <line x1="320" y1="260" x2="620" y2="320" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.1" strokeDasharray="6 4" />
-      <line x1="940" y1="350" x2="1080" y2="520" stroke="#448CFF" strokeWidth="1" strokeOpacity="0.08" strokeDasharray="6 4" />
-      <line x1="300" y1="560" x2="620" y2="420" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.07" strokeDasharray="5 4" />
-      <line x1="940" y1="280" x2="1050" y2="180" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.08" strokeDasharray="5 4" />
-
-      {/* 3D 구체 노드 */}
-      <circle cx="620" cy="320" r="6" fill="url(#iso-left)" opacity="0.5" />
-      <ellipse cx="619" cy="318" rx="2" ry="1.5" fill="white" opacity="0.4" />
-      <circle cx="940" cy="350" r="5" fill="url(#iso-right)" opacity="0.45" />
-      <circle cx="480" cy="600" r="4" fill="#A0C4FF" opacity="0.35" />
-      <circle cx="1000" cy="400" r="4" fill="#6DA6FF" opacity="0.3" />
-
-      {/* 빛나는 파티클 */}
-      <circle cx="100" cy="800" r="3" fill="#448CFF" fillOpacity="0.2" filter="url(#glow)" />
-      <circle cx="1350" cy="100" r="4" fill="#6DA6FF" fillOpacity="0.2" filter="url(#glow)" />
-      <circle cx="720" cy="750" r="2.5" fill="#448CFF" fillOpacity="0.15" />
-      <circle cx="400" cy="150" r="2" fill="#A0C4FF" fillOpacity="0.2" />
-      <circle cx="1300" cy="700" r="2" fill="#448CFF" fillOpacity="0.12" />
+      {/* 데이터 파티클 (작은 점들이 위로 올라감) */}
+      <circle cx="300" cy="600" r="2.5" fill="#448CFF" opacity="0.2">
+        <animate attributeName="cy" values="600;500;600" dur="5s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.2;0.1;0.2" dur="5s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="600" cy="500" r="2" fill="#6DA6FF" opacity="0.18">
+        <animate attributeName="cy" values="500;380;500" dur="4s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.18;0.08;0.18" dur="4s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="850" cy="550" r="2.5" fill="#448CFF" opacity="0.15">
+        <animate attributeName="cy" values="550;430;550" dur="4.5s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.15;0.06;0.15" dur="4.5s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="1100" cy="580" r="2" fill="#A0C4FF" opacity="0.18">
+        <animate attributeName="cy" values="580;480;580" dur="3.8s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.18;0.08;0.18" dur="3.8s" repeatCount="indefinite" />
+      </circle>
     </svg>
   );
 }
@@ -175,15 +171,13 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
     offset: ['start start', 'end end'],
   });
 
-  // SVG 배경 줌 (1 → 1.2)
-  const bgScale = useTransform(scrollYProgress, [0, 0.45], [1, 1.2]);
-  // 어두운 배경 (0~0.42 유지, 0.42~0.55 사라짐)
+  // 연한 블루 배경 (0~0.42 유지, 0.42~0.55 사라짐)
   const darkOpacity = useTransform(scrollYProgress, [0, 0.42, 0.55], [1, 1, 0]);
-  // 밝은 배경 등장
+  // 밝은 배경 등장 (아래 섹션과 자연스럽게 이어짐)
   const brightOpacity = useTransform(scrollYProgress, [0.42, 0.55], [0, 1]);
-  // 텍스트 1 (어두운 배경 위 흰 글씨)
+  // 텍스트 1 (연한 블루 배경 위 진한 글씨)
   const text1Opacity = useTransform(scrollYProgress, [0, 0.05, 0.38, 0.48], [0, 1, 1, 0]);
-  // 텍스트 2 (밝은 배경 위 진한 글씨, 페이드인)
+  // 텍스트 2 (밝은 배경 위 진한 글씨)
   const text2Opacity = useTransform(scrollYProgress, [0.5, 0.62], [0, 1]);
 
   return (
@@ -193,30 +187,25 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
       style={{ height: '300vh' }}
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
-        {/* SVG 배경 + 줌 */}
+        {/* 연한 메인색 배경 + SVG 데이터 일러스트 */}
         <motion.div
           className="absolute inset-0"
-          style={{ scale: bgScale, opacity: darkOpacity }}
+          style={{
+            opacity: darkOpacity,
+            background: 'linear-gradient(180deg, #E8F1FF 0%, #DEEAFF 40%, #E4EDFF 70%, #EDF2FF 100%)',
+          }}
         >
-          <DataPanelsBg />
+          <DataStackBg />
         </motion.div>
 
-        {/* 밝은 배경 + 지평선 */}
+        {/* 밝은 배경 — 아래 섹션과 자연스럽게 이어짐 */}
         <motion.div
           className="absolute inset-0"
-          style={{ opacity: brightOpacity, background: 'linear-gradient(180deg, #E8F0FE 0%, #F0F4FF 35%, #F5F8FF 50%, #F0F4FF 65%, #E4EDFC 100%)' }}
-        >
-          {/* 지평선 글로우 */}
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px]"
-            style={{ background: 'linear-gradient(90deg, transparent 5%, rgba(68,140,255,0.15) 25%, rgba(68,140,255,0.35) 50%, rgba(68,140,255,0.15) 75%, transparent 95%)' }} />
-          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[900px] h-[300px]"
-            style={{ background: 'radial-gradient(ellipse 100% 100% at 50% 50%, rgba(68,140,255,0.08) 0%, transparent 70%)' }} />
-          {/* 떠오르는 구체 */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-[42%] w-[140px] h-[140px] rounded-full"
-            style={{ background: 'radial-gradient(circle, rgba(68,140,255,0.18) 0%, rgba(109,166,255,0.08) 50%, transparent 75%)' }} />
-          <div className="absolute left-1/2 -translate-x-1/2 top-[44%] w-[60px] h-[60px] rounded-full"
-            style={{ background: 'radial-gradient(circle, rgba(68,140,255,0.25) 0%, transparent 70%)' }} />
-        </motion.div>
+          style={{
+            opacity: brightOpacity,
+            background: 'linear-gradient(180deg, #F7F8FA 0%, #F0F4FF 40%, #F5F8FF 60%, #F7F8FA 100%)',
+          }}
+        />
 
         {/* 텍스트 1 */}
         <motion.div
@@ -224,7 +213,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
           style={{ opacity: text1Opacity }}
         >
           <p
-            className="text-white font-bold text-center leading-[1.5] tracking-tight whitespace-pre-line"
+            className="text-[#1B3A6B] font-bold text-center leading-[1.5] tracking-tight whitespace-pre-line"
             style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
@@ -233,7 +222,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
           </p>
         </motion.div>
 
-        {/* 텍스트 2: 플립 등장 */}
+        {/* 텍스트 2 */}
         <motion.div
           className="absolute inset-0 flex flex-col items-center justify-center px-5 sm:px-6 z-10"
           style={{ opacity: text2Opacity }}
@@ -570,11 +559,11 @@ function IntelligentFuture() {
           lineHeight: 1,
           whiteSpace: 'nowrap' as const,
           color: 'transparent',
-          background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.15) 100%)',
+          background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.35) 100%)',
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
-          WebkitTextStroke: '1px rgba(255,255,255,0.25)',
-          filter: 'drop-shadow(0 4px 60px rgba(255,255,255,0.3))',
+          WebkitTextStroke: '1.5px rgba(255,255,255,0.4)',
+          filter: 'drop-shadow(0 4px 60px rgba(255,255,255,0.4))',
         }}
       >
         INTELLIGENT FUTURE
