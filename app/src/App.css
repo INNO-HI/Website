@@ -3,6 +3,7 @@
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 /* Custom selection color */

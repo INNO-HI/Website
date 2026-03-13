@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
-import logoSrc from '@/assets/logo.png';
+import logoSrc from '@/assets/logo-dark.png';
 
 const siteLinks = [
   { labelKo: '회사 소개', labelEn: 'About', href: '/about' },

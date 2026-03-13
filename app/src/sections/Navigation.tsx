@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
 import logoSrc from '@/assets/logo.png';
+import logoDarkSrc from '@/assets/logo-dark.png';
 
 type NavItem = {
   labelKo: string;
@@ -58,8 +59,13 @@ export function Navigation() {
     setIsScrolled(false);
     setIsHidden(false);
     lastScrollYRef.current = 0;
-    // 페이지 전환 후 다크 섹션 재감지
+    // 페이지 전환 후 다크 섹션 재감지 (DOM 교체 타이밍에 맞춰 여러 번 체크)
+    checkDarkSection();
     requestAnimationFrame(checkDarkSection);
+    const t1 = setTimeout(checkDarkSection, 100);
+    const t2 = setTimeout(checkDarkSection, 350);
+    const t3 = setTimeout(checkDarkSection, 600);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, [location.pathname]);
 
   const handleNavClick = (item: NavItem) => {
@@ -109,9 +115,9 @@ export function Navigation() {
               aria-label={lang === 'ko' ? 'INNO-HI 홈으로 이동' : 'Go to INNO-HI home'}
             >
               <img
-                src={logoSrc}
+                src={isDarkSection ? logoSrc : logoDarkSrc}
                 alt="INNO-HI"
-                className={`h-5 lg:h-6 w-auto transition-all duration-300 ${isDarkSection ? '' : 'brightness-0'}`}
+                className="h-5 lg:h-6 w-auto transition-all duration-300"
               />
             </Link>
 
