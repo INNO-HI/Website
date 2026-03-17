@@ -24,7 +24,7 @@ function Section({ children, className = '', bg = 'bg-white' }: { children: Reac
 
 function Hero({ lang }: { lang: 'ko' | 'en' }) {
   return (
-    <section className="relative overflow-hidden min-h-screen flex items-center justify-center snap-start">
+    <section className="relative overflow-hidden min-h-screen flex items-center justify-center">
       {/* 배경 이미지 */}
       <div
         className="absolute inset-0"
@@ -46,9 +46,9 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
           style={{ fontSize: 'clamp(1.5rem, 4.5vw, 3rem)' }}
         >
           {lang === 'ko' ? (
-            <>사람을 더 깊이 이해하는 기술로<br />세상을 더 지능적으로 만듭니다.</>
+            <>말 속에서 마음을 읽는 기술로<br />모두의 온전함을 지킵니다.</>
           ) : (
-            <>With technology that understands people deeper,<br />we make the world more intelligent.</>
+            <>With technology that reads hearts in words,<br />we protect everyone's wholeness.</>
           )}
         </motion.h1>
 
@@ -77,88 +77,63 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
 
 // ── A-2. Mission (스크롤 시 배경 전환 + 텍스트 전환) ─────────────
 
-/* DB 실린더가 여러 개 쌓여있는 SVG 배경 */
+/* 네트워크 노드 + 연결선 SVG 배경 */
 function DataStackBg() {
-  /* DB 실린더 1개 (cx, y위치, 너비rx, 높이h, 불투명도) */
-  const db = (cx: number, cy: number, rx: number, h: number, o: number, key: string) => {
-    const ry = rx * 0.32;
-    return (
-      <g key={key} opacity={o}>
-        {/* 몸통 */}
-        <rect x={cx - rx} y={cy - h} width={rx * 2} height={h} fill="#448CFF" opacity="0.18" />
-        {/* 몸통 좌우 곡선 */}
-        <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill="#448CFF" opacity="0.12" />
-        {/* 중간 띠 */}
-        <ellipse cx={cx} cy={cy - h * 0.35} rx={rx} ry={ry} fill="none" stroke="#6DA6FF" strokeWidth="0.8" opacity="0.2" />
-        <ellipse cx={cx} cy={cy - h * 0.65} rx={rx} ry={ry} fill="none" stroke="#6DA6FF" strokeWidth="0.8" opacity="0.15" />
-        {/* 윗면 */}
-        <ellipse cx={cx} cy={cy - h} rx={rx} ry={ry} fill="#6DA6FF" opacity="0.3" />
-        <ellipse cx={cx} cy={cy - h - ry * 0.1} rx={rx * 0.5} ry={ry * 0.35} fill="white" opacity="0.1" />
-      </g>
-    );
-  };
+  const nodes = [
+    { x: 120, y: 180 }, { x: 280, y: 260 }, { x: 400, y: 150 },
+    { x: 540, y: 320 }, { x: 660, y: 200 }, { x: 720, y: 450 },
+    { x: 840, y: 280 }, { x: 960, y: 160 }, { x: 1040, y: 380 },
+    { x: 1160, y: 240 }, { x: 1300, y: 340 }, { x: 200, y: 500 },
+    { x: 480, y: 550 }, { x: 780, y: 600 }, { x: 1000, y: 560 },
+    { x: 1250, y: 520 }, { x: 360, y: 700 }, { x: 620, y: 740 },
+    { x: 900, y: 720 }, { x: 1120, y: 680 },
+  ];
+  const edges: [number, number][] = [
+    [0,1],[1,3],[2,4],[3,5],[4,6],[6,7],[5,8],[7,9],[8,10],[9,10],
+    [0,2],[2,7],[1,4],[3,6],[5,12],[11,12],[12,13],[13,14],[14,15],
+    [11,16],[16,17],[17,18],[18,19],[15,19],[13,18],[12,17],
+  ];
 
   return (
     <svg viewBox="0 0 1440 900" fill="none" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid slice">
-      {/* 연결선 (데이터 흐름) */}
-      <line x1="250" y1="520" x2="450" y2="400" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.08" strokeDasharray="6 4" />
-      <line x1="550" y1="350" x2="720" y2="300" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.08" strokeDasharray="6 4" />
-      <line x1="720" y1="300" x2="950" y2="380" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.06" strokeDasharray="6 4" />
-      <line x1="950" y1="380" x2="1180" y2="480" stroke="#448CFF" strokeWidth="0.8" strokeOpacity="0.06" strokeDasharray="6 4" />
+      <defs>
+        <radialGradient id="ng" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#448CFF" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#448CFF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
 
-      {/* 좌측 — 작은 DB들 */}
-      {db(140, 700, 36, 55, 0.5, 'a1')}
-      {db(250, 680, 40, 70, 0.55, 'a2')}
+      {/* 연결선 */}
+      {edges.map(([a, b], i) => (
+        <line
+          key={`e${i}`}
+          x1={nodes[a].x} y1={nodes[a].y}
+          x2={nodes[b].x} y2={nodes[b].y}
+          stroke="#448CFF"
+          strokeWidth="0.8"
+          opacity="0.08"
+        />
+      ))}
 
-      {/* 중앙-좌 — 중간 DB들 */}
-      {db(400, 650, 48, 100, 0.65, 'b1')}
-      {db(540, 620, 52, 130, 0.7, 'b2')}
-
-      {/* 중앙 — 큰 메인 DB (가장 크고 진함) */}
-      {db(720, 600, 64, 180, 0.85, 'c1')}
-
-      {/* 중앙-우 — 큰 DB들 */}
-      {db(920, 630, 54, 140, 0.7, 'd1')}
-      {db(1080, 660, 48, 110, 0.6, 'd2')}
-
-      {/* 우측 — 작은 DB들 */}
-      {db(1220, 690, 40, 75, 0.5, 'e1')}
-      {db(1330, 710, 34, 50, 0.45, 'e2')}
-
-      {/* 떠다니는 작은 DB — 위에서 내려오는 애니메이션 */}
-      <g>
-        <g opacity="0.4">
-          <rect x={720 - 30} y={300} width={60} height={45} fill="#448CFF" opacity="0.18">
-            <animateTransform attributeName="transform" type="translate" values="0,-180;0,0;0,0" dur="4s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0;0.18;0" dur="4s" repeatCount="indefinite" keyTimes="0;0.5;1" />
-          </rect>
-          <ellipse cx={720} cy={300} rx={30} ry={10} fill="#448CFF" opacity="0.12">
-            <animateTransform attributeName="transform" type="translate" values="0,-180;0,0;0,0" dur="4s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0;0.12;0" dur="4s" repeatCount="indefinite" keyTimes="0;0.5;1" />
-          </ellipse>
-          <ellipse cx={720} cy={255} rx={30} ry={10} fill="#6DA6FF" opacity="0.3">
-            <animateTransform attributeName="transform" type="translate" values="0,-180;0,0;0,0" dur="4s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0;0.3;0" dur="4s" repeatCount="indefinite" keyTimes="0;0.5;1" />
-          </ellipse>
+      {/* 노드 */}
+      {nodes.map((n, i) => (
+        <g key={`n${i}`}>
+          <circle cx={n.x} cy={n.y} r="3" fill="#448CFF" opacity={0.12 + (i % 3) * 0.06} />
+          {i % 4 === 0 && (
+            <circle cx={n.x} cy={n.y} r="14" fill="url(#ng)" opacity="0.5" />
+          )}
         </g>
-      </g>
+      ))}
 
-      {/* 데이터 파티클 (작은 점들이 위로 올라감) */}
-      <circle cx="300" cy="600" r="2.5" fill="#448CFF" opacity="0.2">
-        <animate attributeName="cy" values="600;500;600" dur="5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.2;0.1;0.2" dur="5s" repeatCount="indefinite" />
+      {/* 부유 파티클 */}
+      <circle cx="200" cy="350" r="1.5" fill="#6DA6FF" opacity="0.15">
+        <animate attributeName="cy" values="350;300;350" dur="5s" repeatCount="indefinite" />
       </circle>
-      <circle cx="600" cy="500" r="2" fill="#6DA6FF" opacity="0.18">
-        <animate attributeName="cy" values="500;380;500" dur="4s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.18;0.08;0.18" dur="4s" repeatCount="indefinite" />
+      <circle cx="560" cy="420" r="1.5" fill="#448CFF" opacity="0.12">
+        <animate attributeName="cy" values="420;370;420" dur="4.2s" repeatCount="indefinite" />
       </circle>
-      <circle cx="850" cy="550" r="2.5" fill="#448CFF" opacity="0.15">
-        <animate attributeName="cy" values="550;430;550" dur="4.5s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.15;0.06;0.15" dur="4.5s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="1100" cy="580" r="2" fill="#A0C4FF" opacity="0.18">
-        <animate attributeName="cy" values="580;480;580" dur="3.8s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.18;0.08;0.18" dur="3.8s" repeatCount="indefinite" />
+      <circle cx="1000" cy="450" r="2" fill="#6DA6FF" opacity="0.12">
+        <animate attributeName="cy" values="450;390;450" dur="4.8s" repeatCount="indefinite" />
       </circle>
     </svg>
   );
@@ -183,7 +158,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
   return (
     <section
       ref={containerRef}
-      className="relative snap-start"
+      className="relative"
       style={{ height: '300vh' }}
     >
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
@@ -217,8 +192,8 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
             style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
-              ? '데이터는 계속 쌓이고 있지만\n세상을 움직이는 방식은 크게 달라지지 않았습니다.'
-              : 'Data keeps accumulating,\nbut the way the world operates has barely changed.'}
+              ? '초고령사회와 1인 가구 시대,\n온전한 하루를 지켜줄 구조가 부족합니다.'
+              : 'In the era of super-aging and single-person households,\nstructures to protect a complete day are insufficient.'}
           </p>
         </motion.div>
 
@@ -232,16 +207,16 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
             style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
-              ? '기술과 데이터로 더 지능적인 세상을 만들고,'
-              : 'We create a more intelligent world with technology and data,'}
+              ? '깊은 지능으로 존중을 구현하여,'
+              : 'By realizing respect through deep intelligence,'}
           </p>
           <p
             className="text-[#595959] font-bold text-center leading-[1.5] tracking-tight mt-2"
             style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
-              ? '더 나은 내일의 기준을 만들어가겠습니다.'
-              : 'and set the standard for a better tomorrow.'}
+              ? '사람을 지키는 기술의 표준을 만들어갑니다.'
+              : 'we set the standard for technology that protects people.'}
           </p>
         </motion.div>
       </div>
@@ -452,44 +427,44 @@ function ProblemCard({ p, i, lang }: {
 function Problem({ lang }: { lang: 'ko' | 'en' }) {
   const problems = [
     {
-      fromKo: '잠든 데이터가 아니라,',
-      fromEn: 'Not dormant data,',
-      toKo: '스스로 작동하는 데이터로',
-      toEn: 'but self-operating data',
-      descKo: '상담 기록과 운영 데이터는\n단순한 저장 자산이 아닙니다.\n\n우리는 데이터를 분석 가능한 구조로 전환하고,\n실시간 판단과 예측으로 연결합니다.',
-      descEn: 'Consultation records and operational data\nare not just stored assets.\n\nWe transform data into analyzable structures\nand connect it to real-time decisions and predictions.',
-      closingKo: '데이터는 쌓이는 것이 아니라\n의사결정을 돕는 힘이 되어야 합니다.',
-      closingEn: 'Data should not just accumulate —\nit should become a force that drives decisions.',
+      fromKo: '',
+      fromEn: '',
+      toKo: '직접 말하지 않아도,\n일상의 말에서 마음을 읽는 AI로',
+      toEn: 'AI that reads hearts\nfrom everyday words, even unspoken',
+      descKo: '"도와주세요"라고 직접 말할 수 있는 사람은 많지 않습니다.\n우리는 일상적인 발화 속 목소리 톤, 감정 변화, 말의 빈도와\n패턴에서 마음의 상태를 읽어냅니다.',
+      descEn: 'Not many people can say "help me" directly.\nWe read emotional states from voice tone, sentiment shifts,\nand speech frequency patterns in everyday conversation.',
+      closingKo: '도움을 요청하는 것이 아니라\n대화가 이미 신호가 되어야 합니다.',
+      closingEn: 'Rather than asking for help,\nconversation itself should become the signal.',
     },
     {
-      fromKo: '반복되는 보고서를 넘어',
-      fromEn: 'Beyond repetitive reports,',
-      toKo: '자동으로 생성되는 통찰로',
-      toEn: 'to auto-generated insights',
-      descKo: '같은 형식의 보고서가\n매일 수작업으로 작성되고 있습니다.\n\n우리는 기록을 이해하고,\n맥락을 읽고, 자동으로 정리합니다.',
-      descEn: 'The same formatted reports\nare manually written every day.\n\nWe understand records,\nread context, and organize automatically.',
-      closingKo: '보고서는 시간이 아니라\n지능으로 만들어져야 합니다.',
-      closingEn: 'Reports should be created by intelligence,\nnot by time.',
+      fromKo: '',
+      fromEn: '',
+      toKo: '단순한 데이터 수집을 넘어,\n사람을 이해하는 깊은 통찰로',
+      toEn: 'Beyond simple data collection,\ndeep insight that understands people',
+      descKo: '데이터는 쌓일수록 가치가 커집니다.\n그 위에 이해의 깊이가 더해질 때, 진짜 통찰이 됩니다.\n지능은 사람의 맥락을 읽고, 변화를 감지하고, 필요한 순간에 연결합니다.',
+      descEn: 'Data grows in value as it accumulates.\nWhen depth of understanding is added, it becomes real insight.\nIntelligence reads context, detects change, and connects at the right moment.',
+      closingKo: '지능의 깊이가 곧 존중의 깊이입니다.',
+      closingEn: 'The depth of intelligence is the depth of respect.',
     },
     {
-      fromKo: '수작업 중심 현장을 넘어',
-      fromEn: 'Beyond manual-driven operations,',
-      toKo: '핵심 업무에 집중하는 구조로',
-      toEn: 'to structures focused on core work',
-      descKo: '행정은 보조 수단이어야 합니다.\n그러나 많은 조직은 행정에 시간을 소비합니다.\n\n우리는 자동화와 지능화를 통해\n사람이 더 중요한 일에 집중할 수 있는\n환경을 만듭니다.',
-      descEn: 'Administration should be a supporting tool.\nBut many organizations spend time on admin.\n\nThrough automation and intelligence,\nwe create environments where people\ncan focus on what truly matters.',
-      closingKo: '',
-      closingEn: '',
+      fromKo: '',
+      fromEn: '',
+      toKo: '멀리서 지켜보는 것이 아니라,\n일상에 함께하는 기술로',
+      toEn: 'Not watching from afar,\nbut technology that walks alongside daily life',
+      descKo: '사람의 목소리에는 가장 민감한 정보가 담겨 있습니다.\n우리는 음성 데이터의 비식별화, 온디바이스 처리, 암호화 전송 등\n다층 보안 구조를 통해 개인정보를 기술로 보호합니다.',
+      descEn: 'The most sensitive information is contained in a person\'s voice.\nWe protect personal data through multi-layered security including\nde-identification, on-device processing, and encrypted transmission.',
+      closingKo: '기술로 지키는 것에는 정보도 포함됩니다.',
+      closingEn: 'What technology protects includes information too.',
     },
     {
-      fromKo: '높은 도입 장벽이 아니라',
-      fromEn: 'Not high adoption barriers,',
-      toKo: '즉시 작동하는 전환',
-      toEn: 'but instant transformation',
-      descKo: '디지털 전환은\n복잡하고 느려서는 안 됩니다.\n\n우리는 기존 시스템과 연결되는\n경량화된 구조로 빠르게 적용 가능한\n지능 플랫폼을 제공합니다.',
-      descEn: 'Digital transformation should not\nbe complex and slow.\n\nWe provide intelligence platforms\nthrough lightweight structures that connect\nwith existing systems for rapid deployment.',
-      closingKo: '전환은 부담이 아니라\n경쟁력이 되어야 합니다.',
-      closingEn: 'Transformation should be\na competitive advantage, not a burden.',
+      fromKo: '',
+      fromEn: '',
+      toKo: '의식하지 않는 사이에도,\n이미 시작된 돌봄으로',
+      toEn: 'Care that has already begun,\neven before you notice',
+      descKo: '어르신의 하루는 달라지지 않습니다.\n평소처럼 대화하고, 평소처럼 살아갑니다.\n우리는 그 일상 안에서 돌봄이 시작되는 구조를 설계합니다.',
+      descEn: 'The elderly\'s daily life doesn\'t change.\nThey talk as usual, live as usual.\nWe design structures where care begins within that routine.',
+      closingKo: '돌봄은 부담이 아니라\n이미 일어나고 있는 것이어야 합니다.',
+      closingEn: 'Care should not be a burden,\nbut something already happening.',
     },
   ];
 
@@ -497,7 +472,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
   const headInView = useInView(headRef, { once: true, margin: '-80px' });
 
   return (
-    <section className="bg-white min-h-screen flex flex-col justify-center py-12 lg:py-16 snap-start">
+    <section className="bg-white min-h-screen flex flex-col justify-center py-12 lg:py-16">
       <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
         {/* 헤더 */}
         <motion.h2
@@ -509,8 +484,8 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
           style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
         >
           {lang === 'ko'
-            ? 'AI의 끝은 결국 사람입니다.'
-            : 'The end of AI is ultimately people.'}
+            ? (<>깊은 지능은,<br />이렇게 작동합니다.</>)
+            : (<>Deep intelligence<br />works like this.</>)}
         </motion.h2>
 
         {/* 카드 2×2 */}
@@ -533,7 +508,7 @@ function IntelligentFuture() {
   return (
     <section
       ref={ref}
-      className="relative flex items-center justify-center overflow-hidden snap-start"
+      className="relative flex items-center justify-center overflow-hidden"
       style={{
         height: '100vh',
         background: 'linear-gradient(180deg, #448CFF 0%, #5A9BFF 20%, #7AB4FF 45%, #A8CFFF 65%, #D6E6FF 82%, #EDF3FF 100%)',
@@ -556,8 +531,7 @@ function IntelligentFuture() {
         style={{
           fontSize: 'clamp(1.8rem, 8vw, 7.5rem)',
           letterSpacing: '0.05em',
-          lineHeight: 1,
-          whiteSpace: 'nowrap' as const,
+          lineHeight: 1.35,
           color: 'transparent',
           background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.35) 100%)',
           WebkitBackgroundClip: 'text',
@@ -566,7 +540,7 @@ function IntelligentFuture() {
           filter: 'drop-shadow(0 4px 60px rgba(255,255,255,0.4))',
         }}
       >
-        INTELLIGENT FUTURE
+        INNOVATION FOR<br />HUMAN INTEGRITY
       </motion.h2>
     </section>
   );
@@ -578,18 +552,23 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   const futureValues = [
     {
       titleKo: '지능 엔진', titleEn: 'Intelligence Engine',
-      descKo: '음성, 기록, 환경 데이터를 실시간으로 이해하는\n핵심 AI 엔진을 구축합니다.\n다양한 서비스에 적용 가능한 공통 지능 기반을 만듭니다.',
-      descEn: 'We build a core AI engine that understands\nvoice, records, and environmental data in real time.\nA common intelligence foundation for diverse services.',
+      descKo: '사람의 마음을 읽으려면\n표면이 아닌 깊이를\n이해해야 합니다.\n\n음성, 감정, 맥락을\n실시간으로 분석하는\n핵심 AI 엔진을 구축합니다.',
+      descEn: 'To read a person\'s heart,\nyou must understand depth,\nnot the surface.\n\nWe build a core AI engine\nthat analyzes voice, emotion, and context\nin real time.',
     },
     {
       titleKo: '데이터 네트워크', titleEn: 'Data Network',
-      descKo: '현장에서 생성되는 데이터를 연결하고 학습하여\n예측하고 고도화합니다.\n데이터는 지능을 진화시키는 구조가 됩니다.',
-      descEn: 'We connect and learn from field-generated data\nto predict and enhance.\nData becomes the structure that evolves intelligence.',
+      descKo: '한 사람을 온전히 이해하려면\n흩어진 신호가 하나로\n연결되어야 합니다.\n\n현장에서 생성되는 데이터를\n연결하고 학습하여\n이해의 깊이를 높여갑니다.',
+      descEn: 'To fully understand a person,\nscattered signals must be\nconnected as one.\n\nWe connect and learn from\nfield-generated data to deepen\nthe level of understanding.',
+    },
+    {
+      titleKo: '보안 아키텍처', titleEn: 'Security Architecture',
+      descKo: '깊이 이해할수록\n더 단단히 지켜야 합니다.\n\n비식별화, 온디바이스 처리,\n암호화 전송 등 다층 보안 구조로\n개인정보를 보호합니다.',
+      descEn: 'The deeper you understand,\nthe stronger you must protect.\n\nWe safeguard personal data through\nmulti-layered security including de-identification,\non-device processing, and encrypted transmission.',
     },
     {
       titleKo: 'Physical AI 확장', titleEn: 'Physical AI Extension',
-      descKo: '행정 시스템, 현장 기기, 공간과 디바이스에\n지능을 탑재합니다.\n소프트웨어를 넘어 현실에서 작동하는 AI로 확장합니다.',
-      descEn: 'We embed intelligence in administrative systems,\nfield devices, and hardware.\nBeyond software — AI that operates in the real world.',
+      descKo: '진짜 돌봄은 화면 안에서\n끝나지 않습니다.\n\n소프트웨어를 넘어\n현장 기기, 공간, 디바이스에\n지능을 탑재하여 현실에서\n작동하는 AI로 확장합니다.',
+      descEn: 'Real care doesn\'t end\non a screen.\n\nBeyond software, we embed intelligence\nin field devices, spaces, and hardware\nto extend AI that operates\nin the real world.',
     },
   ];
 
@@ -666,8 +645,35 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
       <circle cx="230" cy="149" r="2" fill="#A0C4FF" opacity="0.7" />
       <circle cx="200" cy="106" r="2" fill="#6DA6FF" opacity="0.6" />
     </svg>,
-    /* 03 Physical AI — 아이소메트릭 3D 빌딩+디바이스 */
+    /* 03 보안 아키텍처 — 방패+잠금 */
     <svg key="il3" viewBox="0 0 400 300" fill="none" className="w-full h-full">
+      <defs>
+        <linearGradient id="sec-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#A0C4FF" /><stop offset="100%" stopColor="#448CFF" /></linearGradient>
+        <filter id="sec-glow"><feGaussianBlur stdDeviation="6" /><feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+      </defs>
+      {/* 방패 */}
+      <path d="M200 50 L270 80 L270 170 C270 210,200 240,200 240 C200 240,130 210,130 170 L130 80 Z" stroke="#448CFF" strokeWidth="1.5" opacity="0.3" fill="#448CFF" fillOpacity="0.04" />
+      <path d="M200 75 L250 97 L250 160 C250 190,200 212,200 212 C200 212,150 190,150 160 L150 97 Z" stroke="#6DA6FF" strokeWidth="1" opacity="0.2" fill="#448CFF" fillOpacity="0.03" />
+      {/* 잠금 아이콘 */}
+      <rect x="184" y="135" width="32" height="28" rx="4" stroke="#448CFF" strokeWidth="1.5" opacity="0.5" fill="#448CFF" fillOpacity="0.06" />
+      <path d="M190 135 L190 125 C190 115,200 108,200 108 C200 108,210 115,210 125 L210 135" stroke="#448CFF" strokeWidth="1.5" fill="none" opacity="0.45" />
+      <circle cx="200" cy="147" r="3" fill="#448CFF" opacity="0.5" />
+      <line x1="200" y1="150" x2="200" y2="156" stroke="#448CFF" strokeWidth="1.5" opacity="0.4" />
+      {/* 보안 레이어 링 */}
+      <ellipse cx="200" cy="155" rx="100" ry="35" stroke="#448CFF" strokeWidth="0.6" opacity="0.1" strokeDasharray="4 6" />
+      <ellipse cx="200" cy="155" rx="130" ry="48" stroke="#448CFF" strokeWidth="0.4" opacity="0.06" strokeDasharray="3 8" />
+      {/* 노드 */}
+      <circle cx="100" cy="100" r="3" fill="#A0C4FF" opacity="0.4" />
+      <circle cx="300" cy="100" r="3" fill="#A0C4FF" opacity="0.4" />
+      <circle cx="100" cy="210" r="3" fill="#6DA6FF" opacity="0.35" />
+      <circle cx="300" cy="210" r="3" fill="#6DA6FF" opacity="0.35" />
+      <line x1="100" y1="100" x2="200" y2="147" stroke="#448CFF" strokeWidth="0.5" opacity="0.1" />
+      <line x1="300" y1="100" x2="200" y2="147" stroke="#448CFF" strokeWidth="0.5" opacity="0.1" />
+      <line x1="100" y1="210" x2="200" y2="147" stroke="#448CFF" strokeWidth="0.5" opacity="0.1" />
+      <line x1="300" y1="210" x2="200" y2="147" stroke="#448CFF" strokeWidth="0.5" opacity="0.1" />
+    </svg>,
+    /* 04 Physical AI — 아이소메트릭 3D 빌딩+디바이스 */
+    <svg key="il4" viewBox="0 0 400 300" fill="none" className="w-full h-full">
       <defs>
         <linearGradient id="phy-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#B8D4FF" /><stop offset="100%" stopColor="#6DA6FF" /></linearGradient>
         <linearGradient id="phy-left" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#448CFF" /><stop offset="100%" stopColor="#1E40AF" /></linearGradient>
@@ -713,8 +719,8 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
   ];
 
   return (
-    <section ref={sectionRef} className="min-h-screen flex items-center py-16 sm:py-24 lg:py-[140px] snap-start" style={{ background: 'linear-gradient(180deg, #EDF3FF 0%, #F5F8FF 40%, #FAFBFF 100%)' }}>
-      <div className="max-w-[1100px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
+    <section ref={sectionRef} className="min-h-screen flex items-center py-16 sm:py-24 lg:py-[140px]" style={{ background: 'linear-gradient(180deg, #EDF3FF 0%, #F5F8FF 40%, #FAFBFF 100%)' }}>
+      <div className="max-w-[1360px] mx-auto px-5 sm:px-8 lg:px-14 w-full">
         {/* 헤더 */}
         <motion.div
           className="text-center mb-14"
@@ -726,21 +732,21 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
             className="font-bold text-[#191F28] leading-[1.3] tracking-tight"
             style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
           >
-            {lang === 'ko' ? '이노하이가 만들 세상' : 'The World INNO-HI Creates'}
+            {lang === 'ko' ? '깊은 지능을 만드는 기술' : 'Technology that creates deep intelligence'}
           </h2>
-          <div className="mx-auto mt-6 w-px h-10 bg-gradient-to-b from-[#448CFF]/40 to-transparent" />
+          <div className="mt-6 w-px h-10 bg-gradient-to-b from-[#448CFF]/40 to-transparent" />
         </motion.div>
 
         {/* 카드 3개 */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {futureValues.map((v, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
               animate={sectionInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center text-center rounded-3xl bg-white border border-[#E5E8EB] p-6 lg:p-8"
-              style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.06)', aspectRatio: '3/4' }}
+              className="flex flex-col items-start text-left rounded-3xl bg-white border border-[#E5E8EB] p-6 lg:p-8"
+              style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}
             >
               <div className="w-full flex-1 min-h-0 flex items-center justify-center mb-6">
                 {futureIllusts[i]}
@@ -1008,7 +1014,7 @@ function Technology({ lang }: { lang: 'ko' | 'en' }) {
     <section
       ref={containerRef}
       data-nav-dark
-      className="relative bg-[#0B0E14] snap-start"
+      className="relative bg-[#0B0E14]"
       style={{ height: `${count * 100}vh` }}
     >
       {/* 고정 레이아웃 */}
@@ -1137,7 +1143,7 @@ function History({ lang }: { lang: 'ko' | 'en' }) {
   ];
 
   return (
-    <Section bg="bg-[#F8F9FD]" className="pt-36 lg:pt-[180px] snap-start">
+    <Section bg="bg-[#F8F9FD]" className="pt-36 lg:pt-[180px]">
       {/* 헤딩 */}
       <motion.div
         ref={headingRef}
@@ -1151,8 +1157,8 @@ function History({ lang }: { lang: 'ko' | 'en' }) {
           style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)' }}
         >
           {lang === 'ko'
-            ? '이노하이는 오늘도 한단계 더 깊은 지능을 만듭니다'
-            : 'INNO-HI continues to build intelligence one level deeper'}
+            ? '지금, 깊은 지능이 만들어지고 있습니다'
+            : 'Right now, deep intelligence is being built'}
         </h2>
       </motion.div>
 
@@ -1492,7 +1498,7 @@ function Vision({ lang }: { lang: 'ko' | 'en' }) {
   const y2 = useTransform(scrollYProgress, [0.45, 0.6], [30, 0]);
 
   return (
-    <section ref={containerRef} data-nav-dark className="relative bg-[#0B0E14] snap-start" style={{ height: '250vh' }}>
+    <section ref={containerRef} data-nav-dark className="relative bg-[#0B0E14]" style={{ height: '250vh' }}>
       {/* 데이터 네트워크 배경 */}
       <div className="sticky top-0 h-screen z-0">
         <DataBackground />
@@ -1509,9 +1515,9 @@ function Vision({ lang }: { lang: 'ko' | 'en' }) {
             >
               <span style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)', color: '#FFFFFF' }}>
                 {lang === 'ko' ? (
-                  <>기술로 업무를 단순화하고,<br />데이터로 의사결정을 정교하게 만듭니다</>
+                  <>기술로 마음을 읽고,<br />데이터로 온전함을 지킵니다.</>
                 ) : (
-                  <>We simplify work with technology<br />and refine decisions with data</>
+                  <>We read hearts with technology,<br />and protect wholeness with data.</>
                 )}
               </span>
             </motion.h2>
@@ -1523,9 +1529,9 @@ function Vision({ lang }: { lang: 'ko' | 'en' }) {
             >
               <span style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)', color: '#FFFFFF' }}>
                 {lang === 'ko' ? (
-                  <>AI는 사람을 대체하지 않습니다.<br />사람의 가치를 증명합니다.</>
+                  <>깊은 지능의 끝에는<br />항상 사람이 있습니다.</>
                 ) : (
-                  <>AI doesn't replace people.<br />It proves people's value.</>
+                  <>At the end of deep intelligence,<br />there are always people.</>
                 )}
               </span>
             </motion.h2>
@@ -1543,12 +1549,6 @@ export function AboutPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.documentElement.style.scrollSnapType = 'y proximity';
-    document.documentElement.style.scrollBehavior = 'smooth';
-    return () => {
-      document.documentElement.style.scrollSnapType = '';
-      document.documentElement.style.scrollBehavior = '';
-    };
   }, []);
 
   return (
