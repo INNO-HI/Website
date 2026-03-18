@@ -42,8 +42,8 @@ function Hero({ lang }: { lang: 'ko' | 'en' }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="font-bold text-white leading-[1.35] tracking-tight"
-          style={{ fontSize: 'clamp(1.5rem, 4.5vw, 3rem)' }}
+          className="font-bold text-white leading-[1.5] tracking-tight"
+          style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
         >
           {lang === 'ko' ? (
             <>말 속에서 마음을 읽는 기술로<br />모두의 온전함을 지킵니다.</>
@@ -192,7 +192,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
             style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
-              ? '초고령사회와 1인 가구 시대,\n온전한 하루를 지켜줄 구조가 부족합니다.'
+              ? '초고령사회와 1인 가구 시대\n온전한 하루를 지켜줄 구조가 부족합니다.'
               : 'In the era of super-aging and single-person households,\nstructures to protect a complete day are insufficient.'}
           </p>
         </motion.div>
@@ -207,7 +207,7 @@ function Mission({ lang }: { lang: 'ko' | 'en' }) {
             style={{ fontSize: 'clamp(1.25rem, 4.5vw, 3rem)' }}
           >
             {lang === 'ko'
-              ? '깊은 지능으로 존중을 구현하여,'
+              ? '깊은 지능으로 존중을 구현하여'
               : 'By realizing respect through deep intelligence,'}
           </p>
           <p
@@ -380,7 +380,7 @@ function ProblemCard({ p, i, lang }: {
           <p className="text-[14px] lg:text-[15px] text-[#595959] leading-relaxed mb-1">
             {lang === 'ko' ? p.fromKo : p.fromEn}
           </p>
-          <h3 className="text-[20px] lg:text-[22px] font-bold text-[#595959] leading-snug">
+          <h3 className="text-[20px] lg:text-[22px] font-bold text-[#595959] leading-snug whitespace-pre-line">
             {lang === 'ko' ? p.toKo : p.toEn}
           </h3>
         </div>
@@ -484,7 +484,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
           style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
         >
           {lang === 'ko'
-            ? (<>깊은 지능은,<br />이렇게 작동합니다.</>)
+            ? '깊은 지능은, 이렇게 작동합니다.'
             : (<>Deep intelligence<br />works like this.</>)}
         </motion.h2>
 
@@ -729,15 +729,15 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
           <h2
-            className="font-bold text-[#191F28] leading-[1.3] tracking-tight"
+            className="font-bold text-[#191F28] leading-[1.3] tracking-tight text-center"
             style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
           >
             {lang === 'ko' ? '깊은 지능을 만드는 기술' : 'Technology that creates deep intelligence'}
           </h2>
-          <div className="mt-6 w-px h-10 bg-gradient-to-b from-[#448CFF]/40 to-transparent" />
+          <div className="mx-auto mt-6 w-px h-10 bg-gradient-to-b from-[#448CFF]/40 to-transparent" />
         </motion.div>
 
-        {/* 카드 3개 */}
+        {/* 카드 4개 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {futureValues.map((v, i) => (
             <motion.div
@@ -748,7 +748,7 @@ function NextMove({ lang }: { lang: 'ko' | 'en' }) {
               className="flex flex-col items-start text-left rounded-3xl bg-white border border-[#E5E8EB] p-6 lg:p-8"
               style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.06)' }}
             >
-              <div className="w-full flex-1 min-h-0 flex items-center justify-center mb-6">
+              <div className="w-full h-[200px] flex items-center justify-center mb-6">
                 {futureIllusts[i]}
               </div>
               <h3
