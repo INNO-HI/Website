@@ -484,7 +484,7 @@ function Problem({ lang }: { lang: 'ko' | 'en' }) {
           style={{ fontSize: 'clamp(1.75rem, 4vw, 3rem)' }}
         >
           {lang === 'ko'
-            ? '깊은 지능은, 이렇게 작동합니다.'
+            ? '깊은 지능은 이렇게 작동합니다.'
             : (<>Deep intelligence<br />works like this.</>)}
         </motion.h2>
 
@@ -1489,13 +1489,9 @@ function Vision({ lang }: { lang: 'ko' | 'en' }) {
     offset: ['start start', 'end end'],
   });
 
-  // 첫 번째 텍스트: 0~0.4 동안 보이다가 0.4~0.6에서 페이드아웃
-  const opacity1 = useTransform(scrollYProgress, [0, 0.35, 0.5], [1, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0.35, 0.5], [0, -30]);
-
-  // 두 번째 텍스트: 0.5~0.65에서 페이드인, 이후 유지
-  const opacity2 = useTransform(scrollYProgress, [0.45, 0.6], [0, 1]);
-  const y2 = useTransform(scrollYProgress, [0.45, 0.6], [30, 0]);
+  // 텍스트: 스크롤 시작 시 페이드인, 이후 유지
+  const opacity2 = useTransform(scrollYProgress, [0.1, 0.3], [0, 1]);
+  const y2 = useTransform(scrollYProgress, [0.1, 0.3], [30, 0]);
 
   return (
     <section ref={containerRef} data-nav-dark className="relative bg-[#0B0E14]" style={{ height: '250vh' }}>
@@ -1508,21 +1504,6 @@ function Vision({ lang }: { lang: 'ko' | 'en' }) {
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden z-10" style={{ marginTop: '-100vh' }}>
         <div className="relative z-10 max-w-[1720px] mx-auto px-6 sm:px-8 lg:px-14 w-full">
           <div className="max-w-[1360px] mx-auto text-center relative">
-            {/* 첫 번째 텍스트 */}
-            <motion.h2
-              style={{ opacity: opacity1, y: y1 }}
-              className="absolute inset-0 flex items-center justify-center font-extrabold text-[#FFFFFF] leading-[1.45] tracking-tight drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]"
-            >
-              <span style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)', color: '#FFFFFF' }}>
-                {lang === 'ko' ? (
-                  <>기술로 마음을 읽고,<br />데이터로 온전함을 지킵니다.</>
-                ) : (
-                  <>We read hearts with technology,<br />and protect wholeness with data.</>
-                )}
-              </span>
-            </motion.h2>
-
-            {/* 두 번째 텍스트 */}
             <motion.h2
               style={{ opacity: opacity2, y: y2 }}
               className="font-extrabold text-[#FFFFFF] leading-[1.45] tracking-tight drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]"
