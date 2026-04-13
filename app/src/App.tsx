@@ -11,6 +11,7 @@ import { NoticePage } from '@/pages/NoticePage';
 import { ServicesPage } from '@/pages/ServicesPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { PrivacyPage } from '@/pages/PrivacyPage';
+import { PrivacyHistoryPage } from '@/pages/PrivacyHistoryPage';
 import { CasesPage } from '@/pages/CasesPage';
 import { CaseDetailPage } from '@/pages/CaseDetailPage';
 import './App.css';
@@ -72,6 +73,7 @@ function AppRoutes() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/privacy/history/2026-03-04" element={<PrivacyHistoryPage />} />
         <Route path="/cases" element={<CasesPage />} />
         <Route path="/cases/:id" element={<CaseDetailPage />} />
       </Routes>

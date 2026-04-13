@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/hooks/useLanguage';
 
-export function PrivacyPage() {
+export function PrivacyHistoryPage() {
   const { lang } = useLanguage();
 
   useEffect(() => {
@@ -12,19 +12,36 @@ export function PrivacyPage() {
   return (
     <main className="bg-white pt-32 pb-24">
       <div className="max-w-[1024px] mx-auto px-6 sm:px-8">
+        <div className="mb-6">
+          <Link
+            to="/privacy"
+            className="inline-flex items-center gap-1.5 text-sm text-[#6B7684] hover:text-[#383838] transition-colors"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            {lang === 'ko' ? '현행 개인정보 처리방침으로 돌아가기' : 'Back to current Privacy Policy'}
+          </Link>
+        </div>
+
         <h1
-          className="font-bold text-[#383838] mb-10"
+          className="font-bold text-[#383838] mb-2"
           style={{ fontSize: 'clamp(1.5rem, 3vw, 2rem)' }}
         >
           {lang === 'ko' ? '개인정보 처리방침' : 'Privacy Policy'}
         </h1>
+        <p className="text-sm text-[#6B7684] mb-10">
+          {lang === 'ko'
+            ? '시행일: 2026년 3월 4일 ~ 2026년 4월 2일 (이전 버전)'
+            : 'Effective: March 4, 2026 – April 2, 2026 (Previous version)'}
+        </p>
 
         <div className="prose prose-sm max-w-none text-[#4E5968] leading-relaxed [&_h2]:text-[#383838] [&_h2]:font-bold [&_h2]:text-lg [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-[#383838] [&_h3]:font-semibold [&_h3]:text-base [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mb-4 [&_table]:w-full [&_table]:text-[13px] [&_table]:border-collapse [&_th]:text-left [&_th]:bg-[#F8F9FD] [&_th]:text-[#383838] [&_th]:font-semibold [&_th]:p-3 [&_th]:border [&_th]:border-[#EAEDF2] [&_td]:p-3 [&_td]:border [&_td]:border-[#EAEDF2] [&_td]:align-top [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-1.5 [&_hr]:my-8 [&_hr]:border-[#EAEDF2] [&_strong]:text-[#383838]">
 
           <p>
             주식회사 이노하이(이하 "회사")는 정보주체의 자유와 권리 보호를 위해 「개인정보 보호법」 및 관계 법령이 정한 바를 준수하여, 적법하게 개인정보를 처리하고 안전하게 관리하고 있습니다. 이에 「개인정보 보호법」 제30조에 따라 정보주체에게 개인정보의 처리와 보호에 관한 절차 및 기준을 안내하고, 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
           </p>
-          <p>본 방침은 <strong>2026년 4월 3일</strong>부터 시행됩니다.</p>
+          <p>본 방침은 <strong>2026년 3월 4일</strong>부터 시행됩니다.</p>
 
           <hr />
 
@@ -224,8 +241,24 @@ export function PrivacyPage() {
 
           {/* 제5조 */}
           <h2>제5조 (개인정보 처리의 위탁)</h2>
-          <p>회사는 현재 개인정보 처리 업무를 외부에 위탁하고 있지 않습니다.</p>
-          <p>향후 위탁이 필요한 경우, 「개인정보 보호법」 제26조에 따라 위탁받는 자(수탁자), 위탁하는 업무의 내용 등을 본 개인정보 처리방침을 통하여 공개하겠습니다.</p>
+          <p>회사는 원활한 개인정보 업무 처리를 위하여 다음과 같이 개인정보 처리 업무를 위탁할 수 있습니다.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>위탁받는 자(수탁자)</th>
+                <th>위탁하는 업무</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>[추후 지정]</td>
+                <td>[추후 지정]</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>회사는 위탁계약 체결 시 「개인정보 보호법」 제26조에 따라 위탁업무 수행 목적 외 개인정보 처리 금지, 기술적·관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리·감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다.</p>
+          <p>「개인정보 보호법」 제26조 제6항에 따라 수탁자가 회사의 개인정보 처리업무를 재위탁하는 경우 회사의 동의를 받고 있습니다.</p>
+          <p>위탁업무의 내용이나 수탁자가 변경될 경우에는 지체 없이 본 개인정보 처리방침을 통하여 공개하겠습니다.</p>
 
           <hr />
 
@@ -293,7 +326,6 @@ export function PrivacyPage() {
             <li><strong>관리적 조치</strong>: 내부 관리 계획 수립·시행, 개인정보 취급 직원의 최소화 및 정기 교육 실시</li>
             <li><strong>기술적 조치</strong>: 개인정보 처리 시스템에 대한 접근 권한 관리, 접근 통제 시스템 설치, 개인정보의 암호화, 보안 프로그램 설치 및 주기적 갱신·점검</li>
             <li><strong>물리적 조치</strong>: 전산실, 자료 보관실 등에 대한 접근 통제</li>
-            <li><strong>개인정보의 보관</strong>: 회사는 이용자의 개인정보를 국내 소재 자체 로컬 서버에 암호화하여 저장·보관하며, 외부 클라우드 서비스로의 이전 없이 직접 관리합니다.</li>
           </ol>
 
           <hr />
@@ -328,13 +360,19 @@ export function PrivacyPage() {
             </thead>
             <tbody>
               <tr>
+                <td>분석 SDK (Firebase Analytics 등)</td>
+                <td>앱 이용 기록, 이벤트 로그, 화면 조회 기록</td>
+                <td>서비스 이용 통계 분석 및 품질 개선</td>
+                <td>앱 설정 내 분석 데이터 수집 동의 철회</td>
+              </tr>
+              <tr>
                 <td>광고식별자 (Android ADID / iOS IDFA)</td>
                 <td>기기 광고식별자</td>
                 <td>맞춤형 서비스 제공, 서비스 개선 분석</td>
                 <td>아래 "모바일 단말기의 광고식별자 차단 방법" 참조</td>
               </tr>
               <tr>
-                <td>푸시 알림 토큰</td>
+                <td>푸시 알림 토큰 (FCM 등)</td>
                 <td>기기 푸시 토큰</td>
                 <td>긴급 알림, 돌봄 상태 알림, 서비스 공지 발송</td>
                 <td>기기 설정에서 앱 알림 수신 거부</td>
@@ -442,40 +480,8 @@ export function PrivacyPage() {
 
           {/* 제15조 */}
           <h2>제15조 (개인정보 처리방침의 변경)</h2>
-          <p>이 개인정보 처리방침은 <strong>2026년 4월 3일</strong>부터 적용됩니다.</p>
-
-          <h3>변경 내용 (2026년 4월 3일 시행)</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>변경 항목</th>
-                <th>변경 전</th>
-                <th>변경 후</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>제5조 (처리 위탁)</td>
-                <td>수탁자·위탁 업무 미확정 ([추후 지정])</td>
-                <td>현재 위탁 없음을 명확히 기재</td>
-              </tr>
-              <tr>
-                <td>제9조 (안전성 확보 조치)</td>
-                <td>데이터 보관 방법 미기재</td>
-                <td>국내 소재 자체 로컬 서버 암호화 저장 명시</td>
-              </tr>
-              <tr>
-                <td>제10조 (자동 수집 장치)</td>
-                <td>Firebase Analytics, FCM 등 기재</td>
-                <td>실제 미사용 항목 제거</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <h3>이전 개인정보 처리방침</h3>
-          <ul>
-            <li><Link to="/privacy/history/2026-03-04">2026년 3월 4일 ~ 2026년 4월 2일</Link></li>
-          </ul>
+          <p>이 개인정보 처리방침은 <strong>2026년 3월 4일</strong>부터 적용됩니다.</p>
+          <p>이전 방침 시행일: 해당 없음 (최초 시행)</p>
 
         </div>
       </div>
