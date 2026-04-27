@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/0.9">
   <url>
     <loc>https://www.innohi.ai.kr/</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.innohi.ai.kr/services</loc>
-    <lastmod>2026-03-09</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.innohi.ai.kr/cases</loc>
-    <lastmod>2026-03-09</lastmod>
-    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.innohi.ai.kr/innohi-logo-black.png</image:loc>
+      <image:title>이노하이 INNO-HI</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.innohi.ai.kr/about</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.innohi.ai.kr/services</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.innohi.ai.kr/cases</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.innohi.ai.kr/notice</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.innohi.ai.kr/contact</loc>
-    <lastmod>2026-03-09</lastmod>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.innohi.ai.kr/privacy</loc>
+    <lastmod>2026-04-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>
